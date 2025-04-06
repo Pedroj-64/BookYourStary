@@ -1,10 +1,11 @@
 module co.edu.uniquindio.poo.bookyourstary {
-    requires javafx.controls;
     requires javafx.fxml;
     requires jakarta.mail;
     requires com.google.zxing;
     requires com.google.gson;
     requires java.desktop;
+    requires transitive javafx.graphics;
+    requires transitive javafx.controls;
 
 
     requires org.controlsfx.controls;
