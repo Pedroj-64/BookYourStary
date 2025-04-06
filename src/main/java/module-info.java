@@ -18,4 +18,15 @@ module co.edu.uniquindio.poo.bookyourstary {
 
     opens co.edu.uniquindio.poo.bookyourstary to javafx.fxml;
     exports co.edu.uniquindio.poo.bookyourstary;
+
+    opens co.edu.uniquindio.poo.bookyourstary.viewController to javafx.fxml;
+    exports co.edu.uniquindio.poo.bookyourstary.viewController;
+
+    opens co.edu.uniquindio.poo.bookyourstary.model to javafx.base, com.google.gson;
+    exports co.edu.uniquindio.poo.bookyourstary.model;
+
+    opens co.edu.uniquindio.poo.bookyourstary.service to javafx.base, com.google.gson;
+    exports co.edu.uniquindio.poo.bookyourstary.service;
+
+    
 }
