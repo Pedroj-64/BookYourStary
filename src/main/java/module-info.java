@@ -15,6 +15,7 @@ module co.edu.uniquindio.poo.bookyourstary {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires static lombok;
 
     opens co.edu.uniquindio.poo.bookyourstary to javafx.fxml;
     exports co.edu.uniquindio.poo.bookyourstary;

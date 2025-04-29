@@ -7,10 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class House implements Hosting {
+public class Apartament implements Hosting {
 
     private String name;
-    private String cityName;
     private City city2;
     private String description;
     private String imageUrl;
@@ -19,7 +18,7 @@ public class House implements Hosting {
     private LinkedList<ServiceIncluded> serviceIncludeds;
     private double priceForCleaning;
 
-    public House(String name, City city2, String description, String imageUrl, double priceForNight, int maxGuests,
+    public Apartament(String name, City city2, String description, String imageUrl, double priceForNight, int maxGuests,
             LinkedList<ServiceIncluded> serviceIncludeds, double priceForCleaning) {
         this.name = name;
         this.city2 = city2;
@@ -39,7 +38,7 @@ public class House implements Hosting {
     public String getCityName(){
         return city2.toString();
     }
-    
 
+    
 
 }
