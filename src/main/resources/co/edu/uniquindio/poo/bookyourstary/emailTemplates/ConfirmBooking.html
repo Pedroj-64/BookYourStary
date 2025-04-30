@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Reserva - BookYourStary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #0f62fe;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .content h2 {
+            margin-top: 0;
+        }
+
+        .qr {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer {
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0f62fe;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>BookYourStary</h1>
+            <p>Tu aventura comienza aquí</p>
+        </div>
+        <div class="content">
+            <h2>¡Reserva Confirmada!</h2>
+            <p>Hola <strong>{{nombreUsuario}}</strong>,</p>
+            <p>Tu reserva en <strong>{{nombreAlojamiento}}</strong> ha sido confirmada exitosamente.</p>
+            <p><strong>Fecha de entrada:</strong> {{fechaInicio}}<br>
+                <strong>Fecha de salida:</strong> {{fechaFin}}<br>
+                <strong>Número de noches:</strong> {{numeroNoches}}
+            </p>
+            <p>Adjunto encontrarás el código QR que deberás presentar al momento del check-in.</p>
+
+            <div class="qr">
+                <img src="{{qrCodeUrl}}" alt="Código QR de reserva" width="180" height="180">
+                <p style="font-size: 0.9em; color: #777;">Escanea este código para verificar tu reserva</p>
+            </div>
+
+            <a href="{{enlaceReserva}}" class="button">Ver detalles de la reserva</a>
+        </div>
+        <div class="footer">
+            © 2025 BookYourStary · Todos los derechos reservados por MargaDevSociety<br>
+            Este es un correo automático, por favor no respondas.
+        </div>
+    </div>
+</body>
+
+</html>

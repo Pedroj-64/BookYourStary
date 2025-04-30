@@ -24,5 +24,4 @@ public class Offer {
         this.endDate = endDate;
     }
 
-
 }

@@ -17,7 +17,7 @@ public class Bill {
     private Client client;
     private Booking booking;
 
-    public Bill(String billId,double total, LocalDate date, Client client, Booking booking,double subtotal) {
+    public Bill(String billId, double total, LocalDate date, Client client, Booking booking, double subtotal) {
         this.billId = UUID.randomUUID().toString();
         this.total = total;
         this.subtotal = subtotal;
@@ -25,6 +25,5 @@ public class Bill {
         this.client = client;
         this.booking = booking;
     }
-
 
 }

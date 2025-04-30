@@ -17,7 +17,7 @@ public class OfferRepository {
         offers.add(offer);
     }
 
-    public Optional<Offer> findById(String name) {
+    public Optional<Offer> findByName(String name) {
         return offers.stream().filter(offer -> offer.getName().equals(name)).findFirst();
     }
 
@@ -28,6 +28,5 @@ public class OfferRepository {
     public LinkedList<Offer> findAll() {
         return new LinkedList<>(offers);
     }
-
 
 }

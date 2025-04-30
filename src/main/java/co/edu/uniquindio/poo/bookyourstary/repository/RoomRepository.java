@@ -21,7 +21,7 @@ public class RoomRepository {
         return rooms.stream().filter(room -> room.getRoomNumber().equals(roomNumber)).findFirst();
     }
 
-    public LinkedList<Room> findAll(){
+    public LinkedList<Room> findAll() {
         return new LinkedList<>(rooms);
     }
 
@@ -29,7 +29,7 @@ public class RoomRepository {
         rooms.remove(room);
     }
 
-    public LinkedList<Room> findByMaxGuests(int maxGuests){
+    public LinkedList<Room> findByMaxGuests(int maxGuests) {
         LinkedList<Room> avalibleRooms = new LinkedList<>();
         for (Room room : rooms) {
             if (room.getMaxGuests() >= maxGuests) {
@@ -38,7 +38,5 @@ public class RoomRepository {
         }
         return avalibleRooms;
     }
-
-
 
 }

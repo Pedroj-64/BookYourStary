@@ -15,12 +15,11 @@ public class CodeRecovery {
     private LocalDateTime creationDate;
     private boolean used;
 
-    public CodeRecovery(UUID code,String userEmail,LocalDateTime creationDate, boolean used) {
+    public CodeRecovery(UUID code, String userEmail, LocalDateTime creationDate, boolean used) {
         this.code = code;
         this.userEmail = userEmail;
         this.creationDate = creationDate;
         this.used = used;
     }
-
 
 }

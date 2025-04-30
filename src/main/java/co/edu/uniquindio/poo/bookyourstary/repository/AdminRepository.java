@@ -8,7 +8,7 @@ public class AdminRepository {
 
     private Admin admin;
 
-    public AdminRepository(){
+    public AdminRepository() {
 
     }
 
@@ -24,7 +24,7 @@ public class AdminRepository {
         this.admin = null;
     }
 
-    public boolean isAdminRegistered(){
+    public boolean isAdminRegistered() {
         return admin != null;
     }
 

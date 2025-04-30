@@ -14,7 +14,11 @@ public class ClientRepository {
     }
 
     public void save(Client client) {
-        clients.add(client);
+        if (findById(client.getId()).isPresent()) {
+            throw new IllegalArgumentException("Client with ID " + client.getId() + " already exists.");
+        } else {
+            clients.add(client); 
+        }
     }
 
     public Optional<Client> findById(String clientId) {

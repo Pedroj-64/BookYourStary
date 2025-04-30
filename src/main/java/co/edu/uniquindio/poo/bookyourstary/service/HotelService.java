@@ -1,0 +1,49 @@
+package co.edu.uniquindio.poo.bookyourstary.service;
+
+import co.edu.uniquindio.poo.bookyourstary.model.City;
+import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
+import co.edu.uniquindio.poo.bookyourstary.model.Hotel;
+import co.edu.uniquindio.poo.bookyourstary.model.Room;
+import co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded;
+import co.edu.uniquindio.poo.bookyourstary.model.factory.HostingFactory;
+import co.edu.uniquindio.poo.bookyourstary.repository.HotelRepository;
+
+import java.util.LinkedList;
+import java.util.Optional;
+
+public class HotelService {
+
+    private final HotelRepository hotelRepository;
+
+    public HotelService(HotelRepository hotelRepository) {
+        this.hotelRepository = hotelRepository;
+    }
+
+    public void saveHotel(String name, City city, String description, String imageUrl, double basePrice,
+                          int maxGuests, LinkedList<ServiceIncluded> includedServices, LinkedList<Room> rooms) {
+
+        Hosting hotel =  HostingFactory.createHotel(name, city, description, imageUrl, basePrice,
+                maxGuests, includedServices, rooms);
+        
+
+        hotelRepository.save((Hotel)hotel);
+    }
+
+    public Optional<Hotel> findHotelById(String name) {
+        return hotelRepository.findById(name);
+    }
+
+    public LinkedList<Hotel> findAllHotels() {
+        return hotelRepository.findAll();
+    }
+
+    public void deleteHotel(String name) {
+        Hotel hotel = findHotelById(name)
+                .orElseThrow(() -> new IllegalArgumentException("No se encontró el hotel con ese nombre"));
+        hotelRepository.delete(hotel);
+    }
+
+    public double calculateTotalPrice(Hotel hotel, int numberOfNights) {
+        return hotel.getPriceForNight() * numberOfNights;
+    }
+}

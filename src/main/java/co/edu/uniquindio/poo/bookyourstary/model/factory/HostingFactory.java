@@ -15,20 +15,23 @@ public class HostingFactory {
     public static Hosting createHouse(String name, City city2, String description, String imageUrl,
             double priceForNight, int maxGuests, LinkedList<ServiceIncluded> serviceIncludeds,
             double priceForCleaning) {
-        return new House(name, city2, description, imageUrl, priceForNight, maxGuests, serviceIncludeds,
-                priceForCleaning);
+        return House.builder().name(name).city(city2).description(description).imageUrl(imageUrl)
+                .priceForNight(priceForNight).maxGuests(maxGuests).includedServices(serviceIncludeds)
+                .cleaningFee(priceForCleaning).build();
     }
 
     public static Hosting createHotel(String name, City city2, String description, String imageUrl, double basePrice,
             int maxGuests, LinkedList<ServiceIncluded> serviceIncludeds, LinkedList<Room> rooms) {
-        return new Hotel(name, city2, description, imageUrl, basePrice, maxGuests, serviceIncludeds, rooms);
+        return Hotel.builder().name(name).city(city2).description(description).imageUrl(imageUrl)
+                .basePrice(basePrice).maxGuests(maxGuests).includedServices(serviceIncludeds).rooms(rooms).build();
     }
 
     public static Hosting createApartament(String name, City city2, String description, String imageUrl,
             double priceForNight, int maxGuests, LinkedList<ServiceIncluded> serviceIncludeds,
             double priceForCleaning) {
-        return new Apartament(name, city2, description, imageUrl, priceForNight, maxGuests, serviceIncludeds,
-                priceForCleaning);
+        return Apartament.builder().name(name).city(city2).description(description).imageUrl(imageUrl)
+                .priceForNight(priceForNight).maxGuests(maxGuests).includedServices(serviceIncludeds)
+                .priceForCleaning(priceForCleaning).build();
     }
 
 }

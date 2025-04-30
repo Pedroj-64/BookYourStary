@@ -4,6 +4,6 @@ import java.time.LocalDate;
 
 public interface OfferStrategy {
 
-    double calculateDiscount(double originalPrice,int numberOfNights,LocalDate bookingDate);
+    double calculateDiscount(double originalPrice, int numberOfNights, LocalDate bookingDate);
 
 }

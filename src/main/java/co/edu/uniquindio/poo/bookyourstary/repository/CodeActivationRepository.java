@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.repository;
 
 import java.util.LinkedList;
 import java.util.Optional;
+import java.util.UUID;
 
 import co.edu.uniquindio.poo.bookyourstary.model.CodeActivation;
 
@@ -17,8 +18,10 @@ public class CodeActivationRepository {
         activations.add(codeActivation);
     }
 
-    public Optional<CodeActivation> findById(String code) {
-        return activations.stream().filter(activation -> activation.getCode().equals(code)).findFirst();
+    public Optional<CodeActivation> findById(UUID code) {
+        return activations.stream()
+                .filter(a -> a.getCode().equals(code))
+                .findFirst();
     }
 
     public LinkedList<CodeActivation> findAll() {
@@ -26,7 +29,7 @@ public class CodeActivationRepository {
     }
 
     public void delete(CodeActivation codeActivation) {
-       activations.remove(codeActivation);
-    }   
+        activations.remove(codeActivation);
+    }
 
 }

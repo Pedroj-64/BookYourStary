@@ -2,7 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.model.strategy;
 
 import java.time.LocalDate;
 
-public class SpecialDateDiscountStrategy  implements OfferStrategy{
+public class SpecialDateDiscountStrategy implements OfferStrategy {
 
     private LocalDate specialDate;
     private double discountPercentage;

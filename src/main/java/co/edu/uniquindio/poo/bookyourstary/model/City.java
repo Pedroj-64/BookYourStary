@@ -2,7 +2,6 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 
 import lombok.Getter;
 
-
 @Getter
 public class City {
 

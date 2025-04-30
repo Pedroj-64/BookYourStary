@@ -21,7 +21,7 @@ public class Booking {
     private BookingState bookingState;
 
     public Booking(String bookingId, Client client, Hosting hosting, LocalDate startDate, LocalDate endDate, int numberOfGuests, double totalPrice, BookingState bookingState) {
-        this.bookingId = UUID.randomUUID().toString();
+        this.bookingId = bookingId;
         this.client = client;
         this.hosting = hosting;
         this.startDate = startDate;

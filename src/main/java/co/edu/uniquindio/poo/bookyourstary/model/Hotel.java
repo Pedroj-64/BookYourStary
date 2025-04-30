@@ -2,47 +2,46 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.util.LinkedList;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class Hotel implements Hosting {
 
     private String name;
-    private City city2;
-    private String cityName;
+    private City city;  
     private String description;
     private String imageUrl;
     private double basePrice;
     private int maxGuests;
-    private LinkedList<ServiceIncluded> serviceIncludeds;
+    private LinkedList<ServiceIncluded> includedServices;  
     private LinkedList<Room> rooms;
 
-    public Hotel(String name, City city2, String description, String imageUrl, double basePrice, int maxGuests,
-            LinkedList<ServiceIncluded> serviceIncludeds, LinkedList<Room> rooms) {
+    public Hotel(String name, City city, String description, String imageUrl, double basePrice, int maxGuests,
+                 LinkedList<ServiceIncluded> includedServices, LinkedList<Room> rooms) {
         this.name = name;
-        this.city2 = city2;
+        this.city = city;
         this.description = description;
         this.imageUrl = imageUrl;
         this.basePrice = basePrice;
         this.maxGuests = maxGuests;
-        this.serviceIncludeds = serviceIncludeds;
+        this.includedServices = includedServices;
         this.rooms = rooms;
     }
 
     @Override
     public City getCity() {
-        return city2;
+        return city;
     }
 
+ 
     @Override
     public double getPriceForNight() {
-        return rooms.stream().mapToDouble(Room::getPriceForNight).min().orElse(0.0);
+        return rooms.stream().mapToDouble(Room::getPriceForNight).min().orElse(0.0);  // Precio mínimo de la habitación
     }
 
-    public String getCityName() {
-        return city2.toString();
-    }
-
+ 
 }

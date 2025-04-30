@@ -10,6 +10,9 @@ public interface Hosting {
     String getImageUrl();
     double getPriceForNight();
     int getMaxGuests();
-    LinkedList<ServiceIncluded> getServiceIncludeds();
+    LinkedList<ServiceIncluded> getIncludedServices(); 
 
+    default String getCityName() {
+        return getCity().toString();
+    }
 }
