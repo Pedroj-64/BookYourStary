@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class Client extends User {
 
+    private VirtualWallet virtualWallet;
+
     public Client(String id, String name, String phoneNumber, String email, String password) {
         super(id, name, phoneNumber, email, password);
 

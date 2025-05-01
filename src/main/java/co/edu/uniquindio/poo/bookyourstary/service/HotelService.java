@@ -44,6 +44,6 @@ public class HotelService {
     }
 
     public double calculateTotalPrice(Hotel hotel, int numberOfNights) {
-        return hotel.getPriceForNight() * numberOfNights;
+        return hotel.getPricePerNight() * numberOfNights;
     }
 }

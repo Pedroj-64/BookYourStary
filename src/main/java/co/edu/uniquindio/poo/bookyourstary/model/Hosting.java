@@ -8,7 +8,7 @@ public interface Hosting {
     City getCity();
     String getDescription();
     String getImageUrl();
-    double getPriceForNight();
+    double getPricePerNight();
     int getMaxGuests();
     LinkedList<ServiceIncluded> getIncludedServices(); 
 

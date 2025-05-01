@@ -13,7 +13,7 @@ public class VirtualWallet {
     private double balance;
     private final Client propertyClient;
 
-    public VirtualWallet(Client propertyClient){
+    public VirtualWallet(Client propertyClient) {
         this.idWallet = UUID.randomUUID().toString();
         this.propertyClient = propertyClient;
         this.balance = 0.0;

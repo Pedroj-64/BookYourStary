@@ -42,6 +42,6 @@ public class ApartamentService {
     }
 
     public double calculateTotalPrice(Apartament apartament, int numberOfNights) {
-        return apartament.getPriceForNight() * numberOfNights + apartament.getPriceForCleaning();
+        return apartament.getPricePerNight() * numberOfNights + apartament.getPriceForCleaning();
     }
 }

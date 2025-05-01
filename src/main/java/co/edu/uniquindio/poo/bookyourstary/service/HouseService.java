@@ -40,6 +40,6 @@ public class HouseService {
     }
 
     public double calculateTotalPrice(House house, int numberOfNights) {
-        return house.getPriceForNight() * numberOfNights + house.getCleaningFee();
+        return house.getPricePerNight() * numberOfNights + house.getCleaningFee();
     }
 }

@@ -61,4 +61,8 @@ module co.edu.uniquindio.poo.bookyourstary {
 
     exports co.edu.uniquindio.poo.bookyourstary.service.observer;
 
+    opens co.edu.uniquindio.poo.bookyourstary.internalControllers to javafx.base, com.google.gson;
+
+    exports co.edu.uniquindio.poo.bookyourstary.internalControllers;
+
 }

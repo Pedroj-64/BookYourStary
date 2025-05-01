@@ -15,18 +15,18 @@ public class House implements Hosting {
     private City city;
     private String description;
     private String imageUrl;
-    private double priceForNight;
+    private double pricePerNight;
     private int maxGuests;
     private LinkedList<ServiceIncluded> includedServices;
     private double cleaningFee;
 
-    public House(String name, City city, String description, String imageUrl, double priceForNight,
+    public House(String name, City city, String description, String imageUrl, double pricePerNight,
                  int maxGuests, LinkedList<ServiceIncluded> includedServices, double cleaningFee) {
         this.name = name;
         this.city = city;
         this.description = description;
         this.imageUrl = imageUrl;
-        this.priceForNight = priceForNight;
+        this.pricePerNight = pricePerNight;
         this.maxGuests = maxGuests;
         this.includedServices = includedServices;
         this.cleaningFee = cleaningFee;

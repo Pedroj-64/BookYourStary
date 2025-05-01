@@ -1,7 +1,6 @@
 package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import co.edu.uniquindio.poo.bookyourstary.model.enums.BookingState;
 import lombok.Getter;
@@ -20,7 +19,8 @@ public class Booking {
     private double totalPrice;
     private BookingState bookingState;
 
-    public Booking(String bookingId, Client client, Hosting hosting, LocalDate startDate, LocalDate endDate, int numberOfGuests, double totalPrice, BookingState bookingState) {
+    public Booking(String bookingId, Client client, Hosting hosting, LocalDate startDate, LocalDate endDate,
+            int numberOfGuests, double totalPrice, BookingState bookingState) {
         this.bookingId = bookingId;
         this.client = client;
         this.hosting = hosting;
@@ -30,6 +30,5 @@ public class Booking {
         this.totalPrice = totalPrice;
         this.bookingState = bookingState;
     }
-
 
 }

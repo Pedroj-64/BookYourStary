@@ -31,6 +31,4 @@ public class VirtualWalletRepository {
         virtualWallets.remove(virtualWallet);
     }
 
-    
-
 }

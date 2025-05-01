@@ -29,8 +29,7 @@ public class EmailTemplateService {
             String fechaInicio,
             String fechaFin,
             int numeroNoches,
-            String qrCodeUrl,
-            String enlaceReserva) {
+            String qrCodeUrl) {
         Map<String, String> values = new HashMap<>();
         values.put("nombreUsuario", nombreUsuario);
         values.put("nombreAlojamiento", nombreAlojamiento);
@@ -38,7 +37,6 @@ public class EmailTemplateService {
         values.put("fechaFin", fechaFin);
         values.put("numeroNoches", String.valueOf(numeroNoches));
         values.put("qrCodeUrl", qrCodeUrl);
-        values.put("enlaceReserva", enlaceReserva);
 
         return TemplateLoader.loadTemplate("ConfirmBooking.html", values);
     }

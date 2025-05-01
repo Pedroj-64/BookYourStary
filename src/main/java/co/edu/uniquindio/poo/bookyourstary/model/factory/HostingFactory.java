@@ -16,7 +16,7 @@ public class HostingFactory {
             double priceForNight, int maxGuests, LinkedList<ServiceIncluded> serviceIncludeds,
             double priceForCleaning) {
         return House.builder().name(name).city(city2).description(description).imageUrl(imageUrl)
-                .priceForNight(priceForNight).maxGuests(maxGuests).includedServices(serviceIncludeds)
+                .pricePerNight(priceForNight).maxGuests(maxGuests).includedServices(serviceIncludeds)
                 .cleaningFee(priceForCleaning).build();
     }
 
@@ -30,7 +30,7 @@ public class HostingFactory {
             double priceForNight, int maxGuests, LinkedList<ServiceIncluded> serviceIncludeds,
             double priceForCleaning) {
         return Apartament.builder().name(name).city(city2).description(description).imageUrl(imageUrl)
-                .priceForNight(priceForNight).maxGuests(maxGuests).includedServices(serviceIncludeds)
+                .pricePerNight(priceForNight).maxGuests(maxGuests).includedServices(serviceIncludeds)
                 .priceForCleaning(priceForCleaning).build();
     }
 

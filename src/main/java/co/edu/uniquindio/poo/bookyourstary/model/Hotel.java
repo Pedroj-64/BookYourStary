@@ -39,7 +39,7 @@ public class Hotel implements Hosting {
 
  
     @Override
-    public double getPriceForNight() {
+    public double getPricePerNight() {
         return rooms.stream().mapToDouble(Room::getPriceForNight).min().orElse(0.0);  // Precio mínimo de la habitación
     }
 
