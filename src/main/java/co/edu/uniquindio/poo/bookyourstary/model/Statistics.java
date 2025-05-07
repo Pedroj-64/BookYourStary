@@ -22,5 +22,4 @@ public class Statistics {
         this.mostProfitableType = mostProfitableType;
     }
 
-
 }

@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.util.LinkedList;
 
+import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,11 @@ public class Apartament implements Hosting {
     @Override
     public City getCity() {
         return city;
+    }
+
+    @Override
+    public HostingType getHostingType() {
+        return HostingType.APARTAMENT;
     }
 
 }

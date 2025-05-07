@@ -14,9 +14,10 @@ public class ReviewRepository {
     }
 
     public void save(Review review) {
+        findById(review.getId()).ifPresent(reviews::remove); 
         reviews.add(review);
     }
-
+    
     public Optional<Review> findById(String id) {
         return reviews.stream().filter(review -> review.getId().equals(id)).findFirst();
     }
@@ -31,10 +32,10 @@ public class ReviewRepository {
         return hostingReviews;
         
     }
-
     public void delete(Review review) {
-        reviews.remove(review);
+        reviews.removeIf(r -> r.getId().equals(review.getId()));
     }
+    
 
     public LinkedList<Review> findAll() {
         return new LinkedList<>(reviews);

@@ -28,4 +28,25 @@ public class BookingRepository {
     public void delete(String bookingId) {
         bookings.removeIf(booking -> booking.getBookingId().equals(bookingId));
     }
+
+    public LinkedList<Booking> findByClientId(String clientId) {
+        LinkedList<Booking> result = new LinkedList<>();
+        for (Booking booking : bookings) {
+            if (booking.getClient().getId().equals(clientId)) {
+                result.add(booking);
+            }
+        }
+        return result;
+    }
+
+    public LinkedList<Booking> findByHostingName(String hostingName) {
+        LinkedList<Booking> result = new LinkedList<>();
+        for (Booking booking : bookings) {
+            if (booking.getHosting().getName().equalsIgnoreCase(hostingName)) {
+                result.add(booking);
+            }
+        }
+        return result;
+    }
+
 }

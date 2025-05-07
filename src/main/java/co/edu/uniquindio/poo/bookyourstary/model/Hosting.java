@@ -2,6 +2,8 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.util.LinkedList;
 
+import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
+
 public interface Hosting {
 
     String getName();
@@ -11,6 +13,8 @@ public interface Hosting {
     double getPricePerNight();
     int getMaxGuests();
     LinkedList<ServiceIncluded> getIncludedServices(); 
+    HostingType getHostingType();
+    
 
     default String getCityName() {
         return getCity().toString();

@@ -10,9 +10,11 @@ import co.edu.uniquindio.poo.bookyourstary.repository.VirtualWalletRepository;
 public class VirtualWalletService {
 
     private final VirtualWalletRepository virtualWalletRepository;
+    private final WalletTransactionService walletTransactionService;
 
-    public VirtualWalletService(VirtualWalletRepository virtualWalletRepository) {
+    public VirtualWalletService(VirtualWalletRepository virtualWalletRepository, WalletTransactionService walletTransactionService) {
         this.virtualWalletRepository = virtualWalletRepository;
+        this.walletTransactionService = walletTransactionService;
     }
 
     public VirtualWallet createWalletForClient(Client client) {
@@ -32,6 +34,10 @@ public class VirtualWalletService {
         }
 
         wallet.setBalance(wallet.getBalance() + amount);
+        virtualWalletRepository.save(wallet);
+
+        // Registrar la transacción
+        walletTransactionService.registerTransaction("RECARGA", amount, "Recarga de saldo a la billetera");
     }
 
     public boolean hasSufficientBalance(String walletId, double amount) {
@@ -51,6 +57,10 @@ public class VirtualWalletService {
         }
 
         wallet.setBalance(wallet.getBalance() - amount);
+        virtualWalletRepository.save(wallet);
+
+        // Registrar la transacción
+        walletTransactionService.registerTransaction("PAGO", amount, "Descuento de saldo de la billetera");
     }
 
     public double getBalance(String walletId) {

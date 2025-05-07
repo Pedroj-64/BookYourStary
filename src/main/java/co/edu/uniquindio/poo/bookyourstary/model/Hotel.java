@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.util.LinkedList;
 
+import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +41,12 @@ public class Hotel implements Hosting {
  
     @Override
     public double getPricePerNight() {
-        return rooms.stream().mapToDouble(Room::getPriceForNight).min().orElse(0.0);  // Precio mínimo de la habitación
+        return rooms.stream().mapToDouble(Room::getPriceForNight).min().orElse(0.0);  
+    }
+
+    @Override
+    public HostingType getHostingType() {
+        return HostingType.HOTEL;
     }
 
  

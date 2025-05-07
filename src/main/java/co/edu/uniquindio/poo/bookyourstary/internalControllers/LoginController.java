@@ -16,7 +16,7 @@ public class LoginController {
     }
 
     public String login(String id, String password) {
-        if (adminService.getAdmin().getId().equals(id)) {  // Verifica si es admin
+        if (adminService.getAdmin().getId().equals(id)) {  
             Admin admin = adminService.getAdmin();
             if (adminService.verifyPassword(admin, password)) {
                 // Aquí podríamos cargar la interfaz de Admin

@@ -43,11 +43,11 @@ public class CodeRecoveryService {
 
             client.setPassword(PasswordUtil.hashPassword(tempPassword));
 
-            // Crear y guardar el código de recuperación
+           
             CodeRecovery recovery = new CodeRecovery(code, email, LocalDateTime.now(), false);
             codeRecoveryRepository.save(recovery);
 
-            // Cargar plantilla y enviar correo
+            
             String content = emailTemplateService.buildRecoveryEmail(recovery, tempPassword);
             emailNotifier.sendHtmlEmail(email, "Recuperación de contraseña", content);
 

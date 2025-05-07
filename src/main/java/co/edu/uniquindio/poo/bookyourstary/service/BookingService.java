@@ -14,10 +14,19 @@ import co.edu.uniquindio.poo.bookyourstary.repository.BookingRepository;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
+    private final VirtualWalletService virtualWalletService;
+    private final WalletTransactionService walletTransactionService;
 
-    public BookingService(BookingRepository bookingRepository) {
+    private final BillService billService;
+
+    public BookingService(BookingRepository bookingRepository, VirtualWalletService virtualWalletService,
+                          WalletTransactionService walletTransactionService, BillService billService) {
         this.bookingRepository = bookingRepository;
+        this.virtualWalletService = virtualWalletService;
+        this.walletTransactionService = walletTransactionService;
+        this.billService = billService;
     }
+    
 
     public Booking createBooking(Client client, Hosting hosting, LocalDate startDate, LocalDate endDate, int numberOfGuests) {
 
@@ -63,6 +72,43 @@ public class BookingService {
         booking.setBookingState(newState);
     }
 
+    public void confirmBooking(String bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada"));
+    
+        double totalPrice = booking.getTotalPrice();
+        String walletId = booking.getClient().getVirtualWallet().getIdWallet();
+    
+        if (!virtualWalletService.hasSufficientBalance(walletId, totalPrice)) {
+            throw new IllegalStateException("Fondos insuficientes para confirmar la reserva.");
+        }
+    
+        virtualWalletService.deductFromWallet(walletId, totalPrice);
+        walletTransactionService.registerTransaction("RESERVA", totalPrice, "Pago por reserva: " + bookingId);
+    
+        updateBookingState(bookingId, BookingState.CONFIRMED);
+    
+        billService.generateBill(booking);
+    
+    }
+
+    public void cancelBooking(String bookingId) {
+        updateBookingState(bookingId, BookingState.CANCELLED);
+    }
+
+    public List<Booking> getBookingsByClient(String clientId) {
+        return bookingRepository.findByClientId(clientId);
+    }
+
+    public List<Booking> getBookingsByHosting(String hostingName) {
+        return bookingRepository.findByHostingName(hostingName);
+    }
+
+    public boolean isHostingAvailable(String hostingName, LocalDate startDate, LocalDate endDate) {
+        List<Booking> bookings = bookingRepository.findByHostingName(hostingName);
+        return bookings.stream().noneMatch(booking ->
+                (startDate.isBefore(booking.getEndDate()) && endDate.isAfter(booking.getStartDate())));
+    }
 
     private void validateDates(LocalDate start, LocalDate end) {
         if (start.isAfter(end) || start.isEqual(end)) {

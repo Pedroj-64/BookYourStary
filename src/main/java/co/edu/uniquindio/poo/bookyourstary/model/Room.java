@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo.bookyourstary.model;
 
+import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ public class Room {
     private int maxGuests;
     private String imageUrl;
     private String description;
+    HostingType hostingType = HostingType.ROOM;
 
     public Room(String roomNumber, double priceForNight, int maxGuests, String imageUrl, String description) {
         this.RoomNumber = roomNumber;

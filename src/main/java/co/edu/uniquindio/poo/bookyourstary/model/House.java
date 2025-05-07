@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.util.LinkedList;
 
+import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,5 +36,10 @@ public class House implements Hosting {
     @Override
     public LinkedList<ServiceIncluded> getIncludedServices() {
         return includedServices;
+    }
+
+    @Override
+    public HostingType getHostingType() {
+        return HostingType.HOUSE;
     }
 }
