@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.bookyourstay.viewControllers.UserLoginViewController" spacing="10"
+      alignment="center" prefWidth="300">
+
+    <Label text="Inicio de Sesión" styleClass="title"/>
+
+    <TextField fx:id="emailField" promptText="Email"/>
+    <PasswordField fx:id="passwordField" promptText="Contraseña"/>
+
+    <Button text="Ingresar" onAction="#handleLogin" defaultButton="true"/>
+
+    <Hyperlink text="¿Olvidó su contraseña?" onAction="#handlePasswordRecovery"/>
+    <Hyperlink text="Crear nueva cuenta" onAction="#showRegister"/>
+</VBox>

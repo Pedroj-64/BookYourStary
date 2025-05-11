@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" spacing="10">
+    <HBox spacing="10">
+        <DatePicker fx:id="checkInDate" promptText="Fecha de entrada"/>
+        <DatePicker fx:id="checkOutDate" promptText="Fecha de salida"/>
+        <Spinner fx:id="guestsSpinner" editable="true"/>
+        <Button text="Aplicar Filtros" onAction="#applyFilters"/>
+    </HBox>
+
+    <TableView fx:id="accommodationsTable">
+        <columns>
+            <TableColumn text="Nombre"/>
+            <TableColumn text="Ciudad"/>
+            <TableColumn text="Precio/Noche"/>
+        </columns>
+    </TableView>
+</VBox>
