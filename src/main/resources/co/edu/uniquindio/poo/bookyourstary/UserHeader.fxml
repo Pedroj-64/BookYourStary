@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="193.0" spacing="15" stylesheets="@css/userHeader.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bookyourstary.controller.UserHeaderController">
+
+    <!-- VBox para agrupar nombre y saldo -->
+    <VBox spacing="3">
+        <Label fx:id="labelNombre" styleClass="label-header-usuario" text="User: Null" />
+        <Label fx:id="labelSaldo" styleClass="label-header-usuario" text="Saldo: $00000" />
+    </VBox>
+
+    <!-- Botón del carrito -->
+    <Button fx:id="carritoButton" styleClass="header-boton">
+        <graphic>
+            <ImageView fitHeight="28.0" fitWidth="28.0">
+                <image>
+                    <Image url="@image/carrito.png" />
+                </image>
+            </ImageView>
+        </graphic>
+    </Button>
+
+</HBox>

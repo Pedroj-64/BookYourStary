@@ -1,61 +1,273 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/home.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="575.0" prefWidth="837.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <content>
-      <VBox prefHeight="385.0" prefWidth="597.0">
+      <VBox fx:id="contenedorPrincipal" prefHeight="385.0" prefWidth="597.0" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
-            <HBox minHeight="97.0" prefHeight="97.0" prefWidth="597.0" styleClass="encabezado" stylesheets="@css/home.css">
+
+            <!-- Encabezado -->
+            <HBox styleClass="encabezado" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
                <children>
-                  <Label prefHeight="17.0" prefWidth="38.0" text="Label">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-                  <Label prefHeight="48.0" prefWidth="179.0" text="BookYourStay" textFill="#dfeb75">
+                  <!-- Título -->
+                  <Label styleClass="encabezado-titulo" text="BookYourStay">
                      <font>
-                        <Font name="Bookman Old Style" size="21.0" />
+                        <Font name="Bookman Old Style" size="12.0" />
                      </font>
                      <HBox.margin>
-                        <Insets />
+                        <Insets right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <HBox.margin>
-                        <Insets right="-200.0" />
-                     </HBox.margin>
+
+                  <!-- Botones -->
+                  <HBox alignment="CENTER" spacing="10.0" styleClass="encabezado-botones" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="hola" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="25.0" right="10.0" top="50.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" text="Button">
-                           <HBox.margin>
-                              <Insets left="25.0" right="10.0" top="50.0" />
-                           </HBox.margin>
-                        </Button>
+                        <Button styleClass="encabezado-boton" text="Iniciar sesión" />
+                        <Button styleClass="encabezado-boton" text="Ayuda" />
                      </children>
                   </HBox>
+
+                  <!-- Registrate -->
+                  <AnchorPane styleClass="encabezado-anchorpane" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="label-registro" text="¡Regístrate ya!" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+                           <font>
+                              <Font name="Bookman Old Style" size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
             </HBox>
-            <HBox prefHeight="290.0" prefWidth="597.0">
+
+            <!-- Contenido inferior -->
+            <HBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox prefHeight="288.0" prefWidth="152.0" />
-                  <Pane prefHeight="288.0" prefWidth="458.0" />
+
+                  <!-- Panel de filtros -->
+                  <VBox fx:id="panelFiltros" maxWidth="300.0" minWidth="150.0" prefWidth="200.0" styleClass="panel-filtros" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox prefHeight="179.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="200.0" styleClass="label-filtro" text="Ubicación:">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
+                              <HBox prefHeight="42.0" prefWidth="200.0" spacing="10.0">
+                                 <children>
+                                    <ComboBox prefHeight="25.0" prefWidth="100.0" promptText="Ciudad" styleClass="combo-filtro">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets left="50.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
+                              <Label prefHeight="17.0" prefWidth="238.0" styleClass="label-filtro" text="Tipo de alojamiento:" />
+                              <ComboBox prefHeight="25.0" prefWidth="101.0" promptText="Tipos" styleClass="combo-filtro">
+                                 <VBox.margin>
+                                    <Insets left="50.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <Label prefHeight="17.0" prefWidth="209.0" styleClass="label-filtro" text="Rango de precios:" />
+                              <HBox prefHeight="45.0" prefWidth="200.0" spacing="8.0">
+                                 <children>
+                                    <TextField prefHeight="25.0" prefWidth="87.0" promptText="Min" styleClass="text-filtro" />
+                                    <Label text="-" />
+                                    <TextField prefHeight="25.0" prefWidth="84.0" promptText="Max" styleClass="text-filtro" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Label prefHeight="17.0" prefWidth="273.0" styleClass="label-filtro" text="Fechas de la reserva:" />
+                        <HBox prefHeight="39.0" prefWidth="200.0" spacing="5.0">
+                           <children>
+                              <DatePicker prefHeight="36.0" prefWidth="119.0" promptText="Inicio" />
+                              <Label text="-" />
+                              <DatePicker prefHeight="25.0" prefWidth="104.0" promptText="Fin" />
+                           </children>
+                        </HBox>
+                        <Label styleClass="label-filtro" text="Número Huespedes:" />
+                        <HBox prefHeight="28.0" prefWidth="200.0">
+                           <children>
+                              <TextField prefHeight="25.0" prefWidth="120.0" promptText="NumHuespedes" styleClass="text-filtro" />
+                           </children>
+                           <padding>
+                              <Insets left="40.0" />
+                           </padding>
+                        </HBox>
+                        <Label styleClass="label-filtro" text="Servicios Adicionales:" />
+                        <GridPane prefHeight="67.0" prefWidth="200.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <CheckBox mnemonicParsing="false" styleClass="check-filtro" text="Wi-Fi" />
+                              <CheckBox mnemonicParsing="false" styleClass="check-filtro" text="Piscina" GridPane.columnIndex="1" />
+                              <CheckBox mnemonicParsing="false" prefHeight="28.0" prefWidth="148.0" styleClass="check-filtro" text="Desayuno " GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Buscar">
+                           <VBox.margin>
+                              <Insets left="45.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+
+                  <!-- Scroll con alojamientos -->
+<ScrollPane fx:id="scrollAlojamientos" fitToHeight="true" fitToWidth="true" hmax="0.0" styleClass="scroll-contenido" vvalue="1.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+   <content>
+      <VBox fx:id="panelAlojamientos" fillWidth="true" spacing="15.0" styleClass="vbox" VBox.vgrow="ALWAYS">
+         <children>
+
+            <!-- Tarjeta de alojamiento 1 -->
+            <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                        <Label text="Descripción:" wrapText="true" />
+                        <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Servicios adicionales:" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                       </children>
+                                    </AnchorPane>
                </children>
             </HBox>
+                              <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                                 <children>
+                                    <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                                 <children>
+                                    <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                                 <children>
+                                    <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label styleClass="label-descripcion" text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label styleClass="label-servicios" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxWidth="605.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="173.0" prefWidth="605.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                                 <children>
+                                    <ImageView fitHeight="141.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport></ImageView>
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <Button mnemonicParsing="false" text="Siguiente &gt;&gt;" />
+                              <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container" />
+
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>
+
+
+               </children>
+            </HBox>
+
          </children>
       </VBox>
    </content>

@@ -1,37 +1,283 @@
-/* Estilo para el encabezado */
 .encabezado {
     -fx-background-image: url("../image/cielito.jpg");
     -fx-background-size: cover;
     -fx-background-position: center;
-    -fx-min-height: 120px;
-    -fx-alignment: center;
+    -fx-padding: 20px;
+    -fx-alignment: center-left;
+    -fx-spacing: 20px;
+    -fx-min-height: 100px;
+    -fx-pref-height: 15%;
+    -fx-max-height: 200px;
 }
 
 .encabezado-titulo {
-    -fx-font-size: 36px;
+    -fx-font-size: 2.8em;
     -fx-font-weight: bold;
-    -fx-text-fill: white;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 2);
+    -fx-text-fill: #f1c40f;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 4, 0.1, 0, 2);
+    -fx-font-family: "Bookman Old Style";
 }
 
-.encabezado-subtitulo {
-    -fx-font-size: 18px;
+.encabezado-boton {
+    -fx-background-color: #34495e;
     -fx-text-fill: white;
-    -fx-translate-y: 30;
+    -fx-font-size: 1.1em;
+    -fx-padding: 6px 14px;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0.1, 0, 1);
 }
 
-/* Estilos para el contenido */
-.contenido-principal {
-    -fx-spacing: 20px;
-    -fx-padding: 20px;
+.encabezado-boton:hover {
+    -fx-background-color: #3b5998;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
+
+.encabezado-botones {
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+}
+
+.encabezado-anchorpane {
+    -fx-background-color: transparent;
+    -fx-alignment: center-right;
+    -fx-max-width: Infinity;
+}
+
+.label-registro {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f1c40f;
+    -fx-font-family: "Bookman Old Style";
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 2, 0.1, 0, 1);
+}
+
+.label-registro:hover {
+    -fx-text-fill: #f39c12;
+    -fx-underline: true;
+}
+
+/* Panel lateral de filtros */
+/**************************/
+/* PANEL DE FILTROS */
+/**************************/
 
 .panel-filtros {
     -fx-pref-width: 200px;
+    -fx-min-width: 150px;
+    -fx-max-width: 300px;
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 15px;
     -fx-spacing: 10px;
 }
 
-.panel-alojamientos {
-    -fx-spacing: 15px;
-    -fx-padding: 10px;
+.combo-filtro, .text-filtro {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 5px;
 }
+
+.combo-filtro:focused, .text-filtro:focused {
+    -fx-border-color: #0077cc;
+    -fx-background-color: #ffffff;
+}
+
+
+/**************************/
+/* PANEL DE ALOJAMIENTOS */
+/**************************/
+
+.panel-alojamientos {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10px;
+    -fx-spacing: 15px;
+}
+
+
+/**************************/
+/* SCROLLPANE CONTENIDO */
+/**************************/
+
+.scroll-contenido {
+    -fx-fit-to-width: true;
+    -fx-fit-to-height: true;
+    -fx-background-color: transparent;
+}
+
+
+/**************************/
+/* TARJETA DE ALOJAMIENTO */
+/**************************/
+
+.tarjeta-alojamiento {
+    -fx-background-color: #fafafa;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
+}
+
+/* Contenido de la tarjeta: nombre, descripción y servicios */
+.tarjeta-alojamiento .contenido {
+    -fx-spacing: 10px; /* Espaciado entre elementos */
+    -fx-alignment: top-left; /* Alineación de los elementos */
+    -fx-pref-width: 100%;
+    -fx-vgrow: ALWAYS; /* Permite que el contenido crezca verticalmente */
+}
+
+/* Título dentro de la tarjeta */
+.tarjeta-alojamiento .label-titulo {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-wrap-text: true;
+}
+
+/* Descripción dentro de la tarjeta */
+.tarjeta-alojamiento .label-descripcion {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
+    -fx-wrap-text: true;
+}
+
+/* Servicios dentro de la tarjeta */
+.tarjeta-alojamiento .label-servicios {
+    -fx-font-size: 12px;
+    -fx-text-fill: #777777;
+    -fx-font-style: italic;
+    -fx-wrap-text: true;
+}
+
+/* Contenedor para el botón de reservar */
+.tarjeta-alojamiento .boton-container {
+    -fx-alignment: center-right; /* Alinea el botón a la derecha */
+    -fx-pref-width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+    -fx-vgrow: NEVER; /* No se expande verticalmente */
+}
+
+/* Estilo del botón de reservar */
+.tarjeta-alojamiento .boton-reservar {
+    -fx-background-color: #D67D3E;
+    -fx-text-fill: white;
+    -fx-background-radius: 6px;
+    -fx-padding: 8px 14px;
+    -fx-font-size: 13px;
+}
+
+.tarjeta-alojamiento .boton-reservar:hover {
+    -fx-background-color: #b8602e;
+}
+
+
+.vbox {
+    -fx-pref-width: 100%; /* Permite que se ajuste a la anchura del contenedor */
+    -fx-alignment: top-center; /* Alineación de los elementos */
+    -fx-spacing: 20px; /* Espaciado entre las tarjetas */
+    -fx-fill-height: true; /* Permite que los elementos se expandan verticalmente */
+}
+/**************************/
+/* BOTONES */
+/**************************/
+
+.button {
+    -fx-background-color: #D67D3E;
+    -fx-text-fill: white;
+    -fx-background-radius: 6px;
+    -fx-padding: 6px 12px;
+    -fx-font-size: 13px;
+}
+
+.button:hover {
+    -fx-background-color: #b8602e;
+}
+
+/* ====== ETIQUETAS DE LOS FILTROS ====== */
+.label-filtro {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-padding: 2px 0;
+}
+
+/* ====== DATEPICKER ====== */
+.date-picker {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-padding: 4px;
+}
+
+/* Cuando está enfocado */
+.date-picker:focused {
+    -fx-border-color: #0077cc;
+    -fx-background-color: #ffffff;
+}
+
+/* Botón de calendario */
+.date-picker .arrow-button {
+    -fx-background-color: #D67D3E;
+    -fx-background-radius: 0 6px 6px 0;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: #b8602e;
+}
+
+/* Ícono del calendario */
+.date-picker .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+/* Texto dentro del DatePicker */
+.date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-padding: 4px 6px;
+    -fx-text-fill: #333333;
+}
+
+/* ====== CHECKBOX DE FILTROS ====== */
+.check-filtro {
+    -fx-font-size: 13px;
+    -fx-text-fill: #34495e;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-padding: 4px 0;
+}
+
+/* Personalización del cuadro */
+.check-filtro .box {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 3px;
+}
+
+/* Cuando está seleccionado */
+.check-filtro:selected .box {
+    -fx-background-color: #D67D3E;
+    -fx-border-color: #D67D3E;
+}
+
+/* Icono del check */
+.check-filtro:selected .mark {
+    -fx-background-color: white;
+}
+
+/* Hover (al pasar el cursor) */
+.check-filtro:hover .box {
+    -fx-border-color: #b8602e;
+}
+
+
+

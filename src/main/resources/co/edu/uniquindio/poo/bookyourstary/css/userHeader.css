@@ -1,0 +1,40 @@
+/* Estilos para las etiquetas del usuario y saldo */
+.label-header-usuario {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555; /* Gris oscuro */
+    -fx-font-weight: normal;
+    -fx-font-family: "Arial";
+}
+
+/* Estilos para el botón del carrito */
+.header-boton {
+    -fx-background-color: #f1f1f1; /* Gris muy claro para fondo */
+    -fx-text-fill: #333333; /* Gris oscuro para el icono */
+    -fx-background-radius: 6px;
+    -fx-padding: 8px;
+    -fx-cursor: hand;
+}
+
+.header-boton:hover {
+    -fx-background-color: #e0e0e0; /* Gris claro en hover */
+    -fx-opacity: 0.8;
+}
+
+.header-boton:pressed {
+    -fx-background-color: #d0d0d0; /* Gris más oscuro al presionar */
+}
+
+/* Alineación del HBox y VBox */
+HBox {
+    -fx-background-color: #ffffff; /* Fondo blanco limpio */
+    -fx-padding: 10px;
+}
+
+VBox {
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Fondo transparente en la cabecera */
+.header-boton, .label-header-usuario {
+    -fx-opacity: 1; /* Garantizamos que no se vea opaco */
+}
