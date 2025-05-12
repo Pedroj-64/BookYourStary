@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.bookyourstay.viewController.ReviewViewController" spacing="10" alignment="center">
+
+    <Label text="Dejar Reseña" styleClass="title"/>
+
+    <RatingBar fx:id="ratingBar" max="5"/>
+
+    <TextArea fx:id="commentField" promptText="Escribe tu experiencia..." wrapText="true" prefRowCount="3"/>
+
+    <Button text="Enviar Reseña" onAction="#handleSubmitReview"/>
+</VBox>

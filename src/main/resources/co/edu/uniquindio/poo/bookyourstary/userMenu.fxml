@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.bookyourstay.controllers.ClientController">
+
+    <top>
+        <MenuBar>
+            <Menu text="Mi Cuenta">
+                <MenuItem text="Editar Perfil" onAction="#showProfileEdit"/>
+                <MenuItem text="Cambiar Contraseña" onAction="#showPasswordChange"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Cerrar Sesión" onAction="#handleLogout"/>
+            </Menu>
+            <Menu text="Reservas">
+                <MenuItem text="Nueva Reserva" onAction="#showSearchView"/>
+                <MenuItem text="Mis Reservas" onAction="#showReservations"/>
+            </Menu>
+            <Menu text="Ayuda">
+                <MenuItem text="Soporte Técnico"/>
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center>
+        <StackPane fx:id="contentArea">
+            <!-- Contenido inicial -->
+            <VBox alignment="center" spacing="20">
+                <ImageView fitWidth="200" fitHeight="200">
+                    <Image url="@/image/Sol.png"/>
+                </ImageView>
+                <Label text="¡Bienvenido a BookYourStay!" styleClass="title"/>
+            </VBox>
+        </StackPane>
+    </center>
+
+    <!-- Barra de estado inferior -->
+    <bottom>
+        <HBox padding="5" spacing="10" styleClass="status-bar">
+            <Label text="Usuario:"/>
+            <Label fx:id="usernameLabel" text="John Doe"/>
+            <Spacer HBox.hgrow="ALWAYS"/>
+            <Label fx:id="balanceLabel" text="Saldo: $1,500.00"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
