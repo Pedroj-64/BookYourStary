@@ -11,8 +11,8 @@
 
     <!-- VBox para agrupar nombre y saldo -->
     <VBox spacing="3">
-        <Label fx:id="labelNombre" styleClass="label-header-usuario" text="User: Null" />
-        <Label fx:id="labelSaldo" styleClass="label-header-usuario" text="Saldo: $00000" />
+        <Label fx:id="lbl_Nombre" styleClass="label-header-usuario" text="User: Null" />
+        <Label fx:id="lbl_Saldo" styleClass="label-header-usuario" text="Saldo: $00000" />
     </VBox>
 
     <!-- Botón del carrito -->

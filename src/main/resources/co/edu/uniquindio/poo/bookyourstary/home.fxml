@@ -39,15 +39,15 @@
                   <!-- Botones -->
                   <HBox alignment="CENTER" spacing="10.0" styleClass="encabezado-botones" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button styleClass="encabezado-boton" text="Iniciar sesión" />
-                        <Button styleClass="encabezado-boton" text="Ayuda" />
+                        <Button fx:id="btn_IniciarSesion" styleClass="encabezado-boton" text="Iniciar sesión" />
+                        <Button fx:id="btn_Ayuda" styleClass="encabezado-boton" text="Ayuda" />
                      </children>
                   </HBox>
 
                   <!-- Registrate -->
                   <AnchorPane styleClass="encabezado-anchorpane" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label styleClass="label-registro" text="¡Regístrate ya!" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+                        <Label fx:id="lbl_Registrate" styleClass="label-registro" text="¡Regístrate ya!" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
                            <font>
                               <Font name="Bookman Old Style" size="21.0" />
                            </font>
@@ -73,7 +73,7 @@
                               </Label>
                               <HBox prefHeight="42.0" prefWidth="200.0" spacing="10.0">
                                  <children>
-                                    <ComboBox prefHeight="25.0" prefWidth="100.0" promptText="Ciudad" styleClass="combo-filtro">
+                                    <ComboBox fx:id="combo_Ciudad" prefHeight="25.0" prefWidth="100.0" promptText="Ciudad" styleClass="combo-filtro">
                                        <padding>
                                           <Insets left="10.0" />
                                        </padding>
@@ -84,7 +84,7 @@
                                  </children>
                               </HBox>
                               <Label prefHeight="17.0" prefWidth="238.0" styleClass="label-filtro" text="Tipo de alojamiento:" />
-                              <ComboBox prefHeight="25.0" prefWidth="101.0" promptText="Tipos" styleClass="combo-filtro">
+                              <ComboBox fx:id="combo_tipoAlojamiento" prefHeight="25.0" prefWidth="101.0" promptText="Tipos" styleClass="combo-filtro">
                                  <VBox.margin>
                                     <Insets left="50.0" />
                                  </VBox.margin>
@@ -92,9 +92,9 @@
                               <Label prefHeight="17.0" prefWidth="209.0" styleClass="label-filtro" text="Rango de precios:" />
                               <HBox prefHeight="45.0" prefWidth="200.0" spacing="8.0">
                                  <children>
-                                    <TextField prefHeight="25.0" prefWidth="87.0" promptText="Min" styleClass="text-filtro" />
+                                    <TextField fx:id="txt_minPrecio" prefHeight="25.0" prefWidth="87.0" promptText="Min" styleClass="text-filtro" />
                                     <Label text="-" />
-                                    <TextField prefHeight="25.0" prefWidth="84.0" promptText="Max" styleClass="text-filtro" />
+                                    <TextField fx:id="txt_maxPrecio" prefHeight="25.0" prefWidth="84.0" promptText="Max" styleClass="text-filtro" />
                                  </children>
                               </HBox>
                            </children>
@@ -102,15 +102,15 @@
                         <Label prefHeight="17.0" prefWidth="273.0" styleClass="label-filtro" text="Fechas de la reserva:" />
                         <HBox prefHeight="39.0" prefWidth="200.0" spacing="5.0">
                            <children>
-                              <DatePicker prefHeight="36.0" prefWidth="119.0" promptText="Inicio" />
+                              <DatePicker fx:id="date_inicio" prefHeight="36.0" prefWidth="119.0" promptText="Inicio" />
                               <Label text="-" />
-                              <DatePicker prefHeight="25.0" prefWidth="104.0" promptText="Fin" />
+                              <DatePicker fx:id="date_fin" prefHeight="25.0" prefWidth="104.0" promptText="Fin" />
                            </children>
                         </HBox>
                         <Label styleClass="label-filtro" text="Número Huespedes:" />
                         <HBox prefHeight="28.0" prefWidth="200.0">
                            <children>
-                              <TextField prefHeight="25.0" prefWidth="120.0" promptText="NumHuespedes" styleClass="text-filtro" />
+                              <TextField fx:id="txt_numHuespedes" prefHeight="25.0" prefWidth="120.0" promptText="NumHuespedes" styleClass="text-filtro" />
                            </children>
                            <padding>
                               <Insets left="40.0" />
@@ -119,8 +119,8 @@
                         <Label styleClass="label-filtro" text="Servicios Adicionales:" />
                         <GridPane prefHeight="67.0" prefWidth="200.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="96.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="10.0" prefWidth="74.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -128,9 +128,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <CheckBox mnemonicParsing="false" styleClass="check-filtro" text="Wi-Fi" />
-                              <CheckBox mnemonicParsing="false" styleClass="check-filtro" text="Piscina" GridPane.columnIndex="1" />
-                              <CheckBox mnemonicParsing="false" prefHeight="28.0" prefWidth="148.0" styleClass="check-filtro" text="Desayuno " GridPane.rowIndex="2" />
+                              <CheckBox fx:id="check_wifi" mnemonicParsing="false" prefHeight="28.0" prefWidth="89.0" styleClass="check-filtro" text="Wi-Fi" />
+                              <CheckBox fx:id="check_piscina" mnemonicParsing="false" styleClass="check-filtro" text="Piscina" GridPane.columnIndex="1" />
+                              <CheckBox fx:id="check_desayuno" mnemonicParsing="false" prefHeight="28.0" prefWidth="255.0" styleClass="check-filtro" text="Desayuno " GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Buscar">
@@ -142,7 +142,7 @@
                   </VBox>
 
                   <!-- Scroll con alojamientos -->
-<ScrollPane fx:id="scrollAlojamientos" fitToHeight="true" fitToWidth="true" hmax="0.0" styleClass="scroll-contenido" vvalue="1.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+<ScrollPane fx:id="scrollAlojamientos" fitToHeight="true" fitToWidth="true" hmax="0.0" styleClass="scroll-contenido" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
    <content>
       <VBox fx:id="panelAlojamientos" fillWidth="true" spacing="15.0" styleClass="vbox" VBox.vgrow="ALWAYS">
          <children>
@@ -150,28 +150,28 @@
             <!-- Tarjeta de alojamiento 1 -->
             <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="img_Alojamiento1" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
-                        <Label text="Descripción:" wrapText="true" />
+                        <Label fx:id="lbl_tituloAlojamiento" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                        <Label fx:id="lbl_descripcion" text="Descripción:" wrapText="true" />
                         <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Servicios adicionales:" />
+                              <Label fx:id="lbl_serviciosAdicionales" prefHeight="17.0" prefWidth="178.0" text="Servicios adicionales:" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
                                        <children>
-                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                          <Button fx:id="btn_reservar" layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
                                        </children>
                                     </AnchorPane>
                </children>
             </HBox>
                               <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
                                  <children>
-                                    <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="img_Alojamiento2" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                     <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                                        <children>
                                           <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
@@ -192,7 +192,7 @@
                               </HBox>
                               <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
                                  <children>
-                                    <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="img_Alojamiento3" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                     <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                                        <children>
                                           <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
@@ -213,7 +213,7 @@
                               </HBox>
                               <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
                                  <children>
-                                    <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="img_Alojamiento4" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                     <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                                        <children>
                                           <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
@@ -234,7 +234,7 @@
                               </HBox>
                               <HBox alignment="CENTER_LEFT" maxWidth="605.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="173.0" prefWidth="605.0" spacing="20.0" styleClass="tarjeta-alojamiento">
                                  <children>
-                                    <ImageView fitHeight="141.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="img_Alojamiento5" fitHeight="141.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                        <viewport>
                                           <Rectangle2D />
                                        </viewport></ImageView>
