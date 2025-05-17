@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+
+
+<Button fx:id="btn_CerrarSesion" onAction="#cerrarSesion" styleClass="boton" stylesheets="@css/button.css" text="Cerrar Sesion" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" />

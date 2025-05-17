@@ -7,9 +7,17 @@ import jakarta.mail.internet.*;
 public class EmailNotifier implements Observer {
 
     private final EmailConfig emailConfig;
+    private static EmailNotifier instance;
 
-    public EmailNotifier(EmailConfig emailConfig) {
+    private EmailNotifier(EmailConfig emailConfig) {
         this.emailConfig = emailConfig;
+    }
+
+    public static EmailNotifier getInstance() {
+        if (instance == null) {
+            instance = new EmailNotifier(co.edu.uniquindio.poo.bookyourstary.config.EmailConfig.getInstance());
+        }
+        return instance;
     }
 
     @Override

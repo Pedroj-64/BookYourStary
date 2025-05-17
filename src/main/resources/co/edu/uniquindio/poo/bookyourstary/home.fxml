@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="575.0" prefWidth="837.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="575.0" prefWidth="837.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeViewController">
    <content>
       <VBox fx:id="contenedorPrincipal" prefHeight="385.0" prefWidth="597.0" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
@@ -37,17 +37,17 @@
                   </Label>
 
                   <!-- Botones -->
-                  <HBox alignment="CENTER" spacing="10.0" styleClass="encabezado-botones" HBox.hgrow="ALWAYS">
+                  <HBox fx:id="central_btn" alignment="CENTER" spacing="10.0" styleClass="encabezado-botones" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="btn_IniciarSesion" styleClass="encabezado-boton" text="Iniciar sesión" />
-                        <Button fx:id="btn_Ayuda" styleClass="encabezado-boton" text="Ayuda" />
+                        <Button fx:id="btn_IniciarSesion" onAction="#iniciarSesion" styleClass="encabezado-boton" text="Iniciar sesión" />
+                        <Button fx:id="btn_Ayuda" onAction="#ayudaBtn" styleClass="encabezado-boton" text="Ayuda" />
                      </children>
                   </HBox>
 
                   <!-- Registrate -->
-                  <AnchorPane styleClass="encabezado-anchorpane" HBox.hgrow="ALWAYS">
+                  <AnchorPane fx:id="UserHeader0" styleClass="encabezado-anchorpane" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="lbl_Registrate" styleClass="label-registro" text="¡Regístrate ya!" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+                        <Label fx:id="lbl_Registrate" onMouseClicked="#registrateYa" styleClass="label-registro" text="¡Regístrate ya!" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
                            <font>
                               <Font name="Bookman Old Style" size="21.0" />
                            </font>
@@ -133,7 +133,7 @@
                               <CheckBox fx:id="check_desayuno" mnemonicParsing="false" prefHeight="28.0" prefWidth="255.0" styleClass="check-filtro" text="Desayuno " GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Buscar">
+                        <Button fx:id="btn_BuscarFiltro" mnemonicParsing="false" onAction="#filtrar" prefHeight="25.0" prefWidth="81.0" text="Buscar">
                            <VBox.margin>
                               <Insets left="45.0" />
                            </VBox.margin>
@@ -164,7 +164,7 @@
                   </VBox>
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
                                        <children>
-                                          <Button fx:id="btn_reservar" layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                          <Button fx:id="btn_reservar" layoutX="9.0" layoutY="35.0" onAction="#reservar" styleClass="boton-reservar" text="Reservar" />
                                        </children>
                                     </AnchorPane>
                </children>
@@ -185,7 +185,7 @@
                                     </VBox>
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
                                        <children>
-                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                          <Button fx:id="btn_reservar1" layoutX="9.0" layoutY="35.0" onAction="#reservar" styleClass="boton-reservar" text="Reservar" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -206,7 +206,7 @@
                                     </VBox>
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
                                        <children>
-                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                          <Button fx:id="btn_reservar2" layoutX="9.0" layoutY="35.0" onAction="#reservar" styleClass="boton-reservar" text="Reservar" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -227,7 +227,7 @@
                                     </VBox>
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
                                        <children>
-                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                          <Button fx:id="btn_reservar4" layoutX="9.0" layoutY="35.0" onAction="#reservar" styleClass="boton-reservar" text="Reservar" />
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -251,12 +251,12 @@
                                     </VBox>
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
                                        <children>
-                                          <Button layoutX="9.0" layoutY="35.0" styleClass="boton-reservar" text="Reservar" />
+                                          <Button fx:id="btn_reservar5" layoutX="9.0" layoutY="35.0" onAction="#reservar" styleClass="boton-reservar" text="Reservar" />
                                        </children>
                                     </AnchorPane>
                                  </children>
                               </HBox>
-                              <Button mnemonicParsing="false" text="Siguiente &gt;&gt;" />
+                              <Button fx:id="btn_Siguiente" mnemonicParsing="false" onAction="#refresh" text="Siguiente &gt;&gt;" />
                               <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container" />
 
          </children>

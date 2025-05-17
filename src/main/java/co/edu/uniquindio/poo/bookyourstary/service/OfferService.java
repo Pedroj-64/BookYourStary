@@ -12,8 +12,17 @@ public class OfferService {
 
     private final OfferRepository offerRepository;
 
-    public OfferService(OfferRepository offerRepository) {
+    private static OfferService instance;
+
+    private OfferService(OfferRepository offerRepository) {
         this.offerRepository = offerRepository;
+    }
+
+    public static OfferService getInstance() {
+        if (instance == null) {
+            instance = new OfferService(OfferRepository.getInstance());
+        }
+        return instance;
     }
 
     public void addOffer(Offer offer) {

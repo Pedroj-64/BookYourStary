@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo.bookyourstary.model;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
@@ -20,9 +21,12 @@ public class Apartament implements Hosting {
     private int maxGuests;
     private LinkedList<ServiceIncluded> includedServices;  
     private double priceForCleaning;
+    private LocalDate availableFrom;
+    private LocalDate availableTo;
 
     public Apartament(String name, City city, String description, String imageUrl, double pricePerNight, int maxGuests,
-                      LinkedList<ServiceIncluded> includedServices, double priceForCleaning) {
+                      LinkedList<ServiceIncluded> includedServices, double priceForCleaning,
+                      LocalDate availableFrom, LocalDate availableTo) {
         this.name = name;
         this.city = city;
         this.description = description;
@@ -31,6 +35,8 @@ public class Apartament implements Hosting {
         this.maxGuests = maxGuests;
         this.includedServices = includedServices;
         this.priceForCleaning = priceForCleaning;
+        this.availableFrom = availableFrom;
+        this.availableTo = availableTo;
     }
 
     @Override
@@ -41,6 +47,16 @@ public class Apartament implements Hosting {
     @Override
     public HostingType getHostingType() {
         return HostingType.APARTAMENT;
+    }
+
+    @Override
+    public LocalDate getAvailableFrom() {
+        return availableFrom;
+    }
+
+    @Override
+    public LocalDate getAvailableTo() {
+        return availableTo;
     }
 
 }

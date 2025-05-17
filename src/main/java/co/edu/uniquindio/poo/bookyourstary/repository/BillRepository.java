@@ -8,9 +8,17 @@ import co.edu.uniquindio.poo.bookyourstary.model.Bill;
 public class BillRepository {
 
     private final LinkedList<Bill> bills;
+    private static BillRepository instance;
 
-    public BillRepository() {
+    private BillRepository() {
         this.bills = new LinkedList<>();
+    }
+
+    public static BillRepository getInstance() {
+        if (instance == null) {
+            instance = new BillRepository();
+        }
+        return instance;
     }
 
     public void save(Bill bill){

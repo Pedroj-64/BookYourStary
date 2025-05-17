@@ -4,6 +4,7 @@ import co.edu.uniquindio.poo.bookyourstary.model.*;
 import co.edu.uniquindio.poo.bookyourstary.model.factory.HostingFactory;
 import co.edu.uniquindio.poo.bookyourstary.repository.*;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -37,25 +38,25 @@ public class HostingService {
     // Métodos específicos para creación usando el Factory
     public void createHouse(String name, City city, String description, String imageUrl,
             double priceForNight, int maxGuests,
-            LinkedList<ServiceIncluded> services, double cleaningFee) {
+            LinkedList<ServiceIncluded> services, double cleaningFee,LocalDate availableFrom, LocalDate availableTo) {
         Hosting house = HostingFactory.createHouse(name, city, description, imageUrl,
-                priceForNight, maxGuests, services, cleaningFee);
+                priceForNight, maxGuests, services, cleaningFee,availableFrom, availableTo);
         saveHosting(house);
     }
 
     public void createHotel(String name, City city, String description, String imageUrl,
             double basePrice, int maxGuests,
-            LinkedList<ServiceIncluded> services, LinkedList<Room> rooms) {
+            LinkedList<ServiceIncluded> services, LinkedList<Room> rooms,LocalDate availableFrom, LocalDate availableTo) {
         Hosting hotel = HostingFactory.createHotel(name, city, description, imageUrl,
-                basePrice, maxGuests, services, rooms);
+                basePrice, maxGuests, services, rooms,availableFrom, availableTo);
         saveHosting(hotel);
     }
 
     public void createApartament(String name, City city, String description, String imageUrl,
             double priceForNight, int maxGuests,
-            LinkedList<ServiceIncluded> services) {
+            LinkedList<ServiceIncluded> services,LocalDate availableFrom, LocalDate availableTo) {
         Hosting apartament = HostingFactory.createApartament(name, city, description, imageUrl, priceForNight,
-                maxGuests, services, priceForNight);
+                maxGuests, services, priceForNight,availableFrom, availableTo);
         saveHosting(apartament);
     }
 

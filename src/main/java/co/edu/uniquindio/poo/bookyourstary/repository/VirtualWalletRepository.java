@@ -8,9 +8,17 @@ import co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet;
 public class VirtualWalletRepository {
 
     private final LinkedList<VirtualWallet> virtualWallets;
+    private static VirtualWalletRepository instance;
 
-    public VirtualWalletRepository() {
+    private VirtualWalletRepository() {
         this.virtualWallets = new LinkedList<>();
+    }
+
+    public static VirtualWalletRepository getInstance() {
+        if (instance == null) {
+            instance = new VirtualWalletRepository();
+        }
+        return instance;
     }
 
     public void save(VirtualWallet virtualWallet) {

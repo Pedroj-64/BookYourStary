@@ -8,9 +8,17 @@ import co.edu.uniquindio.poo.bookyourstary.model.Review;
 public class ReviewRepository {
 
     private final LinkedList<Review> reviews;
+    private static ReviewRepository instance;
 
-    public ReviewRepository() {
+    private ReviewRepository() {
         this.reviews = new LinkedList<>();
+    }
+
+    public static ReviewRepository getInstance() {
+        if (instance == null) {
+            instance = new ReviewRepository();
+        }
+        return instance;
     }
 
     public void save(Review review) {

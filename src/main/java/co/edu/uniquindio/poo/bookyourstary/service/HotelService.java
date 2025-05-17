@@ -8,6 +8,7 @@ import co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded;
 import co.edu.uniquindio.poo.bookyourstary.model.factory.HostingFactory;
 import co.edu.uniquindio.poo.bookyourstary.repository.HotelRepository;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -20,10 +21,10 @@ public class HotelService {
     }
 
     public void saveHotel(String name, City city, String description, String imageUrl, double basePrice,
-                          int maxGuests, LinkedList<ServiceIncluded> includedServices, LinkedList<Room> rooms) {
+                          int maxGuests, LinkedList<ServiceIncluded> includedServices, LinkedList<Room> rooms,LocalDate availableFrom, LocalDate availableTo) {
 
         Hosting hotel =  HostingFactory.createHotel(name, city, description, imageUrl, basePrice,
-                maxGuests, includedServices, rooms);
+                maxGuests, includedServices, rooms, availableFrom, availableTo);
         
 
         hotelRepository.save((Hotel)hotel);

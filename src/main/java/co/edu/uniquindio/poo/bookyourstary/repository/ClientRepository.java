@@ -9,8 +9,17 @@ public class ClientRepository {
 
     private final LinkedList<Client> clients;
 
-    public ClientRepository() {
+    private static ClientRepository instance;
+
+    private ClientRepository() {
         this.clients = new LinkedList<>();
+    }
+
+    public static ClientRepository getInstance() {
+        if (instance == null) {
+            instance = new ClientRepository();
+        }
+        return instance;
     }
 
     public void save(Client client) {

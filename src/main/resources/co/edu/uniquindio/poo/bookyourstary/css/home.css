@@ -176,10 +176,10 @@
 
 
 .vbox {
-    -fx-pref-width: 100%; /* Permite que se ajuste a la anchura del contenedor */
-    -fx-alignment: top-center; /* Alineación de los elementos */
-    -fx-spacing: 20px; /* Espaciado entre las tarjetas */
-    -fx-fill-height: true; /* Permite que los elementos se expandan verticalmente */
+    -fx-pref-width: 100%; 
+    -fx-alignment: top-center; 
+    -fx-spacing: 20px; 
+    -fx-fill-height: true; 
 }
 /**************************/
 /* BOTONES */

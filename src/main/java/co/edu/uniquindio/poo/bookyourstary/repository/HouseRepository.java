@@ -8,9 +8,17 @@ import co.edu.uniquindio.poo.bookyourstary.model.House;
 public class HouseRepository {
 
     private final LinkedList<House> houses;
+    private static HouseRepository instance;
 
-    public HouseRepository() {
+    private HouseRepository() {
         this.houses = new LinkedList<>();
+    }
+
+    public static HouseRepository getInstance() {
+        if (instance == null) {
+            instance = new HouseRepository();
+        }
+        return instance;
     }
 
     public void save(House house) {

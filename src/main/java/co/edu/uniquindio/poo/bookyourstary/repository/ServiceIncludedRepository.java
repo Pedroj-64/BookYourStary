@@ -10,8 +10,17 @@ public class ServiceIncludedRepository {
 
     private final List<ServiceIncluded> services;
 
-    public ServiceIncludedRepository() {
+    private static ServiceIncludedRepository instance;
+
+    private ServiceIncludedRepository() {
         this.services = new LinkedList<>();
+    }
+
+    public static ServiceIncludedRepository getInstance() {
+        if (instance == null) {
+            instance = new ServiceIncludedRepository();
+        }
+        return instance;
     }
 
     public void save(ServiceIncluded service) {

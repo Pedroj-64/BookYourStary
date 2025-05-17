@@ -8,9 +8,17 @@ import co.edu.uniquindio.poo.bookyourstary.model.Offer;
 public class OfferRepository {
 
     private final LinkedList<Offer> offers;
+    private static OfferRepository instance;
 
-    public OfferRepository() {
+    private OfferRepository() {
         this.offers = new LinkedList<>();
+    }
+
+    public static OfferRepository getInstance() {
+        if (instance == null) {
+            instance = new OfferRepository();
+        }
+        return instance;
     }
 
     public void save(Offer offer) {

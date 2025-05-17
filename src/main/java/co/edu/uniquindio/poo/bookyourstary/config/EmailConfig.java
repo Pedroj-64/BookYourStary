@@ -7,9 +7,19 @@ public class EmailConfig {
     private final String fromEmail;
     private final String password;
 
-    public EmailConfig(String fromEmail, String password) {
+    private static EmailConfig instance;
+
+    private EmailConfig(String fromEmail, String password) {
         this.fromEmail = fromEmail;
         this.password = password;
+    }
+
+    public static EmailConfig getInstance() {
+        if (instance == null) {
+            // Puedes parametrizar estos valores según tu entorno
+            instance = new EmailConfig("tucorreo@gmail.com", "tuPassword");
+        }
+        return instance;
     }
 
     public Properties getProperties() {

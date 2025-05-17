@@ -1,0 +1,15 @@
+.boton {
+    -fx-background-color: #34495e;
+    -fx-text-fill: white;
+    -fx-font-size: 1.1em;
+    -fx-padding: 6px 14px;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0.1, 0, 1);
+}
+
+.boton:hover {
+    -fx-background-color: #3b5998;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}

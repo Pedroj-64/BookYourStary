@@ -6,6 +6,7 @@ import co.edu.uniquindio.poo.bookyourstary.service.observer.Observer;
 import co.edu.uniquindio.poo.bookyourstary.service.observer.Subject;
 import co.edu.uniquindio.poo.bookyourstary.util.PasswordUtil;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,23 +57,29 @@ public class AdminService implements Subject {
 
     public void createHouse(String name, City city, String description, String imageUrl,
                             double priceForNight, int maxGuests,
-                            LinkedList<ServiceIncluded> services, double cleaningFee) {
+                            LinkedList<ServiceIncluded> services, double cleaningFee,LocalDate availableFrom,
+                            LocalDate availableTo) {
         validateAdminIsActive();
-        hostingService.createHouse(name, city, description, imageUrl, priceForNight, maxGuests, services, cleaningFee);
+        hostingService.createHouse(name, city, description, imageUrl, priceForNight, maxGuests, services, cleaningFee,
+                availableFrom, availableTo);
     }
 
     public void createApartament(String name, City city, String description, String imageUrl,
                                  double priceForNight, int maxGuests,
-                                 LinkedList<ServiceIncluded> services) {
+                                 LinkedList<ServiceIncluded> services,LocalDate availableFrom,
+                                 LocalDate availableTo) {
         validateAdminIsActive();
-        hostingService.createApartament(name, city, description, imageUrl, priceForNight, maxGuests, services);
+        hostingService.createApartament(name, city, description, imageUrl, priceForNight, maxGuests, services,
+                availableFrom, availableTo);
     }
 
     public void createHotel(String name, City city, String description, String imageUrl,
                             double basePrice, int maxGuests,
-                            LinkedList<ServiceIncluded> services, LinkedList<Room> rooms) {
+                            LinkedList<ServiceIncluded> services, LinkedList<Room> rooms,LocalDate availableFrom,
+                            LocalDate availableTo) {
         validateAdminIsActive();
-        hostingService.createHotel(name, city, description, imageUrl, basePrice, maxGuests, services, rooms);
+        hostingService.createHotel(name, city, description, imageUrl, basePrice, maxGuests, services, rooms,
+                availableFrom, availableTo);
     }
 
     public void deleteHosting(String name) {

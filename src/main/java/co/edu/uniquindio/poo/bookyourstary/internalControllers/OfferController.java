@@ -10,7 +10,17 @@ public class OfferController {
 
     private final OfferService offerService;
 
-    public OfferController(OfferService offerService) {
+    private static OfferController instance;
+
+    public static OfferController getInstance() {
+        if (instance == null) {
+            // Usar el singleton de OfferService si existe, o crearlo aquí si es necesario
+            instance = new OfferController(co.edu.uniquindio.poo.bookyourstary.service.OfferService.getInstance());
+        }
+        return instance;
+    }
+
+    private OfferController(OfferService offerService) {
         this.offerService = offerService;
     }
 
