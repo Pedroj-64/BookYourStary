@@ -34,7 +34,7 @@
 
     <Button onAction="#handleRegister" styleClass="action-button" text="Registrarse" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="8">
         <GridPane.margin>
-            <Insets left="30.0" />
+            <Insets />
         </GridPane.margin>
     </Button>
 
