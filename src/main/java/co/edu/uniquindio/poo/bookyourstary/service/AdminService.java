@@ -17,7 +17,16 @@ public class AdminService implements Subject {
     private final HostingService hostingService;
     private final List<Observer> observers;
 
-    public AdminService(AdminRepository adminRepository, HostingService hostingService) {
+    private static AdminService instance;
+
+    public static AdminService getInstance() {
+        if (instance == null) {
+            instance = new AdminService(AdminRepository.getInstance(), HostingService.getInstance());
+        }
+        return instance;
+    }
+
+    private AdminService(AdminRepository adminRepository, HostingService hostingService) {
         this.adminRepository = adminRepository;
         this.hostingService = hostingService;
         this.observers = new ArrayList<>();

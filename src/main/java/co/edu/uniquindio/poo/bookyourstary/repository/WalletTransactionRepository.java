@@ -9,14 +9,14 @@ public class WalletTransactionRepository {
     private final List<WalletTransaction> transactions = new ArrayList<>();
     private static WalletTransactionRepository instance;
 
-    private WalletTransactionRepository() {
-    }
-
     public static WalletTransactionRepository getInstance() {
         if (instance == null) {
             instance = new WalletTransactionRepository();
         }
         return instance;
+    }
+
+    private WalletTransactionRepository() {
     }
 
     public void save(WalletTransaction transaction) {

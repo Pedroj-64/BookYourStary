@@ -10,17 +10,29 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class CodeActivationService {
+    private static CodeActivationService instance;
 
     private final CodeActivationRepository repository;
     private final EmailNotifier emailNotifier;
     private final EmailTemplateService emailTemplateService;
 
-    public CodeActivationService(CodeActivationRepository repository,
+    private CodeActivationService(CodeActivationRepository repository,
             EmailNotifier emailNotifier,
             EmailTemplateService emailTemplateService) {
         this.repository = repository;
         this.emailNotifier = emailNotifier;
         this.emailTemplateService = emailTemplateService;
+    }
+
+    public static CodeActivationService getInstance() {
+        if (instance == null) {
+            instance = new CodeActivationService(
+                CodeActivationRepository.getInstance(),
+                EmailNotifier.getInstance(),
+                EmailTemplateService.getInstance()
+            );
+        }
+        return instance;
     }
 
     public UUID generateActivationCode(String userEmail) throws MessagingException {

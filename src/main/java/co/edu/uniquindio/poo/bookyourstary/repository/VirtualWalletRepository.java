@@ -10,15 +10,15 @@ public class VirtualWalletRepository {
     private final LinkedList<VirtualWallet> virtualWallets;
     private static VirtualWalletRepository instance;
 
-    private VirtualWalletRepository() {
-        this.virtualWallets = new LinkedList<>();
-    }
-
     public static VirtualWalletRepository getInstance() {
         if (instance == null) {
             instance = new VirtualWalletRepository();
         }
         return instance;
+    }
+
+    private VirtualWalletRepository() {
+        this.virtualWallets = new LinkedList<>();
     }
 
     public void save(VirtualWallet virtualWallet) {

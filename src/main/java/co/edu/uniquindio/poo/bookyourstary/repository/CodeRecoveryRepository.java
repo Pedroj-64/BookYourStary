@@ -9,10 +9,18 @@ import co.edu.uniquindio.poo.bookyourstary.model.CodeRecovery;
 
 public class CodeRecoveryRepository {
 
+    private static CodeRecoveryRepository instance;
     private final LinkedList<CodeRecovery> recoveries;
 
-    public CodeRecoveryRepository() {
+    private CodeRecoveryRepository() {
         this.recoveries = new LinkedList<>();
+    }
+
+    public static CodeRecoveryRepository getInstance() {
+        if (instance == null) {
+            instance = new CodeRecoveryRepository();
+        }
+        return instance;
     }
 
     public void save(CodeRecovery codeRecovery) {

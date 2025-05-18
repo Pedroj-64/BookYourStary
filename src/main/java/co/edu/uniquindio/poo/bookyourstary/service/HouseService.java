@@ -11,8 +11,16 @@ import java.util.Optional;
 public class HouseService {
 
     private final HouseRepository houseRepository;
+    private static HouseService instance;
 
-    public HouseService(HouseRepository houseRepository) {
+    public static HouseService getInstance() {
+        if (instance == null) {
+            instance = new HouseService(HouseRepository.getInstance());
+        }
+        return instance;
+    }
+
+    private HouseService(HouseRepository houseRepository) {
         this.houseRepository = houseRepository;
     }
 

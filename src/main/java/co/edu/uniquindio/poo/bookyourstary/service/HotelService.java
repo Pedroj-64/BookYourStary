@@ -15,8 +15,16 @@ import java.util.Optional;
 public class HotelService {
 
     private final HotelRepository hotelRepository;
+    private static HotelService instance;
 
-    public HotelService(HotelRepository hotelRepository) {
+    public static HotelService getInstance() {
+        if (instance == null) {
+            instance = new HotelService(HotelRepository.getInstance());
+        }
+        return instance;
+    }
+
+    private HotelService(HotelRepository hotelRepository) {
         this.hotelRepository = hotelRepository;
     }
 

@@ -15,7 +15,16 @@ public class HostingService {
     private final ApartamentRepository apartamentRepository;
     private final HotelRepository hotelRepository;
 
-    public HostingService(HouseRepository houseRepository, ApartamentRepository apartamentRepository,
+    private static HostingService instance;
+
+    public static HostingService getInstance() {
+        if (instance == null) {
+            instance = new HostingService(HouseRepository.getInstance(), ApartamentRepository.getInstance(), HotelRepository.getInstance());
+        }
+        return instance;
+    }
+
+    private HostingService(HouseRepository houseRepository, ApartamentRepository apartamentRepository,
             HotelRepository hotelRepository) {
         this.houseRepository = houseRepository;
         this.apartamentRepository = apartamentRepository;

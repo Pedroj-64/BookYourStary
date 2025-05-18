@@ -9,8 +9,17 @@ public class RoomRepository {
 
     private final LinkedList<Room> rooms;
 
-    public RoomRepository() {
+    private static RoomRepository instance;
+
+    private RoomRepository() {
         this.rooms = new LinkedList<>();
+    }
+
+    public static RoomRepository getInstance() {
+        if (instance == null) {
+            instance = new RoomRepository();
+        }
+        return instance;
     }
 
     public void save(Room room) {

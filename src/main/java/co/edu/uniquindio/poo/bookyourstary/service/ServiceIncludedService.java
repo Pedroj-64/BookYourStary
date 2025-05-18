@@ -9,8 +9,16 @@ import java.util.Optional;
 public class ServiceIncludedService {
 
     private final ServiceIncludedRepository serviceIncludedRepository;
+    private static ServiceIncludedService instance;
 
-    public ServiceIncludedService(ServiceIncludedRepository serviceIncludedRepository) {
+    public static ServiceIncludedService getInstance() {
+        if (instance == null) {
+            instance = new ServiceIncludedService(ServiceIncludedRepository.getInstance());
+        }
+        return instance;
+    }
+
+    private ServiceIncludedService(ServiceIncludedRepository serviceIncludedRepository) {
         this.serviceIncludedRepository = serviceIncludedRepository;
     }
 

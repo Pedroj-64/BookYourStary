@@ -7,10 +7,18 @@ import co.edu.uniquindio.poo.bookyourstary.model.Apartament;
 
 public class ApartamentRepository {
 
-    private final LinkedList<Apartament>apartaments;
+    private final LinkedList<Apartament> apartaments;
+    private static ApartamentRepository instance;
 
-    public ApartamentRepository() {
+    private ApartamentRepository() {
         this.apartaments = new LinkedList<>();
+    }
+
+    public static ApartamentRepository getInstance() {
+        if (instance == null) {
+            instance = new ApartamentRepository();
+        }
+        return instance;
     }
 
     public void save(Apartament apartament) {
@@ -18,7 +26,7 @@ public class ApartamentRepository {
     }
 
     public Optional<Apartament> findById(String name) {
-        return apartaments.stream().filter(apartament-> apartament.getName().equals(name)).findFirst();
+        return apartaments.stream().filter(apartament -> apartament.getName().equals(name)).findFirst();
     }
 
     public void delete(Apartament apartament) {

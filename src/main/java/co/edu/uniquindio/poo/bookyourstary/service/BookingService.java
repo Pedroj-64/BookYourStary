@@ -19,7 +19,19 @@ public class BookingService {
 
     private final BillService billService;
 
-    public BookingService(BookingRepository bookingRepository, VirtualWalletService virtualWalletService,
+    private static BookingService instance;
+
+    public static BookingService getInstance() {
+        if (instance == null) {
+            instance = new BookingService(BookingRepository.getInstance(),
+                VirtualWalletService.getInstance(),
+                WalletTransactionService.getInstance(),
+                BillService.getInstance());
+        }
+        return instance;
+    }
+
+    private BookingService(BookingRepository bookingRepository, VirtualWalletService virtualWalletService,
                           WalletTransactionService walletTransactionService, BillService billService) {
         this.bookingRepository = bookingRepository;
         this.virtualWalletService = virtualWalletService;

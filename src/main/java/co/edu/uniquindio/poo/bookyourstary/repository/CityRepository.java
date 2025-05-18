@@ -8,9 +8,17 @@ import co.edu.uniquindio.poo.bookyourstary.model.City;
 public class CityRepository {
 
     private final LinkedList<City> cities;
+    private static CityRepository instance;
 
-    public CityRepository() {
+    private CityRepository() {
         this.cities = new LinkedList<>();
+    }
+
+    public static CityRepository getInstance() {
+        if (instance == null) {
+            instance = new CityRepository();
+        }
+        return instance;
     }
 
     public void save(City city) {

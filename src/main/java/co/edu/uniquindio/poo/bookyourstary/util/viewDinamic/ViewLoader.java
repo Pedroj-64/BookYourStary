@@ -8,10 +8,12 @@ public class ViewLoader {
 
     public static void setContent(AnchorPane container, String fxmlPath) {
         try {
-            Parent content = (Parent) MainController.getInstance().loadFXML(fxmlPath.replace(".fxml", ""));
+            MainController.getInstance();
+            Parent content = (Parent) MainController.loadFXML(fxmlPath.replace(".fxml", ""));
             container.getChildren().setAll(content);
         } catch (Exception e) {
-            MainController.getInstance().showAlert(
+            MainController.getInstance();
+            MainController.showAlert(
                 "Error al cargar vista",
                 "No se pudo cargar el archivo FXML: " + fxmlPath + "\n" + e.getMessage(),
                 javafx.scene.control.Alert.AlertType.ERROR

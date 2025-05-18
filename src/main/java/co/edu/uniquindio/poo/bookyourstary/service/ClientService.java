@@ -14,7 +14,19 @@ public class ClientService {
     private final BookingService bookingService;
     private final ReviewService reviewService;
 
-    public ClientService(ClientRepository clientRepository,
+    private static ClientService instance;
+
+    public static ClientService getInstance() {
+        if (instance == null) {
+            instance = new ClientService(ClientRepository.getInstance(),
+                VirtualWalletService.getInstance(),
+                BookingService.getInstance(),
+                ReviewService.getInstance());
+        }
+        return instance;
+    }
+
+    private ClientService(ClientRepository clientRepository,
                          VirtualWalletService virtualWalletService,
                          BookingService bookingService,
                          ReviewService reviewService) {

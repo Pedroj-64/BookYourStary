@@ -142,7 +142,7 @@
                   </VBox>
 
                   <!-- Scroll con alojamientos -->
-<ScrollPane fx:id="scrollAlojamientos" fitToHeight="true" fitToWidth="true" hmax="0.0" styleClass="scroll-contenido" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+<ScrollPane fx:id="scrollAlojamientos" fitToHeight="true" fitToWidth="true" hmax="0.0" styleClass="scroll-contenido" vvalue="1.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
    <content>
       <VBox fx:id="panelAlojamientos" fillWidth="true" spacing="15.0" styleClass="vbox" VBox.vgrow="ALWAYS">
          <children>
@@ -150,7 +150,7 @@
             <!-- Tarjeta de alojamiento 1 -->
             <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fx:id="img_Alojamiento1" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="img_Alojamiento" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                      <children>
                         <Label fx:id="lbl_tituloAlojamiento" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
@@ -171,14 +171,14 @@
             </HBox>
                               <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
                                  <children>
-                                    <ImageView fx:id="img_Alojamiento2" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="img_Alojamiento1" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                     <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
-                                          <Label text="Descripción:" wrapText="true" />
+                                          <Label fx:id="lbl_tituloAlojamiento1" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label fx:id="lbl_descripcion1" text="Descripción:" wrapText="true" />
                                           <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label text="Servicios adicionales:" />
+                                                <Label fx:id="lbl_serviciosAdicionales1" text="Servicios adicionales:" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -195,11 +195,11 @@
                                     <ImageView fx:id="img_Alojamiento3" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                     <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
-                                          <Label text="Descripción:" wrapText="true" />
+                                          <Label fx:id="lbl_tituloAlojamiento2" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label fx:id="lbl_descripcion2" text="Descripción:" wrapText="true" />
                                           <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label text="Servicios adicionales:" />
+                                                <Label fx:id="lbl_serviciosAdicionales2" text="Servicios adicionales:" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -213,14 +213,38 @@
                               </HBox>
                               <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
                                  <children>
-                                    <ImageView fx:id="img_Alojamiento4" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="img_Alojamiento3" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                     <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
-                                          <Label styleClass="label-descripcion" text="Descripción:" wrapText="true" />
+                                          <Label fx:id="lbl_tituloAlojamiento3" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label fx:id="lbl_descripcion3" styleClass="label-descripcion" text="Descripción:" wrapText="true" />
                                           <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label styleClass="label-servicios" text="Servicios adicionales:" />
+                                                <Label fx:id="lbl_serviciosAdicionales3" styleClass="label-servicios" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button fx:id="btn_reservar3" layoutX="9.0" layoutY="35.0" onAction="#reservar" styleClass="boton-reservar" text="Reservar" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxWidth="605.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="173.0" prefWidth="605.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                                 <children>
+                                    <ImageView fx:id="img_Alojamiento4" fitHeight="141.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport></ImageView>
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="lbl_tituloAlojamiento4" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label fx:id="lbl_descripcion4" text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="lbl_serviciosAdicionales4" text="Servicios adicionales:" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -228,30 +252,6 @@
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
                                        <children>
                                           <Button fx:id="btn_reservar4" layoutX="9.0" layoutY="35.0" onAction="#reservar" styleClass="boton-reservar" text="Reservar" />
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" maxWidth="605.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="173.0" prefWidth="605.0" spacing="20.0" styleClass="tarjeta-alojamiento">
-                                 <children>
-                                    <ImageView fx:id="img_Alojamiento5" fitHeight="141.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport></ImageView>
-                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label styleClass="titulo-alojamiento" text="Título de alojamiento:" />
-                                          <Label text="Descripción:" wrapText="true" />
-                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label text="Servicios adicionales:" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
-                                       <children>
-                                          <Button fx:id="btn_reservar5" layoutX="9.0" layoutY="35.0" onAction="#reservar" styleClass="boton-reservar" text="Reservar" />
                                        </children>
                                     </AnchorPane>
                                  </children>

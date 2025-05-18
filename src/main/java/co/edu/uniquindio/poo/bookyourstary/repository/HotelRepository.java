@@ -8,9 +8,17 @@ import co.edu.uniquindio.poo.bookyourstary.model.Hotel;
 public class HotelRepository {
 
     private final LinkedList<Hotel> hotels;
+    private static HotelRepository instance;
 
-    public HotelRepository() {
+    private HotelRepository() {
         this.hotels = new LinkedList<>();
+    }
+
+    public static HotelRepository getInstance() {
+        if (instance == null) {
+            instance = new HotelRepository();
+        }
+        return instance;
     }
 
     public void save(Hotel hotel) {

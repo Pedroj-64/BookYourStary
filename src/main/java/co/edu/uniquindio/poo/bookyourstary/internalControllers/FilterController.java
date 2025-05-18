@@ -3,49 +3,43 @@ package co.edu.uniquindio.poo.bookyourstary.internalControllers;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
-import co.edu.uniquindio.poo.bookyourstary.service.HostingService;
+import co.edu.uniquindio.poo.bookyourstary.service.HostingFilterService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class FilterController {
 
-    private final HostingService hostingService;
+    private final HostingFilterService hostingFilterService;
 
-    public FilterController(HostingService hostingService) {
-        this.hostingService = hostingService;
+    public FilterController() {
+        this.hostingFilterService = HostingFilterService.getInstance();
     }
 
-    public List<Hosting> filterByCity(City city) {
-        return hostingService.findHostingsByCity(city);
-    }
-
-    public List<Hosting> filterByPriceRange(double minPrice, double maxPrice) {
-        return hostingService.findAllHostings().stream()
-                .filter(hosting -> hosting.getPricePerNight() >= minPrice && hosting.getPricePerNight() <= maxPrice)
-                .toList();
-    }
-
-    public List<Hosting> filterByMaxGuests(int maxGuests) {
-        return hostingService.findAllHostings().stream()
-                .filter(hosting -> hosting.getMaxGuests() >= maxGuests)
-                .toList();
-    }
-
-    public List<Hosting> filterByType(HostingType type) {
-        return hostingService.findAllHostings().stream()
-                .filter(hosting -> hosting.getHostingType() == type)
-                .toList();
-    }
-
+    /**
+     * Filtro centralizado: todos los parámetros pueden ser null si no se usan.
+     */
     public List<Hosting> filterHostings(City city, Double minPrice, Double maxPrice, Integer maxGuests,
-            HostingType type) {
-        return hostingService.findAllHostings().stream()
-                .filter(hosting -> city == null || hosting.getCity().equals(city))
-                .filter(hosting -> minPrice == null || hosting.getPricePerNight() >= minPrice)
-                .filter(hosting -> maxPrice == null || hosting.getPricePerNight() <= maxPrice)
-                .filter(hosting -> maxGuests == null || hosting.getMaxGuests() >= maxGuests)
-                .filter(hosting -> type == null || hosting.getHostingType() == type)
-                .toList();
+                                        HostingType type, LocalDate fechaInicio, LocalDate fechaFin,
+                                        Boolean wifi, Boolean piscina, Boolean desayuno) {
+        String ciudad = city != null ? city.toString() : null;
+        String tipo = type != null ? type.toString() : null;
+        return hostingFilterService.filterHostings(
+            ciudad, tipo, minPrice, maxPrice, null, null, maxGuests, wifi, piscina, desayuno, fechaInicio, fechaFin
+        );
     }
 
+    // Métodos individuales si se quieren mantener (opcional)
+    public List<Hosting> filterByCity(City city) {
+        return filterHostings(city, null, null, null, null, null, null, null, null, null);
+    }
+    public List<Hosting> filterByPriceRange(double minPrice, double maxPrice) {
+        return filterHostings(null, minPrice, maxPrice, null, null, null, null, null, null, null);
+    }
+    public List<Hosting> filterByMaxGuests(int maxGuests) {
+        return filterHostings(null, null, null, maxGuests, null, null, null, null, null, null);
+    }
+    public List<Hosting> filterByType(HostingType type) {
+        return filterHostings(null, null, null, null, type, null, null, null, null, null);
+    }
 }

@@ -12,8 +12,16 @@ import co.edu.uniquindio.poo.bookyourstary.repository.ReviewRepository;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private static ReviewService instance;
 
-    public ReviewService(ReviewRepository reviewRepository) {
+    public static ReviewService getInstance() {
+        if (instance == null) {
+            instance = new ReviewService(ReviewRepository.getInstance());
+        }
+        return instance;
+    }
+
+    private ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 

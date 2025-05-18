@@ -10,15 +10,15 @@ public class OfferRepository {
     private final LinkedList<Offer> offers;
     private static OfferRepository instance;
 
-    private OfferRepository() {
-        this.offers = new LinkedList<>();
-    }
-
     public static OfferRepository getInstance() {
         if (instance == null) {
             instance = new OfferRepository();
         }
         return instance;
+    }
+
+    private OfferRepository() {
+        this.offers = new LinkedList<>();
     }
 
     public void save(Offer offer) {

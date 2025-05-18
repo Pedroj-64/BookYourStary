@@ -8,10 +8,18 @@ import co.edu.uniquindio.poo.bookyourstary.model.CodeActivation;
 
 public class CodeActivationRepository {
 
+    private static CodeActivationRepository instance;
     private final LinkedList<CodeActivation> activations;
 
-    public CodeActivationRepository() {
+    private CodeActivationRepository() {
         this.activations = new LinkedList<>();
+    }
+
+    public static CodeActivationRepository getInstance() {
+        if (instance == null) {
+            instance = new CodeActivationRepository();
+        }
+        return instance;
     }
 
     public void save(CodeActivation codeActivation) {

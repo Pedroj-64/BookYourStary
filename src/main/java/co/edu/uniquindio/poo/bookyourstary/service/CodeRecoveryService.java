@@ -16,17 +16,31 @@ import java.util.UUID;
 
 public class CodeRecoveryService {
 
+    private static CodeRecoveryService instance;
+
     private final ClientRepository clientRepository;
     private final EmailTemplateService emailTemplateService;
     private final EmailNotifier emailNotifier;
     private final CodeRecoveryRepository codeRecoveryRepository;
 
-    public CodeRecoveryService(ClientRepository clientRepository, CodeRecoveryRepository codeRecoveryRepository,EmailTemplateService emailTemplateService,
+    private CodeRecoveryService(ClientRepository clientRepository, CodeRecoveryRepository codeRecoveryRepository,EmailTemplateService emailTemplateService,
             EmailNotifier emailNotifier) {
         this.clientRepository = clientRepository;
         this.emailTemplateService = emailTemplateService;
         this.emailNotifier = emailNotifier;
         this.codeRecoveryRepository = codeRecoveryRepository;
+    }
+
+    public static CodeRecoveryService getInstance() {
+        if (instance == null) {
+            instance = new CodeRecoveryService(
+                ClientRepository.getInstance(),
+                CodeRecoveryRepository.getInstance(),
+                EmailTemplateService.getInstance(),
+                EmailNotifier.getInstance()
+            );
+        }
+        return instance;
     }
 
     public void recoverPassword(String email) throws MessagingException {

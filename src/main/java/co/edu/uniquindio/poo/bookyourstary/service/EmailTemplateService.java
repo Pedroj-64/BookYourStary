@@ -8,6 +8,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EmailTemplateService {
+    private static EmailTemplateService instance;
+
+    private EmailTemplateService() {
+        // Constructor privado para singleton
+    }
+
+    public static EmailTemplateService getInstance() {
+        if (instance == null) {
+            instance = new EmailTemplateService();
+        }
+        return instance;
+    }
 
     public String buildActivationEmail(CodeActivation activation) {
         Map<String, String> values = new HashMap<>();

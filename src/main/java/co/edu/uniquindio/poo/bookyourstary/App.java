@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import co.edu.uniquindio.poo.bookyourstary.internalControllers.PrincipalController;
+import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 
 public class App extends Application {
 
@@ -15,12 +15,12 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            scene = new Scene(PrincipalController.loadFXML("home"), 600, 340);
+            scene = new Scene(MainController.loadFXML("home"), 600, 340);
             stage.setScene(scene);
             stage.show();
-            PrincipalController.setScene(scene);
+            MainController.setScene(scene);
         } catch (IOException e) {
-            PrincipalController.showAlert("Error al cargar la interfaz", "No se pudo cargar el archivo FXML: " + e.getMessage(),
+            MainController.showAlert("Error al cargar la interfaz", "No se pudo cargar el archivo FXML: " + e.getMessage(),
                     javafx.scene.control.Alert.AlertType.ERROR);
         }
     }

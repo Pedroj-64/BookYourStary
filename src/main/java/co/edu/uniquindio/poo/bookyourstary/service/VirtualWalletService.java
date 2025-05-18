@@ -12,7 +12,16 @@ public class VirtualWalletService {
     private final VirtualWalletRepository virtualWalletRepository;
     private final WalletTransactionService walletTransactionService;
 
-    public VirtualWalletService(VirtualWalletRepository virtualWalletRepository, WalletTransactionService walletTransactionService) {
+    private static VirtualWalletService instance;
+
+    public static VirtualWalletService getInstance() {
+        if (instance == null) {
+            instance = new VirtualWalletService(VirtualWalletRepository.getInstance(), WalletTransactionService.getInstance());
+        }
+        return instance;
+    }
+
+    private VirtualWalletService(VirtualWalletRepository virtualWalletRepository, WalletTransactionService walletTransactionService) {
         this.virtualWalletRepository = virtualWalletRepository;
         this.walletTransactionService = walletTransactionService;
     }

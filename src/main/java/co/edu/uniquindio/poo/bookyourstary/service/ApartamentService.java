@@ -14,8 +14,16 @@ import java.util.Optional;
 public class ApartamentService {
 
     private final ApartamentRepository apartamentRepository;
+    private static ApartamentService instance;
 
-    public ApartamentService(ApartamentRepository apartamentRepository) {
+    public static ApartamentService getInstance() {
+        if (instance == null) {
+            instance = new ApartamentService(ApartamentRepository.getInstance());
+        }
+        return instance;
+    }
+
+    private ApartamentService(ApartamentRepository apartamentRepository) {
         this.apartamentRepository = apartamentRepository;
     }
 

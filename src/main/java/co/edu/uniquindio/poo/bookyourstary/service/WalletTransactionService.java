@@ -9,8 +9,16 @@ import java.util.List;
 public class WalletTransactionService {
 
     private final WalletTransactionRepository transactionRepository;
+    private static WalletTransactionService instance;
 
-    public WalletTransactionService(WalletTransactionRepository transactionRepository) {
+    public static WalletTransactionService getInstance() {
+        if (instance == null) {
+            instance = new WalletTransactionService(WalletTransactionRepository.getInstance());
+        }
+        return instance;
+    }
+
+    private WalletTransactionService(WalletTransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
     }
 

@@ -12,15 +12,15 @@ public class ServiceIncludedRepository {
 
     private static ServiceIncludedRepository instance;
 
-    private ServiceIncludedRepository() {
-        this.services = new LinkedList<>();
-    }
-
     public static ServiceIncludedRepository getInstance() {
         if (instance == null) {
             instance = new ServiceIncludedRepository();
         }
         return instance;
+    }
+
+    private ServiceIncludedRepository() {
+        this.services = new LinkedList<>();
     }
 
     public void save(ServiceIncluded service) {

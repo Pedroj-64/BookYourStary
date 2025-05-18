@@ -72,4 +72,15 @@ public class DataMapping {
 
         return hostings;
     }
+
+    public static List<City> getColombianCities() {
+        List<City> cities = new ArrayList<>();
+        cities.add(new City("Armenia", "Colombia", "Quindío"));
+        cities.add(new City("Cali", "Colombia", "Valle del Cauca"));
+        cities.add(new City("Bogotá", "Colombia", "Cundinamarca"));
+        cities.add(new City("Medellín", "Colombia", "Antioquia"));
+        cities.add(new City("Cartagena", "Colombia", "Bolívar"));
+        cities.add(new City("Barranquilla", "Colombia", "Atlántico"));
+        return cities;
+    }
 }

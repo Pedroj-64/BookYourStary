@@ -21,7 +21,20 @@ public class BillService {
     private final BookingService bookingService;
     private final OfferController offerController;
 
-    public BillService(BillRepository billRepository, EmailNotifier emailNotifier,
+    private static BillService instance;
+
+    public static BillService getInstance() {
+        if (instance == null) {
+            instance = new BillService(BillRepository.getInstance(),
+                co.edu.uniquindio.poo.bookyourstary.service.observer.EmailNotifier.getInstance(),
+                null, // EmailTemplateService singleton si existe
+                BookingService.getInstance(),
+                co.edu.uniquindio.poo.bookyourstary.internalControllers.OfferController.getInstance());
+        }
+        return instance;
+    }
+
+    private BillService(BillRepository billRepository, EmailNotifier emailNotifier,
             EmailTemplateService emailTemplateService, BookingService bookingService, OfferController offerController) {
         this.bookingService = bookingService;
         this.billRepository = billRepository;
