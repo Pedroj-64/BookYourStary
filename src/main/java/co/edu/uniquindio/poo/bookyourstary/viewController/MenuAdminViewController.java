@@ -1,16 +1,12 @@
 package co.edu.uniquindio.poo.bookyourstary.viewController;
 
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import co.edu.uniquindio.poo.bookyourstary.controller.HomeController;
+import co.edu.uniquindio.poo.bookyourstary.controller.MenuAdminController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
-import co.edu.uniquindio.poo.bookyourstary.model.Client;
-import co.edu.uniquindio.poo.bookyourstary.model.Admin;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
-import co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.*;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.util.FilterData;
 import javafx.event.ActionEvent;
@@ -24,18 +20,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class HomeViewController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
+public class MenuAdminViewController {
 
     @FXML
     private AnchorPane UserHeader0;
@@ -47,25 +36,28 @@ public class HomeViewController {
     private Button btn_BuscarFiltro;
 
     @FXML
-    private Button btn_IniciarSesion;
+    private Button btn_CerrarSesion;
 
     @FXML
     private Button btn_Siguiente;
 
     @FXML
-    private Button btn_reservar;
+    private Button btn_Tuerquita;
 
     @FXML
-    private Button btn_reservar1;
+    private Button btn_editigin4;
 
     @FXML
-    private Button btn_reservar2;
+    private Button btn_editing;
 
     @FXML
-    private Button btn_reservar3;
+    private Button btn_editing1;
 
     @FXML
-    private Button btn_reservar4;
+    private Button btn_editing2;
+
+    @FXML
+    private Button btn_editing3;
 
     @FXML
     private HBox central_btn;
@@ -107,6 +99,24 @@ public class HomeViewController {
     private ImageView img_Alojamiento4;
 
     @FXML
+    private ImageView img_Carrito;
+
+    @FXML
+    private ImageView img_Carrito1;
+
+    @FXML
+    private ImageView img_Carrito11;
+
+    @FXML
+    private ImageView img_Carrito111;
+
+    @FXML
+    private ImageView img_Carrito112;
+
+    @FXML
+    private ImageView img_Carrito12;
+
+    @FXML
     private Label lbl_Cuidad;
 
     @FXML
@@ -120,6 +130,9 @@ public class HomeViewController {
 
     @FXML
     private Label lbl_Cuidad4;
+
+    @FXML
+    private Label lbl_Nombre;
 
     @FXML
     private Label lbl_Price;
@@ -137,7 +150,7 @@ public class HomeViewController {
     private Label lbl_Price4;
 
     @FXML
-    private Label lbl_Registrate;
+    private Label lbl_Saldo;
 
     @FXML
     private Label lbl_descripcion;
@@ -213,15 +226,7 @@ public class HomeViewController {
     private List<Label> serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1,
             lbl_serviciosAdicionales2, lbl_serviciosAdicionales3, lbl_serviciosAdicionales4);
 
-    private final HomeController homeController = new HomeController();
-
-    @FXML
-    void ayudaBtn(ActionEvent event) {
-        MainController.showAlert(
-                "Ayuda",
-                "Si tienes problemas, contacta con el equipo de margaDevSociety.",
-                AlertType.INFORMATION);
-    }
+    MenuAdminController menuAdminController = new MenuAdminController();
 
     private FilterData collectFilterData() {
         String ciudad = combo_Ciudad.getValue().getName() != null ? combo_Ciudad.getValue().toString() : null;
@@ -240,60 +245,63 @@ public class HomeViewController {
     }
 
     @FXML
+    void CerrarSesion(ActionEvent event) {
+
+        menuAdminController.logout();
+
+    }
+
+    @FXML
+    void abrirMenuAdmin(ActionEvent event) {
+
+    }
+
+    @FXML
+    void ayudaBtn(ActionEvent event) {
+
+        MainController.showAlert(
+                "Ayuda",
+                "Si tienes problemas, contacta con el equipo de margaDevSociety.",
+                AlertType.INFORMATION);
+
+    }
+
+    @FXML
+    void editing(ActionEvent event) {
+
+    }
+
+    @FXML
     void filtrar(ActionEvent event) {
         FilterData data = collectFilterData();
-        List<Hosting> filtrados = homeController.filterHostings(
+        List<Hosting> filtrados = menuAdminController.filterHostings(
                 data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, data.fechaInicio, data.fechaFin,
                 data.numHuespedes, data.wifi,
                 data.piscina, data.desayuno, data.fechaInicio, data.fechaFin);
-        homeController.updateHostingDisplay(filtrados, imageViews, titleLabels, descLabels, priceLabels, cityLabels,
+        menuAdminController.updateHostingDisplay(filtrados, imageViews, titleLabels, descLabels, priceLabels,
+                cityLabels,
                 serviceLabels);
     }
 
     @FXML
-    void iniciarSesion(ActionEvent event) {
-
-        MainController.loadScene("userLogin", 900, 600);
-
-    }
-
-    @FXML
     void refresh(ActionEvent event) {
+
         scrollAlojamientos.setHvalue(0);
-        List<Hosting> randomHostings = homeController.getRandomHostings();
-        homeController.updateHostingDisplay(randomHostings, imageViews, titleLabels, descLabels, priceLabels,
+        List<Hosting> randomHostings = menuAdminController.getRandomHostings();
+        menuAdminController.updateHostingDisplay(randomHostings, imageViews, titleLabels, descLabels, priceLabels,
                 cityLabels, serviceLabels);
-    }
-
-    @FXML
-    void registrateYa(MouseEvent event) {
-        MainController.loadScene("userRegister", 900, 600);
 
     }
 
-    @FXML
-    void reservar(ActionEvent event) {
-
+    private void setupComboBox() {
+        combo_tipoAlojamiento.getItems().setAll(MenuAdminController.getHostingTypes());
+        combo_Ciudad.getItems().setAll(menuAdminController.getAvailableCities());
     }
 
     @FXML
     void initialize() {
         setupComboBox();
-        checkUserAndUpdateHeader();
-        homeController.updateButtonIfLoggedIn(btn_IniciarSesion);
+
     }
 
-    private void setupComboBox() {
-        combo_tipoAlojamiento.getItems().setAll(HomeController.getHostingTypes());
-        combo_Ciudad.getItems().setAll(homeController.getAvailableCities());
-    }
-
-    private void checkUserAndUpdateHeader() {
-        Object user = MainController.getInstance().getSessionManager().getUsuarioActual();
-        if (user instanceof Client) {
-            ViewLoader.setContent(UserHeader0, "UserHeader");
-        } else if (user instanceof Admin) {
-            ViewLoader.setContent(UserHeader0, "AdminHeader");
-        }
-    }
 }

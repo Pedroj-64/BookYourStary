@@ -22,7 +22,7 @@ public class LoginController {
                 MainController.loadScene("home", 900, 600); 
             } else if (usuario instanceof Admin) {
                 MainController.showAlert("Inicio de sesión", "Bienvenido administrador", Alert.AlertType.INFORMATION);
-                MainController.loadScene("home", 900, 600); 
+                MainController.loadScene("menuAdmin", 900, 600); 
             }
         } else {
             MainController.showAlert("Error de inicio de sesión", "Usuario o contraseña incorrectos", Alert.AlertType.ERROR);

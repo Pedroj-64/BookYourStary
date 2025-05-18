@@ -1,14 +1,360 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="co.edu.uniquindio.poo.bookyourstary.MenuAdmin"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="575.0" prefWidth="837.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuAdminViewController">
+   <content>
+      <VBox fx:id="contenedorPrincipal" prefHeight="385.0" prefWidth="597.0" spacing="10.0" VBox.vgrow="ALWAYS">
+         <children>
+            <HBox styleClass="encabezado" HBox.hgrow="ALWAYS" VBox.vgrow="NEVER">
+               <children>
+                  <Label styleClass="encabezado-titulo" text="BookYourStay">
+                     <font>
+                        <Font name="Bookman Old Style" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <HBox fx:id="central_btn" alignment="CENTER" spacing="10.0" styleClass="encabezado-botones" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Button fx:id="btn_CerrarSesion" onAction="#CerrarSesion" styleClass="encabezado-boton" text="Cerrar Sesion" />
+                        <Button fx:id="btn_Ayuda" onAction="#ayudaBtn" styleClass="encabezado-boton" text="Ayuda" />
+                     </children>
+                  </HBox>
+                  <AnchorPane fx:id="UserHeader0" styleClass="encabezado-anchorpane" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="193.0" spacing="15" stylesheets="@css/userHeader.css">
+                           <children>
+                              <VBox spacing="3">
+                                 <children>
+                                    <Label fx:id="lbl_Nombre" styleClass="label-header-usuario" text="User: Admin" />
+                                    <Label fx:id="lbl_Saldo" styleClass="label-header-usuario" text="Saldo: $9999" />
+                                 </children>
+                              </VBox>
+                              <Button fx:id="btn_Tuerquita" onAction="#abrirMenuAdmin" styleClass="header-boton">
+                                 <graphic>
+                                    <ImageView fx:id="img_Carrito" fitHeight="28.0" fitWidth="28.0">
+                                       <image>
+                                          <Image url="@image/tuerquita.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <HBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox fx:id="panelFiltros" maxWidth="300.0" minWidth="150.0" prefWidth="200.0" styleClass="panel-filtros" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox prefHeight="179.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="200.0" styleClass="label-filtro" text="Ubicación:">
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </Label>
+                              <HBox prefHeight="42.0" prefWidth="200.0" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="combo_Ciudad" prefHeight="25.0" prefWidth="100.0" promptText="Ciudad" styleClass="combo-filtro">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets left="50.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
+                              <Label prefHeight="17.0" prefWidth="238.0" styleClass="label-filtro" text="Tipo de alojamiento:" />
+                              <ComboBox fx:id="combo_tipoAlojamiento" prefHeight="25.0" prefWidth="101.0" promptText="Tipos" styleClass="combo-filtro">
+                                 <VBox.margin>
+                                    <Insets left="50.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <Label prefHeight="17.0" prefWidth="209.0" styleClass="label-filtro" text="Rango de precios:" />
+                              <HBox prefHeight="45.0" prefWidth="200.0" spacing="8.0">
+                                 <children>
+                                    <TextField fx:id="txt_minPrecio" prefHeight="25.0" prefWidth="87.0" promptText="Min" styleClass="text-filtro" />
+                                    <Label text="-" />
+                                    <TextField fx:id="txt_maxPrecio" prefHeight="25.0" prefWidth="84.0" promptText="Max" styleClass="text-filtro" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Label prefHeight="17.0" prefWidth="273.0" styleClass="label-filtro" text="Fechas de la reserva:" />
+                        <HBox prefHeight="39.0" prefWidth="200.0" spacing="5.0">
+                           <children>
+                              <DatePicker fx:id="date_inicio" prefHeight="36.0" prefWidth="119.0" promptText="Inicio" />
+                              <Label text="-" />
+                              <DatePicker fx:id="date_fin" prefHeight="25.0" prefWidth="104.0" promptText="Fin" />
+                           </children>
+                        </HBox>
+                        <Label styleClass="label-filtro" text="Número Huespedes:" />
+                        <HBox prefHeight="28.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="txt_numHuespedes" prefHeight="25.0" prefWidth="120.0" promptText="NumHuespedes" styleClass="text-filtro" />
+                           </children>
+                           <padding>
+                              <Insets left="40.0" />
+                           </padding>
+                        </HBox>
+                        <Label styleClass="label-filtro" text="Servicios Adicionales:" />
+                        <GridPane prefHeight="67.0" prefWidth="200.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="96.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="10.0" prefWidth="74.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <CheckBox fx:id="check_wifi" mnemonicParsing="false" prefHeight="28.0" prefWidth="89.0" styleClass="check-filtro" text="Wi-Fi" />
+                              <CheckBox fx:id="check_piscina" mnemonicParsing="false" styleClass="check-filtro" text="Piscina" GridPane.columnIndex="1" />
+                              <CheckBox fx:id="check_desayuno" mnemonicParsing="false" prefHeight="28.0" prefWidth="255.0" styleClass="check-filtro" text="Desayuno " GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                        <Button fx:id="btn_BuscarFiltro" mnemonicParsing="false" onAction="#filtrar" prefHeight="25.0" prefWidth="81.0" text="Buscar">
+                           <VBox.margin>
+                              <Insets left="45.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <ScrollPane fx:id="scrollAlojamientos" fitToHeight="true" fitToWidth="true" hmax="0.0" styleClass="scroll-contenido" vvalue="0.07" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox fx:id="panelAlojamientos" fillWidth="true" spacing="15.0" styleClass="vbox" VBox.vgrow="ALWAYS">
+                           <children>
+                              <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fx:id="img_Alojamiento" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="lbl_tituloAlojamiento" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label fx:id="lbl_descripcion" text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="lbl_serviciosAdicionales" prefHeight="17.0" prefWidth="178.0" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price" prefHeight="17.0" prefWidth="178.0" text="Price" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad" prefHeight="17.0" prefWidth="178.0" text="Ciudad" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button fx:id="btn_editing" layoutX="9.0" layoutY="35.0" onAction="#editing" styleClass="boton-reservar">
+                                             <graphic>
+                                                <ImageView fx:id="img_Carrito1" fitHeight="28.0" fitWidth="28.0">
+                                                   <image>
+                                                      <Image url="@image/tuerquita.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></Button>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                                 <children>
+                                    <ImageView fx:id="img_Alojamiento1" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="lbl_tituloAlojamiento1" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label fx:id="lbl_descripcion1" text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="lbl_serviciosAdicionales1" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price1" text="Price" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad1" text="Ciudad" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button fx:id="btn_editing1" layoutX="9.0" layoutY="35.0" onAction="#editing" styleClass="boton-reservar">
+                                             <graphic>
+                                                <ImageView fx:id="img_Carrito11" fitHeight="28.0" fitWidth="28.0">
+                                                   <image>
+                                                      <Image url="@image/tuerquita.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></Button>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                                 <children>
+                                    <ImageView fx:id="img_Alojamiento3" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="lbl_tituloAlojamiento2" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label fx:id="lbl_descripcion2" text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="lbl_serviciosAdicionales2" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price2" text="Price" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad2" text="Ciudad" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button fx:id="btn_editing2" layoutX="9.0" layoutY="35.0" onAction="#editing" styleClass="boton-reservar">
+                                             <graphic>
+                                                <ImageView fx:id="img_Carrito12" fitHeight="28.0" fitWidth="28.0">
+                                                   <image>
+                                                      <Image url="@image/tuerquita.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></Button>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                                 <children>
+                                    <ImageView fx:id="img_Alojamiento3" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="lbl_tituloAlojamiento3" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label fx:id="lbl_descripcion3" styleClass="label-descripcion" text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="lbl_serviciosAdicionales3" styleClass="label-servicios" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price3" styleClass="label-servicios" text="Price" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad3" styleClass="label-servicios" text="Ciudad" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button fx:id="btn_editing3" layoutX="9.0" layoutY="35.0" onAction="#editing" styleClass="boton-reservar">
+                                             <graphic>
+                                                <ImageView fx:id="img_Carrito111" fitHeight="28.0" fitWidth="28.0">
+                                                   <image>
+                                                      <Image url="@image/tuerquita.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></Button>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxWidth="605.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="173.0" prefWidth="605.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                                 <children>
+                                    <ImageView fx:id="img_Alojamiento4" fitHeight="141.0" fitWidth="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
+                                    </ImageView>
+                                    <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="lbl_tituloAlojamiento4" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                                          <Label fx:id="lbl_descripcion4" text="Descripción:" wrapText="true" />
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="lbl_serviciosAdicionales4" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price4" text="Price:">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad4" text="Ciudad:" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
+                                       <children>
+                                          <Button fx:id="btn_editigin4" layoutX="9.0" layoutY="35.0" onAction="#editing" styleClass="boton-reservar">
+                                             <graphic>
+                                                <ImageView fx:id="img_Carrito112" fitHeight="28.0" fitWidth="28.0">
+                                                   <image>
+                                                      <Image url="@image/tuerquita.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic></Button>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <Button fx:id="btn_Siguiente" mnemonicParsing="false" onAction="#refresh" text="Siguiente &gt;&gt;" />
+                              <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

@@ -142,7 +142,7 @@
                   </VBox>
 
                   <!-- Scroll con alojamientos -->
-<ScrollPane fx:id="scrollAlojamientos" fitToHeight="true" fitToWidth="true" hmax="0.0" styleClass="scroll-contenido" vvalue="1.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+<ScrollPane fx:id="scrollAlojamientos" fitToHeight="true" fitToWidth="true" hmax="0.0" styleClass="scroll-contenido" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
    <content>
       <VBox fx:id="panelAlojamientos" fillWidth="true" spacing="15.0" styleClass="vbox" VBox.vgrow="ALWAYS">
          <children>
@@ -160,6 +160,16 @@
                               <Label fx:id="lbl_serviciosAdicionales" prefHeight="17.0" prefWidth="178.0" text="Servicios adicionales:" />
                            </children>
                         </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price" prefHeight="17.0" prefWidth="178.0" text="Price" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad" prefHeight="17.0" prefWidth="178.0" text="Ciudad" />
+                                             </children>
+                                          </HBox>
                      </children>
                   </VBox>
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
@@ -179,6 +189,16 @@
                                           <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label fx:id="lbl_serviciosAdicionales1" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price1" text="Price" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad1" text="Ciudad" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -202,6 +222,16 @@
                                                 <Label fx:id="lbl_serviciosAdicionales2" text="Servicios adicionales:" />
                                              </children>
                                           </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price2" text="Price" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad2" text="Ciudad" />
+                                             </children>
+                                          </HBox>
                                        </children>
                                     </VBox>
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
@@ -221,6 +251,16 @@
                                           <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label fx:id="lbl_serviciosAdicionales3" styleClass="label-servicios" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price3" styleClass="label-servicios" text="Price" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad3" styleClass="label-servicios" text="Ciudad" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -245,6 +285,20 @@
                                           <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label fx:id="lbl_serviciosAdicionales4" text="Servicios adicionales:" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Price4" text="Price:">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="lbl_Cuidad4" text="Ciudad:" />
                                              </children>
                                           </HBox>
                                        </children>

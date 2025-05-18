@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class App extends Application {
             MainController.setScene(scene);
         } catch (IOException e) {
             MainController.showAlert("Error al cargar la interfaz", "No se pudo cargar el archivo FXML: " + e.getMessage(),
-                    javafx.scene.control.Alert.AlertType.ERROR);
+                    AlertType.ERROR);
         }
     }
 

@@ -26,7 +26,7 @@
 
 /* Alineación del HBox y VBox */
 HBox {
-    -fx-background-color: #ffffff; /* Fondo blanco limpio */
+    -fx-background-color: transparent; /* Fondo completamente transparente */
     -fx-padding: 10px;
 }
 
@@ -34,7 +34,7 @@ VBox {
     -fx-alignment: CENTER_LEFT;
 }
 
-/* Fondo transparente en la cabecera */
+/* Garantizamos opacidad total para visibilidad */
 .header-boton, .label-header-usuario {
-    -fx-opacity: 1; /* Garantizamos que no se vea opaco */
+    -fx-opacity: 1;
 }
