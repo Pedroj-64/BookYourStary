@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -52,10 +53,6 @@
             <CheckBox fx:id="chkWifi" text="WiFi" />
             <CheckBox fx:id="chkDesayuno" text="Desayuno" />
         </VBox>
-
-
-        <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-        <TextArea fx:id="txtDescripcion" prefHeight="81.0" prefWidth="478.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
       <VBox prefHeight="84.0" prefWidth="100.0" spacing="15.0" GridPane.rowIndex="3">
          <children>
 
@@ -80,6 +77,26 @@
             <TextField fx:id="txt_MaxGuests" />
          </children>
       </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+         <children>
+      
+      
+              <Label text="Descripción:" />
+            <TextArea fx:id="txt_descripcion" prefHeight="100.0" prefWidth="243.0" />
+         </children>
+      </HBox>
+      <VBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="100.0" spacing="25.0" GridPane.rowIndex="5">
+         <children>
+            <Label text="Fecha inicio:" />
+            <Label text="Fecha final:" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="149.0" spacing="12.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <children>
+            <DatePicker fx:id="date_inicio" />
+            <DatePicker fx:id="date_final" />
+         </children>
+      </VBox>
       <rowConstraints>
          <RowConstraints />
          <RowConstraints />
