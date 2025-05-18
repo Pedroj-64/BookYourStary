@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      spacing="10" alignment="center" prefWidth="300">
-    <Label text="¿Está seguro de cancelar esta reserva?" styleClass="warning-text"/>
-    <HBox spacing="10" alignment="center">
-        <Button text="Confirmar" onAction="#handleConfirmCancel" styleClass="danger-button"/>
-        <Button text="Cancelar" onAction="#closeDialog"/>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="center" prefHeight="73.0" prefWidth="300" spacing="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <Label styleClass="warning-text" text="¿Está seguro de cancelar esta reserva?" />
+    <HBox alignment="center" spacing="10">
+        <Button onAction="#handleConfirmCancel" styleClass="danger-button" text="Confirmar" />
+        <Button onAction="#closeDialog" text="Cancelar" />
     </HBox>
 </VBox>

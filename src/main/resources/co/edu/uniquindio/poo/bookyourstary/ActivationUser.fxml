@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      spacing="10" alignment="center" prefWidth="250">
-    <Label text="Activación de Cuenta" styleClass="title"/>
-    <TextField fx:id="activationCodeField" promptText="Ingrese código de activación"/>
-    <Button text="Activar" onAction="#handleActivation"/>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="center" prefHeight="94.0" prefWidth="260.0" spacing="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <Label styleClass="title" text="Activación de Cuenta" />
+    <TextField fx:id="activationCodeField" prefHeight="25.0" prefWidth="249.0" promptText="Ingrese código de activación" />
+    <Button onAction="#handleActivation" text="Activar" />
 </VBox>
