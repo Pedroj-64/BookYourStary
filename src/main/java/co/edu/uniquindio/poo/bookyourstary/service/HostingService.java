@@ -85,6 +85,25 @@ public class HostingService {
                 .toList();
     }
 
+    /**
+     * Retorna true si el alojamiento está disponible en la fecha dada.
+     * Por defecto, verifica que la fecha esté entre availableFrom y availableTo.
+     */
+    public boolean isAvailableOn(Hosting hosting, LocalDate date) {
+        if (hosting == null || date == null) return false;
+        LocalDate from = hosting.getAvailableFrom();
+        LocalDate to = hosting.getAvailableTo();
+        return (from == null || !date.isBefore(from)) && (to == null || !date.isAfter(to));
+    }
+
+    /**
+     * Devuelve una lista de alojamientos disponibles para la fecha dada.
+     */
+    public List<Hosting> getAvailableHostingsOn(LocalDate date) {
+        return findAllHostings().stream()
+            .filter(h -> isAvailableOn(h, date))
+            .toList();
+    }
 
     public void deleteHosting(String name) {
         Optional<House> house = houseRepository.findById(name);
@@ -100,5 +119,52 @@ public class HostingService {
         } else {
             throw new IllegalArgumentException("No se encontró el alojamiento con nombre: " + name);
         }
+    }
+
+    /**
+     * Actualiza un alojamiento existente con los nuevos datos proporcionados.
+     * Busca el alojamiento por nombre (o id único si lo tienes) y reemplaza sus datos.
+     * Si no existe, lanza una excepción.
+     */
+    public void updateHosting(Hosting updatedHosting) {
+        if (updatedHosting instanceof House) {
+            Optional<House> existing = houseRepository.findById(updatedHosting.getName());
+            if (existing.isPresent()) {
+                houseRepository.update((House) updatedHosting);
+            } else {
+                throw new IllegalArgumentException("No se encontró la casa a actualizar: " + updatedHosting.getName());
+            }
+        } else if (updatedHosting instanceof Apartament) {
+            Optional<Apartament> existing = apartamentRepository.findById(updatedHosting.getName());
+            if (existing.isPresent()) {
+                apartamentRepository.update((Apartament) updatedHosting);
+            } else {
+                throw new IllegalArgumentException("No se encontró el apartamento a actualizar: " + updatedHosting.getName());
+            }
+        } else if (updatedHosting instanceof Hotel) {
+            Optional<Hotel> existing = hotelRepository.findById(updatedHosting.getName());
+            if (existing.isPresent()) {
+                hotelRepository.update((Hotel) updatedHosting);
+            } else {
+                throw new IllegalArgumentException("No se encontró el hotel a actualizar: " + updatedHosting.getName());
+            }
+        } else {
+            throw new IllegalArgumentException("Tipo de alojamiento no soportado para actualización");
+        }
+    }
+
+    public boolean hasWifi(Hosting hosting) {
+        if (hosting == null || hosting.getIncludedServices() == null) return false;
+        return hosting.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("wifi"));
+    }
+
+    public boolean hasPool(Hosting hosting) {
+        if (hosting == null || hosting.getIncludedServices() == null) return false;
+        return hosting.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("piscina"));
+    }
+
+    public boolean hasBreakfast(Hosting hosting) {
+        if (hosting == null || hosting.getIncludedServices() == null) return false;
+        return hosting.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("desayuno"));
     }
 }

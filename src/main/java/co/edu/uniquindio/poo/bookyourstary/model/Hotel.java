@@ -50,10 +50,7 @@ public class Hotel implements Hosting {
         return rooms.stream().mapToDouble(Room::getPriceForNight).min().orElse(0.0);  
     }
 
-    @Override
-    public HostingType getHostingType() {
-        return HostingType.HOTEL;
-    }
+
 
     @Override
     public LocalDate getAvailableFrom() {
@@ -63,5 +60,11 @@ public class Hotel implements Hosting {
     @Override
     public LocalDate getAvailableTo() {
         return availableTo;
+    }
+
+    @Override
+    public void setPricePerNight(double pricePerNight) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPricePerNight'");
     }
 }

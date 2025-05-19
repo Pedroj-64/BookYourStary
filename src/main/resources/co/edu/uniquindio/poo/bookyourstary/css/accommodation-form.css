@@ -1,0 +1,83 @@
+/* === General === */
+.root {
+    -fx-background-color: #f9f9f9;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* === Label Styles === */
+.label-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #444;
+}
+
+/* === Text Fields & ComboBoxes === */
+.text-field,
+.combo-box,
+.date-picker,
+.text-area {
+    -fx-pref-height: 34px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 4 8 4 8;
+    -fx-border-color: #ccc;
+    -fx-background-color: white;
+    -fx-font-size: 13px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 1, 0, 0, 1);
+}
+
+.text-area {
+    -fx-pref-height: 80px;
+}
+
+/* === CheckBox === */
+.check-box {
+    -fx-font-size: 13px;
+}
+
+/* === ImageView === */
+.image-view {
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+/* === Buttons === */
+.button {
+    -fx-background-color: linear-gradient(to bottom, #4a90e2, #357ABD);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 6 20 6 20;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #5aa0f0, #3a83cd);
+}
+
+.button:pressed {
+    -fx-background-color: #2c6690;
+}
+
+/* === HBox & VBox Padding === */
+.hbox, .vbox {
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* === Optional: Make buttons larger in the footer === */
+.hbox > .button {
+    -fx-pref-width: 100px;
+}
+
+

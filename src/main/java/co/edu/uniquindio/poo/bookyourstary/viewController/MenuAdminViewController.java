@@ -3,7 +3,6 @@ package co.edu.uniquindio.poo.bookyourstary.viewController;
 import java.time.LocalDate;
 import java.util.List;
 
-import co.edu.uniquindio.poo.bookyourstary.controller.HomeController;
 import co.edu.uniquindio.poo.bookyourstary.controller.MenuAdminController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
@@ -225,6 +224,8 @@ public class MenuAdminViewController {
     private List<Label> cityLabels = List.of(lbl_Cuidad, lbl_Cuidad1, lbl_Cuidad2, lbl_Cuidad3, lbl_Cuidad4);
     private List<Label> serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1,
             lbl_serviciosAdicionales2, lbl_serviciosAdicionales3, lbl_serviciosAdicionales4);
+    private List<Button> editButtons;
+    private List<Hosting> currentHostings;
 
     MenuAdminController menuAdminController = new MenuAdminController();
 
@@ -254,6 +255,11 @@ public class MenuAdminViewController {
     @FXML
     void abrirMenuAdmin(ActionEvent event) {
 
+        Button sourceButton = (Button) event.getSource();
+        Hosting hosting = (Hosting) sourceButton.getUserData();
+        if (hosting != null) {
+            menuAdminController.openEditHostingWindow(hosting);
+        }
     }
 
     @FXML
@@ -268,29 +274,11 @@ public class MenuAdminViewController {
 
     @FXML
     void editing(ActionEvent event) {
-
-    }
-
-    @FXML
-    void filtrar(ActionEvent event) {
-        FilterData data = collectFilterData();
-        List<Hosting> filtrados = menuAdminController.filterHostings(
-                data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, data.fechaInicio, data.fechaFin,
-                data.numHuespedes, data.wifi,
-                data.piscina, data.desayuno, data.fechaInicio, data.fechaFin);
-        menuAdminController.updateHostingDisplay(filtrados, imageViews, titleLabels, descLabels, priceLabels,
-                cityLabels,
-                serviceLabels);
-    }
-
-    @FXML
-    void refresh(ActionEvent event) {
-
-        scrollAlojamientos.setHvalue(0);
-        List<Hosting> randomHostings = menuAdminController.getRandomHostings();
-        menuAdminController.updateHostingDisplay(randomHostings, imageViews, titleLabels, descLabels, priceLabels,
-                cityLabels, serviceLabels);
-
+        Button sourceButton = (Button) event.getSource();
+        Hosting hosting = (Hosting) sourceButton.getUserData();
+        if (hosting != null) {
+            menuAdminController.openEditHostingWindow(hosting);
+        }
     }
 
     private void setupComboBox() {
@@ -301,7 +289,32 @@ public class MenuAdminViewController {
     @FXML
     void initialize() {
         setupComboBox();
-
+        editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4);
+        currentHostings = menuAdminController.getRandomHostings();
+        menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, descLabels, priceLabels,
+                cityLabels, serviceLabels);
+        menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
     }
 
+    @FXML
+    void filtrar(ActionEvent event) {
+        FilterData data = collectFilterData();
+        currentHostings = menuAdminController.filterHostings(
+                data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, data.fechaInicio, data.fechaFin,
+                data.numHuespedes, data.wifi,
+                data.piscina, data.desayuno, data.fechaInicio, data.fechaFin);
+        menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, descLabels, priceLabels,
+                cityLabels, serviceLabels);
+        menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
+    }
+
+    @FXML
+    void refresh(ActionEvent event) {
+
+        scrollAlojamientos.setHvalue(0);
+        currentHostings = menuAdminController.getRandomHostings();
+        menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, descLabels, priceLabels,
+                cityLabels, serviceLabels);
+        menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
+    }
 }

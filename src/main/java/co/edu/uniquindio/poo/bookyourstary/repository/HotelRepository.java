@@ -37,4 +37,17 @@ public class HotelRepository {
         return new LinkedList<>(hotels);
     }
 
+    /**
+     * Actualiza un hotel existente en la lista, reemplazando el que tiene el mismo nombre.
+     */
+    public void update(Hotel hotel) {
+        for (int i = 0; i < hotels.size(); i++) {
+            if (hotels.get(i).getName().equals(hotel.getName())) {
+                hotels.set(i, hotel);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("No se encontró el hotel a actualizar: " + hotel.getName());
+    }
+
 }

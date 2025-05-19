@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import java.io.IOException;
 
 import co.edu.uniquindio.poo.bookyourstary.config.EmailConfig;
+import co.edu.uniquindio.poo.bookyourstary.controller.CreationAndEditingFormController;
 import co.edu.uniquindio.poo.bookyourstary.repository.*;
 import co.edu.uniquindio.poo.bookyourstary.service.*;
 import co.edu.uniquindio.poo.bookyourstary.service.observer.EmailNotifier;
@@ -200,6 +201,14 @@ public class MainController {
 
     public CodeActivationRepository getCodeActivationRepository() {
         return CodeActivationRepository.getInstance();
+    }
+
+    public CreationAndEditingFormController getCreationAndEditingFormController() {
+        return CreationAndEditingFormController.getInstance();
+    }
+
+    public CartManager getCartManager() {
+        return CartManager.getInstance();
     }
 
 }

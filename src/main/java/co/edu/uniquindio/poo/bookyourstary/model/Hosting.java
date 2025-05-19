@@ -3,7 +3,6 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
 
 public interface Hosting {
 
@@ -14,9 +13,18 @@ public interface Hosting {
     double getPricePerNight();
     int getMaxGuests();
     LinkedList<ServiceIncluded> getIncludedServices(); 
-    HostingType getHostingType();
     LocalDate getAvailableFrom();
     LocalDate getAvailableTo();
+
+    void setName(String name);
+    void setCity(City city);
+    void setDescription(String description);
+    void setImageUrl(String imageUrl);
+    void setPricePerNight(double pricePerNight);
+    void setMaxGuests(int maxGuests);
+    void setIncludedServices(LinkedList<ServiceIncluded> includedServices);
+    void setAvailableFrom(LocalDate availableFrom);
+    void setAvailableTo(LocalDate availableTo);
 
     default String getCityName() {
         return getCity().toString();

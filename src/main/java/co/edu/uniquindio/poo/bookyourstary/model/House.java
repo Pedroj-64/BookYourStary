@@ -44,10 +44,7 @@ public class House implements Hosting {
         return includedServices;
     }
 
-    @Override
-    public HostingType getHostingType() {
-        return HostingType.HOUSE;
-    }
+
 
     @Override
     public LocalDate getAvailableFrom() {

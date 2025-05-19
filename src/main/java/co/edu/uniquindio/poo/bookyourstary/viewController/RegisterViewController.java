@@ -46,6 +46,7 @@ public class RegisterViewController {
             );
             isRegistered = true;
         } else {
+            @SuppressWarnings("unused")
             boolean activated = registerController.activateUser(code);
             
         }

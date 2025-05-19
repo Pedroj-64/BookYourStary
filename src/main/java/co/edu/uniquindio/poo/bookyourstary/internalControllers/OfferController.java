@@ -15,7 +15,7 @@ public class OfferController {
     public static OfferController getInstance() {
         if (instance == null) {
             // Usar el singleton de OfferService si existe, o crearlo aquí si es necesario
-            instance = new OfferController(co.edu.uniquindio.poo.bookyourstary.service.OfferService.getInstance());
+            instance = new OfferController(OfferService.getInstance());
         }
         return instance;
     }
@@ -47,6 +47,23 @@ public class OfferController {
             }
         }
 
+        return discountedPrice;
+    }
+
+    /**
+     * Aplica todas las ofertas globales (Long Stay y Special Date) automáticamente.
+     * No depende de fechas de inicio/fin, sino de la lógica de la estrategia.
+     */
+    public double applyAllGlobalOffers(double originalPrice, int numberOfNights, LocalDate bookingDate) {
+        double discountedPrice = originalPrice;
+        LinkedList<Offer> offers = offerService.getAllOffers();
+        for (Offer offer : offers) {
+            // Aplica la estrategia de la oferta directamente
+            double newPrice = offer.getStrategy().calculateDiscount(discountedPrice, numberOfNights, bookingDate);
+            if (newPrice < discountedPrice) {
+                discountedPrice = newPrice;
+            }
+        }
         return discountedPrice;
     }
 

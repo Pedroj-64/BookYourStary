@@ -37,4 +37,17 @@ public class ApartamentRepository {
         return new LinkedList<>(apartaments);
     }
 
+    /**
+     * Actualiza un apartamento existente en la lista, reemplazando el que tiene el mismo nombre.
+     */
+    public void update(Apartament apartament) {
+        for (int i = 0; i < apartaments.size(); i++) {
+            if (apartaments.get(i).getName().equals(apartament.getName())) {
+                apartaments.set(i, apartament);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("No se encontró el apartamento a actualizar: " + apartament.getName());
+    }
+
 }

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="15" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreationAndEditingFormViewController">
+<VBox spacing="15" stylesheets="@css/accommodation-form.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreationAndEditingFormViewController">
     <padding>
         <Insets bottom="15" left="20" right="20" top="15" />
     </padding>
@@ -43,7 +43,7 @@
             <image>
                <Image url="@image/FotoHotelRelleno.png" />
             </image></ImageView>
-            <Button onAction="#cargarFoto" text="Cargar imagen" />
+            <Button fx:id="btn_CargarImagen" onAction="#cargarFoto" text="Cargar imagen" />
         </VBox>
 
 
@@ -58,22 +58,22 @@
 
               <Label text="País:" />
 
-              <Label text="Departamento:" />
-
-              <Label text="Ciudad:" />
+              <Label text="Ciudad:">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Label>
          </children>
       </VBox>
       <VBox prefHeight="117.0" prefWidth="149.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <children>
-              <ComboBox fx:id="cbPais" prefHeight="25.0" prefWidth="96.0" />
-              <ComboBox fx:id="cbCiudad" disable="true" prefHeight="25.0" prefWidth="94.0" />
-              <ComboBox fx:id="cbDepartamento" disable="true" prefHeight="25.0" prefWidth="96.0" />
+              <ComboBox fx:id="cbPais" disable="true" prefHeight="25.0" prefWidth="96.0" promptText="Colombia" />
+              <ComboBox fx:id="cbCiudad" prefHeight="25.0" prefWidth="96.0" />
          </children>
       </VBox>
       <Label text="Nombre:" GridPane.rowIndex="1" />
       <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="314.0" spacing="30.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
          <children>
-            <Label alignment="CENTER" text="Maximo huespedes:" />
+            <Label alignment="CENTER" prefHeight="18.0" prefWidth="136.0" text="Maximo huespedes:" />
             <TextField fx:id="txt_MaxGuests" />
          </children>
       </HBox>
@@ -81,7 +81,7 @@
          <children>
       
       
-              <Label text="Descripción:" />
+              <Label prefHeight="18.0" prefWidth="89.0" text="Descripción:" />
             <TextArea fx:id="txt_descripcion" prefHeight="100.0" prefWidth="243.0" />
          </children>
       </HBox>

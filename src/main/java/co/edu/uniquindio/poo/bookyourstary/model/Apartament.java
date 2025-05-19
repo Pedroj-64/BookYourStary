@@ -3,7 +3,6 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,10 +43,6 @@ public class Apartament implements Hosting {
         return city;
     }
 
-    @Override
-    public HostingType getHostingType() {
-        return HostingType.APARTAMENT;
-    }
 
     @Override
     public LocalDate getAvailableFrom() {
@@ -58,6 +53,10 @@ public class Apartament implements Hosting {
     public LocalDate getAvailableTo() {
         return availableTo;
     }
+
+
+
+ 
 
 }
 

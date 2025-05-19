@@ -1,0 +1,91 @@
+/* General font and background */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #f8f8f8;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+/* Main button */
+.button {
+    -fx-background-color: #ff6f00; /* Vibrant orange */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 20px;
+}
+
+.button:hover {
+    -fx-background-color: #e65100; /* Darker orange on hover */
+}
+
+/* DatePicker styling */
+.date-picker {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* TextArea styling */
+.text-area {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-text-fill: #333333;
+}
+
+/* TableView styling */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 5px;
+}
+
+/* Table headers */
+.table-view .column-header-background {
+    -fx-background-color: #eeeeee;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-border-color: #cccccc;
+}
+
+/* Row selection */
+.table-view .table-row-cell:filled:selected {
+    -fx-background-color: #ffe0b2; /* Light orange for selected row */
+}
+
+/* Layout padding and spacing */
+.hbox, .vbox {
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+}
+
+
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-padding: 6 10;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.08), 2, 0, 0, 1);
+    -fx-prompt-text-fill: #999999;
+}
+
+.text-field:focused {
+    -fx-border-color: #ff6600;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(one-pass-box, rgba(255,102,0,0.3), 4, 0.2, 0, 2);
+}

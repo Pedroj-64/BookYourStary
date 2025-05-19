@@ -212,6 +212,7 @@ public class HomeViewController {
     private List<Label> cityLabels = List.of(lbl_Cuidad, lbl_Cuidad1, lbl_Cuidad2, lbl_Cuidad3, lbl_Cuidad4);
     private List<Label> serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1,
             lbl_serviciosAdicionales2, lbl_serviciosAdicionales3, lbl_serviciosAdicionales4);
+    private List<Button> reserveButtons;
 
     private final HomeController homeController = new HomeController();
 
@@ -273,7 +274,16 @@ public class HomeViewController {
 
     @FXML
     void reservar(ActionEvent event) {
-
+        Button sourceButton = (Button) event.getSource();
+        Hosting hosting = (Hosting) sourceButton.getUserData();
+        if (hosting != null) {
+            homeController.addHostingToPendingReservations(hosting);
+            MainController.showAlert(
+                "Reserva Pendiente",
+                "Reserva pendiente, confirme en su carrito de compras",
+                AlertType.INFORMATION
+            );
+        }
     }
 
     @FXML
@@ -281,6 +291,9 @@ public class HomeViewController {
         setupComboBox();
         checkUserAndUpdateHeader();
         homeController.updateButtonIfLoggedIn(btn_IniciarSesion);
+        reserveButtons = List.of(btn_reservar, btn_reservar1, btn_reservar2, btn_reservar3, btn_reservar4);
+        List<Hosting> randomHostings = homeController.getRandomHostings();
+        homeController.assignHostingsToReserveButtons(reserveButtons, randomHostings);
     }
 
     private void setupComboBox() {

@@ -1,6 +1,5 @@
 package co.edu.uniquindio.poo.bookyourstary.controller;
 
-import co.edu.uniquindio.poo.bookyourstary.repository.HostingRepository;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import java.util.Collections;
 import java.util.List;
@@ -8,11 +7,11 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
 import co.edu.uniquindio.poo.bookyourstary.service.HostingFilterService;
+import co.edu.uniquindio.poo.bookyourstary.util.UtilInterfaces;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.ShowHostingList;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import co.edu.uniquindio.poo.bookyourstary.config.mapping.DataMapping;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import javafx.scene.control.Button;
 
@@ -21,12 +20,13 @@ public class HomeController {
     private final HostingFilterService hostingFilterService = new HostingFilterService();
 
     /**
-     * Devuelve una lista aleatoria de 5 alojamientos del repositorio
+     * Devuelve una lista aleatoria de 5 alojamientos disponibles para la fecha actual.
      */
     public List<Hosting> getRandomHostings() {
-        List<Hosting> allHostings = HostingRepository.getInstance().findAll();
-        Collections.shuffle(allHostings, new Random());
-        return allHostings.stream().limit(5).collect(Collectors.toList());
+        LocalDate today = LocalDate.now();
+        List<Hosting> availableHostings = MainController.getInstance().getHostingService().getAvailableHostingsOn(today);
+        Collections.shuffle(availableHostings, new Random());
+        return availableHostings.stream().limit(5).collect(Collectors.toList());
     }
 
    
@@ -49,11 +49,11 @@ public class HomeController {
     }
 
     public static List<String> getHostingTypes() {
-        return List.of("Apto", "Casa", "Hotel");
+        return UtilInterfaces.getHostingTypes();
     }
 
     public List<City> getAvailableCities() {
-        return DataMapping.getColombianCities();
+        return UtilInterfaces.getColombianCities();
     }
 
     public void updateButton(Button button) {
@@ -71,5 +71,39 @@ public class HomeController {
         if (user != null) {
             updateButton(button);
         }
+    }
+
+
+
+    /**
+     * Asocia cada botón de reservar con su hosting correspondiente usando setUserData.
+     * El botón 1 recibe el hosting 0, el botón 2 el hosting 1, etc.
+     */
+    public void assignHostingsToReserveButtons(List<Button> reserveButtons, List<Hosting> hostings) {
+        int count = Math.min(reserveButtons.size(), hostings.size());
+        for (int i = 0; i < count; i++) {
+            reserveButtons.get(i).setUserData(hostings.get(i));
+        }
+    }
+
+    /**
+     * Agrega un hosting a la lista de reservas pendientes (carrito de compras) usando CartManager.
+     */
+    public void addHostingToPendingReservations(Hosting hosting) {
+        MainController.getInstance().getCartManager().addHosting(hosting);
+    }
+
+    /**
+     * Devuelve la lista de reservas pendientes (carrito de compras) usando CartManager.
+     */
+    public static List<Hosting> getPendingReservations() {
+        return MainController.getInstance().getCartManager().getPendingReservations();
+    }
+
+    /**
+     * Limpia la lista de reservas pendientes (por ejemplo, al confirmar la compra) usando CartManager.
+     */
+    public static void clearPendingReservations() {
+        MainController.getInstance().getCartManager().clear();
     }
 }

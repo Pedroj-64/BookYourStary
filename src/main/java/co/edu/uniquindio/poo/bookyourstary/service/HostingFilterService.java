@@ -17,23 +17,29 @@ public class HostingFilterService {
     }
 
     public List<Hosting> filterHostings(String ciudad, String tipoDeAlojamiento, Double minPrice, Double maxPrice,
-                                        LocalDate minDate, LocalDate maxDate, Integer numHuespedes,
-                                        Boolean wifi, Boolean piscina, Boolean desayuno, LocalDate fechaInicio, LocalDate fechaFin) {
+            LocalDate minDate, LocalDate maxDate, Integer numHuespedes,
+            Boolean wifi, Boolean piscina, Boolean desayuno, LocalDate fechaInicio, LocalDate fechaFin) {
         return HostingRepository.getInstance().findAll().stream()
-            .filter(h -> ciudad == null || h.getCity().toString().equalsIgnoreCase(ciudad))
-            .filter(h -> tipoDeAlojamiento == null || h.getHostingType().toString().equalsIgnoreCase(tipoDeAlojamiento))
-            .filter(h -> minPrice == null || h.getPricePerNight() >= minPrice)
-            .filter(h -> maxPrice == null || h.getPricePerNight() <= maxPrice)
-            .filter(h -> numHuespedes == null || h.getMaxGuests() >= numHuespedes)
-            .filter(h -> wifi == null || h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("wifi")))
-            .filter(h -> piscina == null || h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("piscina")))
-            .filter(h -> desayuno == null || h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("desayuno")))
-            // Lógica de disponibilidad por fechas
-            .filter(h -> {
-                if (fechaInicio == null || fechaFin == null) return true;
-                return (h.getAvailableFrom() == null || !fechaInicio.isBefore(h.getAvailableFrom())) &&
-                       (h.getAvailableTo() == null || !fechaFin.isAfter(h.getAvailableTo()));
-            })
-            .collect(Collectors.toList());
+                .filter(h -> ciudad == null || h.getCity().toString().equalsIgnoreCase(ciudad))
+
+                .filter(h -> tipoDeAlojamiento == null
+                        || h.getClass().getSimpleName().equalsIgnoreCase(tipoDeAlojamiento))
+                .filter(h -> minPrice == null || h.getPricePerNight() >= minPrice)
+                .filter(h -> maxPrice == null || h.getPricePerNight() <= maxPrice)
+                .filter(h -> numHuespedes == null || h.getMaxGuests() >= numHuespedes)
+                .filter(h -> wifi == null
+                        || h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("wifi")))
+                .filter(h -> piscina == null
+                        || h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("piscina")))
+                .filter(h -> desayuno == null
+                        || h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("desayuno")))
+
+                .filter(h -> {
+                    if (fechaInicio == null || fechaFin == null)
+                        return true;
+                    return (h.getAvailableFrom() == null || !fechaInicio.isBefore(h.getAvailableFrom())) &&
+                            (h.getAvailableTo() == null || !fechaFin.isAfter(h.getAvailableTo()));
+                })
+                .collect(Collectors.toList());
     }
 }
