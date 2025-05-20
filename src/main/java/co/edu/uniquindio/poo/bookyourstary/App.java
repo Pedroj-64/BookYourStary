@@ -1,32 +1,38 @@
 package co.edu.uniquindio.poo.bookyourstary;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
-
 public class App extends Application {
-
-    private static Scene scene;
+    private Stage primaryStage;
 
     @Override
-    public void start(Stage stage) {
-        try {
-            scene = new Scene(MainController.loadFXML("home"), 600, 340);
-            stage.setScene(scene);
-            stage.show();
-            MainController.setScene(scene);
-        } catch (IOException e) {
-            MainController.showAlert("Error al cargar la interfaz", "No se pudo cargar el archivo FXML: " + e.getMessage(),
-                    AlertType.ERROR);
-        }
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                App.class.getResource("/co/edu/uniquindio/poo/bookyourstary/home.fxml")
+        );
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        stage.setTitle("BookYourStary");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void showFatalError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+        Platform.exit();
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

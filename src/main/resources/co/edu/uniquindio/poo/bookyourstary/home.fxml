@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="575.0" prefWidth="837.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeViewController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="575.0" prefWidth="837.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.HomeViewController">
    <content>
       <VBox fx:id="contenedorPrincipal" prefHeight="385.0" prefWidth="597.0" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>

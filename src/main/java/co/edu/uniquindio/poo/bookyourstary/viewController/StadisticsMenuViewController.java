@@ -1,9 +1,7 @@
 package co.edu.uniquindio.poo.bookyourstary.viewController;
 
 import co.edu.uniquindio.poo.bookyourstary.controller.StadisticsMenuController;
-import co.edu.uniquindio.poo.bookyourstary.model.AccommodationType;
 import co.edu.uniquindio.poo.bookyourstary.util.ChartUtil;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
@@ -17,7 +15,7 @@ public class StadisticsMenuViewController {
     private final StadisticsMenuController controller = new StadisticsMenuController();
 
     @FXML private TabPane tabPane;
-    @FXML private ComboBox<AccommodationType> cbType;
+    @FXML private ComboBox<String> cbType;
     @FXML private PieChart occupancyPieChart;
     @FXML private BarChart<String, Number> earningsBarChart;
     @FXML private BarChart<String, Number> popularityBarChart;
@@ -31,8 +29,9 @@ public class StadisticsMenuViewController {
     }
 
     private void configureUIComponents() {
-        cbType.setItems(FXCollections.observableArrayList(AccommodationType.values()));
+        cbType.setItems(controller.getOpciones());
         cbType.getSelectionModel().selectFirst();
+
         ChartUtil.applyModernChartStyle(occupancyPieChart);
         ChartUtil.applyModernChartStyle(earningsBarChart);
         ChartUtil.applyModernChartStyle(popularityBarChart);
@@ -50,23 +49,25 @@ public class StadisticsMenuViewController {
     }
 
     private void refreshCharts() {
-        AccommodationType selectedType = cbType.getValue();
+        String selectedType = cbType.getValue();
 
-        occupancyPieChart.setData(
-                controller.getOccupancyData(selectedType)
-        );
+        if (selectedType != null) {
+            // Actualizar gráfico de ocupación
+            occupancyPieChart.setData(controller.getOccupancyData(selectedType));
 
-        earningsBarChart.getData().setAll(
-                controller.getEarningsSeries(selectedType)
-        );
+            // Actualizar gráfico de ganancias
+            earningsBarChart.getData().clear();
+            earningsBarChart.getData().add(controller.getEarningsSeries(selectedType));
 
-        popularityBarChart.getData().setAll(
-                controller.getPopularityByCitySeries()
-        );
+            // Actualizar gráfico de popularidad
+            popularityBarChart.getData().clear();
+            popularityBarChart.getData().add(controller.getPopularityByCitySeries());
 
-        ChartUtil.addChartEffects(occupancyPieChart);
-        ChartUtil.addChartEffects(earningsBarChart);
-        ChartUtil.addChartEffects(popularityBarChart);
+            // Aplicar efectos
+            ChartUtil.addChartEffects(occupancyPieChart);
+            ChartUtil.addChartEffects(earningsBarChart);
+            ChartUtil.addChartEffects(popularityBarChart);
+        }
     }
 
     private void closeWindow() {

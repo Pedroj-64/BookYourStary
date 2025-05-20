@@ -9,6 +9,7 @@ import co.edu.uniquindio.poo.bookyourstary.repository.ApartamentRepository;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 public class ApartamentService {
@@ -53,5 +54,11 @@ public class ApartamentService {
 
     public double calculateTotalPrice(Apartament apartament, int numberOfNights) {
         return apartament.getPricePerNight() * numberOfNights + apartament.getPriceForCleaning();
+    }
+
+    public List<Apartament> findAllAvailableApartaments() {
+        return apartamentRepository.findAll().stream()
+                .filter(a -> a.getAvailableTo().isAfter(LocalDate.now()))
+                .toList();
     }
 }

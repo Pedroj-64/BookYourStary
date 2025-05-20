@@ -6,6 +6,7 @@ import co.edu.uniquindio.poo.bookyourstary.repository.HouseRepository;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 public class HouseService {
@@ -50,5 +51,11 @@ public class HouseService {
 
     public double calculateTotalPrice(House house, int numberOfNights) {
         return house.getPricePerNight() * numberOfNights + house.getCleaningFee();
+    }
+
+    public List<House> findAllAvailableHouses() {
+        return houseRepository.findAll().stream()
+                .filter(h -> h.getAvailableTo().isAfter(LocalDate.now()))
+                .toList();
     }
 }
