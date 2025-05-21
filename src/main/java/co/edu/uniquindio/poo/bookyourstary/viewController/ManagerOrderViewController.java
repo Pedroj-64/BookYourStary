@@ -142,20 +142,34 @@ public class ManagerOrderViewController {
         int numGuests;
         try {
             numGuests = Integer.parseInt(txt_numHuespedes.getText());
+            if (numGuests <= 0) {
+                MainController.showAlert("Error de validación", "El número de huéspedes debe ser mayor que cero.", AlertType.ERROR);
+                return;
+            }
         } catch (NumberFormatException e) {
-            MainController.showAlert("Invalid guests", "Please enter a valid number of guests.",AlertType.INFORMATION);
+            MainController.showAlert("Error de validación", "Por favor, ingrese un número válido de huéspedes.", AlertType.ERROR);
             return;
         }
-        // Reservar solo el hosting seleccionado
+
+        // Attempt to confirm the booking for the selected hosting
         boolean success = manageOrderController.confirmSingleBooking(selectedHosting, startDate, endDate, numGuests);
+        
         if (success) {
-            hostingsObservable.remove(selectedHosting);
+            MainController.showAlert(
+                "Reserva Exitosa",
+                "La reserva para '" + selectedHosting.getName() + "' ha sido confirmada exitosamente.",
+                AlertType.INFORMATION
+            );
+            // Refresh data and UI state
+            hostingsObservable.remove(selectedHosting); // Remove from local list
             tbl_TablaCompras.getSelectionModel().clearSelection();
             selectedHosting = null;
-            btn_Reservar.setDisable(true);
-            MainController.showAlert("Next reservation", "Now reserve the next accommodation, please.",AlertType.INFORMATION);
+            btn_Reservar.setDisable(true); // Disable button as selection is cleared
+            // loadData(); // Reload all data, or just update totals if applicable
         }
-        loadData();
+        // If success is false, ManageOrderController already showed an error alert.
+        // We still reload data to reflect any partial changes or to clear selections.
+        loadData(); 
     }
 
     @FXML

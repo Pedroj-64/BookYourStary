@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.ViewLoader; // Added import
 
 import static co.edu.uniquindio.poo.bookyourstary.viewController.HomeViewController.getFilterData;
 
@@ -279,12 +280,65 @@ public class MenuAdminViewController {
     @FXML
     void initialize() {
         setupComboBox();
-        editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4);
-        currentHostings = menuAdminController.getRandomHostings();
-        menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, descLabels, priceLabels,
-                cityLabels, serviceLabels);
-        menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
+        if (UserHeader0 != null) { // Ensure UserHeader0 is injected before using
+            ViewLoader.setContent(UserHeader0, "AdminHeader");
+        } else {
+            System.err.println("UserHeader0 is null in MenuAdminViewController.initialize()");
+            // Optionally show an alert here if this is critical
+            // MainController.showAlert("Error de UI", "No se pudo cargar el cabezal del administrador.", AlertType.ERROR);
+        }
+        // The FXML for MenuAdminViewController might not have all these imageViews, titleLabels etc.
+        // This part seems to be copied from HomeViewController and might not apply directly or fully.
+        // For now, I'll keep it, but it needs verification against menuAdmin.fxml's actual content structure.
+        // If menuAdmin.fxml is primarily for managing a list/table of hostings, this display logic might be different.
+        // However, the user requested to fix AdminMenu loading, and the header is part of that.
+        // The display of hostings in cards might still be relevant.
+
+        // Assuming these lists are correctly populated based on menuAdmin.fxml's @FXML fields
+        // If menuAdmin.fxml does not have these exact fx:ids for imageViews, titleLabels, etc., this will fail.
+        // For safety, check if these lists are populated by FXML injection before use.
+        // This part of the code is highly dependent on the FXML structure of menuAdmin.fxml for displaying hostings.
+        // For now, focusing on the header loading.
+        // The following lines for updating hosting display might need to be adjusted based on how menuAdmin.fxml actually displays hostings.
+        
+        // editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4); // Ensure these fx:ids exist
+        // currentHostings = menuAdminController.getRandomHostings();
+        // if (imageViews != null && !imageViews.isEmpty() && currentHostings != null) { // Add null/empty checks
+        //    menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, descLabels, priceLabels,
+        //            cityLabels, serviceLabels);
+        //    menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
+        //}
+        
+        // Simplified initialization for now, focusing on header and core functionality.
+        // The display of hostings needs to be verified against menuAdmin.fxml structure.
+        loadAndDisplayHostings();
     }
+
+    private void loadAndDisplayHostings() {
+        // This method would contain the logic to fetch and display hostings
+        // specific to the admin menu's layout.
+        // For example, if it's a table view:
+        // currentHostings = menuAdminController.getAllHostings(); // Or some initial list
+        // populateTable(currentHostings);
+
+        // If it uses the card view similar to HomeViewController:
+        // Ensure FXML fields like imageViews, titleLabels, editButtons are correctly defined in MenuAdminViewController
+        // and linked in menuAdmin.fxml.
+        // The current FXML provided for menuAdmin.fxml DOES show a card-like display.
+        if (btn_editing != null) { // Check if one of the buttons is initialized (implies others might be too)
+             editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4);
+        }
+        currentHostings = menuAdminController.getRandomHostings(); // Or getAllHostings()
+        
+        // Check if the display elements are available (they are defined in the FXML)
+        if (imageViews != null && titleLabels != null && descLabels != null && priceLabels != null && cityLabels != null && serviceLabels != null && editButtons != null) {
+            menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, descLabels, priceLabels, cityLabels, serviceLabels);
+            menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
+        } else {
+            System.err.println("Some UI elements for hosting display are null in MenuAdminViewController.initialize(). Verify FXML fx:id links.");
+        }
+    }
+
 
     @FXML
     void filtrar(ActionEvent event) {

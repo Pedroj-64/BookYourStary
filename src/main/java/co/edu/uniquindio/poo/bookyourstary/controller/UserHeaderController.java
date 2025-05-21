@@ -15,28 +15,25 @@ public class UserHeaderController {
         if (user instanceof Client) {
             Client client = (Client) user;
             nameLabel.setText(client.getName());
-            balanceLabel.setText("$" + client.getVirtualWallet().getBalance());
+            // Ensure wallet and balance are not null to avoid NPE
+            if (client.getVirtualWallet() != null) {
+                balanceLabel.setText(String.format("Saldo: $%.2f", client.getVirtualWallet().getBalance()));
+            } else {
+                balanceLabel.setText("Saldo: N/A");
+            }
         } else if (user instanceof Admin) {
             Admin admin = (Admin) user;
-            nameLabel.setText(admin.getName());
-            balanceLabel.setText("$9999");
+            nameLabel.setText("Admin: " + admin.getName());
+            balanceLabel.setText(""); // Admins don't have a balance display
+            balanceLabel.setVisible(false); // Hide balance label for admin
         } else {
             nameLabel.setText("Invitado");
-            balanceLabel.setText("$0");
+            balanceLabel.setText("");
+            balanceLabel.setVisible(false); // Hide balance label for guest
         }
     }
 
-    public void updateHeaderImageAndButton(ImageView imageView, Button button) {
-        Object user = MainController.getInstance().getSessionManager().getUsuarioActual();
-        if (user instanceof Client) {
-            imageView.setImage(new Image("/co/edu/uniquindio/poo/bookyourstary/image/carrito.png"));
-            button.setOnAction(e -> {MainController.loadScene("null",0,0);});
-        } else if (user instanceof Admin) {
-            imageView.setImage(new Image("/co/edu/uniquindio/poo/bookyourstary/image/tuerquita.png"));
-            button.setOnAction(e -> {MainController.loadScene("null",0,0);});
-        } else {
-            imageView.setImage(null);
-        }
-    }
-
+    // The updateHeaderImageAndButton method is removed.
+    // Icon and button actions should be defined in their respective FXMLs (UserHeader.fxml, AdminHeader.fxml)
+    // and handled by their view controllers.
 }

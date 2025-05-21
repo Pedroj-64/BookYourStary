@@ -18,4 +18,6 @@ public class UtilInterfaces {
     public static List<String> getHostingTypes() {
         return List.of("Apto", "Casa", "Hotel");
     }
+
+    
 }

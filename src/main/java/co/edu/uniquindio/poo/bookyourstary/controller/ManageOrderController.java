@@ -117,18 +117,38 @@ public class ManageOrderController {
     public boolean confirmSingleBooking(Hosting hosting, LocalDate startDate, LocalDate endDate, int numberOfGuests) {
         Object usuario = SessionManager.getInstance().getUsuarioActual();
         if (!(usuario instanceof Client client)) {
-            throw new IllegalStateException("No authenticated client in session");
+            MainController.showAlert(
+                "Authentication Error",
+                "No authenticated client in session. Please log in.",
+                AlertType.ERROR
+            );
+            return false;
         }
         BookingService bookingService = MainController.getInstance().getBookingService();
         try {
             var booking = bookingService.createBooking(client, hosting, startDate, endDate, numberOfGuests);
             bookingService.confirmBooking(booking.getBookingId());
-            MainController.getInstance().getCartManager().remove(hosting);
+            MainController.getInstance().getCartManager().remove(hosting); // Remove from cart on success
+            // Success alert will be handled by the ViewController, this method just returns status
             return true;
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException e) { // Handles errors from createBooking (invalid dates, capacity)
             MainController.showAlert(
-                "Insufficient funds",
-                "You do not have enough balance to confirm the reservation for: " + hosting.getName(),
+                "Booking Error",
+                "Could not create booking for: " + hosting.getName() + ". Reason: " + e.getMessage(),
+                AlertType.ERROR
+            );
+            return false;
+        } catch (IllegalStateException e) { // Handles errors from confirmBooking (insufficient funds)
+            MainController.showAlert(
+                "Booking Failed",
+                "Could not confirm booking for: " + hosting.getName() + ". Reason: " + e.getMessage(),
+                AlertType.ERROR
+            );
+            return false;
+        } catch (Exception e) { // Catch any other unexpected errors
+            MainController.showAlert(
+                "Unexpected Error",
+                "An unexpected error occurred while booking " + hosting.getName() + ": " + e.getMessage(),
                 AlertType.ERROR
             );
             return false;

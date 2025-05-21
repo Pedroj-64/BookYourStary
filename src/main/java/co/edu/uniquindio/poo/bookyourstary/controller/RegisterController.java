@@ -11,12 +11,14 @@ public class RegisterController {
         MainController.getInstance().getClientService()
     );
 
-    public void registerUser(Client client, String password) {
+    public boolean registerUser(Client client, String password) {
         try {
             singUpController.initiateSignUp(client, password);
             MainController.showAlert("Registro exitoso", "Revise su correo electrónico para el código de activación y escríbalo en el campo correspondiente.", Alert.AlertType.INFORMATION);
+            return true;
         } catch (Exception e) {
             MainController.showAlert("Error de registro", e.getMessage(), Alert.AlertType.ERROR);
+            return false;
         }
     }
 
@@ -24,8 +26,8 @@ public class RegisterController {
         try {
             java.util.UUID uuid = java.util.UUID.fromString(code);
             singUpController.completeSignUp(uuid);
-            MainController.showAlert("Activación exitosa", "Usuario activado correctamente. Redirigiendo al inicio...", Alert.AlertType.INFORMATION);
-            MainController.loadScene("home", 900, 600);
+            MainController.showAlert("Activación exitosa", "Usuario activado correctamente. Puede iniciar sesión.", Alert.AlertType.INFORMATION);
+            MainController.loadScene("userLogin", 900, 600); // Navigate to login screen
             return true;
         } catch (Exception e) {
             MainController.showAlert("Código inválido", "El código de activación es incorrecto o ya fue usado.", Alert.AlertType.ERROR);

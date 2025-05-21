@@ -3,7 +3,6 @@ package co.edu.uniquindio.poo.bookyourstary.service;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.repository.CityRepository;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 

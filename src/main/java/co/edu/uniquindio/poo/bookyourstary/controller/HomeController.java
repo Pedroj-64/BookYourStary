@@ -89,9 +89,10 @@ public class HomeController {
 
     /**
      * Agrega un hosting a la lista de reservas pendientes (carrito de compras) usando CartManager.
+     * @return true si el hosting fue añadido, false si ya estaba o era null.
      */
-    public void addHostingToPendingReservations(Hosting hosting) {
-        MainController.getInstance().getCartManager().addHosting(hosting);
+    public boolean addHostingToPendingReservations(Hosting hosting) {
+        return MainController.getInstance().getCartManager().addHosting(hosting);
     }
 
     /**

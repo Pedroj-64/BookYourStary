@@ -17,7 +17,7 @@ public class BookingService {
     private final VirtualWalletService virtualWalletService;
     private final WalletTransactionService walletTransactionService;
 
-    private final BillService billService;
+    // private final BillService billService; // Removed to break circular dependency
 
     private static BookingService instance;
 
@@ -25,18 +25,17 @@ public class BookingService {
         if (instance == null) {
             instance = new BookingService(BookingRepository.getInstance(),
                 VirtualWalletService.getInstance(),
-                WalletTransactionService.getInstance(),
-                BillService.getInstance());
+                WalletTransactionService.getInstance()); // BillService.getInstance() removed
         }
         return instance;
     }
 
     private BookingService(BookingRepository bookingRepository, VirtualWalletService virtualWalletService,
-                          WalletTransactionService walletTransactionService, BillService billService) {
+                          WalletTransactionService walletTransactionService) { // BillService billService removed
         this.bookingRepository = bookingRepository;
         this.virtualWalletService = virtualWalletService;
         this.walletTransactionService = walletTransactionService;
-        this.billService = billService;
+        // this.billService = billService; // Removed
     }
     
 
@@ -100,7 +99,7 @@ public class BookingService {
     
         updateBookingState(bookingId, BookingState.CONFIRMED);
     
-        billService.generateBill(booking);
+        BillService.getInstance().generateBill(booking); // Get BillService instance dynamically
     
     }
 

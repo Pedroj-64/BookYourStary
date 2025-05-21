@@ -64,17 +64,20 @@ public class CreationAndEditingFormViewController {
     @FXML
     private TextArea txt_descripcion;
 
-    CreationAndEditingFormController formController = CreationAndEditingFormController.getInstance();
+    // Instance of the logic controller
+    private final CreationAndEditingFormController formLogicController = CreationAndEditingFormController.getInstance();
+    private String selectedImagePath; // To store the path of the selected image
 
     @FXML
     void cargarFoto(ActionEvent event) {
         Window parentWindow = btn_CargarImagen.getScene().getWindow();
-        CreationAndEditingFormController.getInstance().selectImage(parentWindow, imgFoto);
+        // selectImage now returns the path, store it
+        this.selectedImagePath = formLogicController.selectImage(parentWindow, imgFoto);
     }
 
     @FXML
     void guardarAlojamiento(ActionEvent event) {
-        formController.saveHosting(
+        formLogicController.saveHosting( // Use the logic controller instance
             formTextFields,
             txt_descripcion,
             cbCiudad,
@@ -85,13 +88,16 @@ public class CreationAndEditingFormViewController {
             chkWifi,
             chkPiscina,
             chkDesayuno,
-            imgFoto
+            this.selectedImagePath // Pass the stored image path string
         );
+        // Optionally, close the window or reset the form after saving,
+        // depending on whether saveHosting indicates success and if it's desired.
+        // For now, alerts are handled within the logic controller.
     }
 
     @FXML
     void salirDelMenu(ActionEvent event) {
-        formController.setHostingToEdit(null);
+        formLogicController.setHostingToEdit(null); // Use the renamed variable
         BtnSalir.getScene().getWindow().hide();
     }
 
@@ -109,7 +115,11 @@ public class CreationAndEditingFormViewController {
  
 
     public void setAllFieldsFromHosting() {
-        formController.setFormFieldsFromHosting(
+        // When setting fields for an existing hosting, clear any previously selected new image path
+        this.selectedImagePath = null; 
+        // If hostingToEdit has an image, setFormFieldsFromHosting in logic controller will load it into imgFoto.
+        // The selectedImagePath will be null initially for edits, meaning "keep current image" unless a new one is chosen.
+        formLogicController.setFormFieldsFromHosting( // Use the logic controller instance
             formTextFields,
             txt_descripcion,
             cbCiudad,

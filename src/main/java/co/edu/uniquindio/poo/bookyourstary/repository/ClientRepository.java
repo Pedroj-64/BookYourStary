@@ -35,6 +35,10 @@ public class ClientRepository {
         return clients.stream().filter(client -> client.getId().equals(clientId)).findFirst();
     }
 
+    public Optional<Client> findByEmail(String email) {
+        return clients.stream().filter(client -> client.getEmail().equalsIgnoreCase(email)).findFirst();
+    }
+
     public LinkedList<Client> findAll() {
         return new LinkedList<>(clients);
     }

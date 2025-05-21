@@ -1,18 +1,22 @@
 package co.edu.uniquindio.poo.bookyourstary;
 
-import co.edu.uniquindio.poo.bookyourstary.config.mapping.DataMapping;
-import co.edu.uniquindio.poo.bookyourstary.service.HostingService;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import co.edu.uniquindio.poo.bookyourstary.config.mapping.DataMapping;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 
 public class App extends Application {
     @Override
     public void init() {
-       
+        // Ensure MainController singleton is initialized, though getInstance() calls should handle it.
+        MainController.getInstance(); 
+
+        DataMapping.createTestAdmin();
+        DataMapping.createAllHostings(); // This now also handles city creation and persistence
+        DataMapping.createTestClient();
     }
 
     @Override

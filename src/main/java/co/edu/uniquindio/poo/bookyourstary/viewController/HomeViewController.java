@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import co.edu.uniquindio.poo.bookyourstary.config.mapping.DataMapping;
 import co.edu.uniquindio.poo.bookyourstary.controller.HomeController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
@@ -278,18 +277,52 @@ public class HomeViewController {
     }
 
     @FXML
-    void iniciarSesion(ActionEvent event) {
-        MainController.loadScene("userLogin", 900, 600);
+    void reservar(ActionEvent event) {
+        Object currentUser = MainController.getInstance().getSessionManager().getUsuarioActual();
+        if (currentUser == null) {
+            MainController.showAlert(
+                    "Acción Requerida",
+                    "Por favor, inicie sesión o regístrese para poder reservar.",
+                    AlertType.INFORMATION);
+            // Optionally, redirect to login: MainController.loadScene("userLogin", 900, 600);
+            return;
+        }
+        // Ensure the user is a Client, though guests (null user) are handled above.
+        // If there are other user types that shouldn't reserve, add checks here.
+        if (!(currentUser instanceof Client)) {
+             MainController.showAlert(
+                    "Acción no permitida",
+                    "Solo los clientes pueden realizar reservas.",
+                    AlertType.WARNING);
+            return;
+        }
 
+        Button sourceButton = (Button) event.getSource();
+        Hosting hosting = (Hosting) sourceButton.getUserData();
+        if (hosting != null) {
+            boolean added = homeController.addHostingToPendingReservations(hosting); // Adds to CartManager
+            if (added) {
+                MainController.showAlert(
+                        "Alojamiento Añadido",
+                        "'" + hosting.getName() + "' ha sido añadido a sus reservas pendientes. Revise su carrito para confirmar.",
+                        AlertType.INFORMATION);
+            } else {
+                MainController.showAlert(
+                        "Información",
+                        "'" + hosting.getName() + "' ya se encuentra en sus reservas pendientes.",
+                        AlertType.INFORMATION);
+            }
+        } else {
+            MainController.showAlert(
+                    "Error",
+                    "No se pudo seleccionar el alojamiento para la reserva.",
+                    AlertType.ERROR);
+        }
     }
 
     @FXML
-    void refresh(ActionEvent event) {
-        scrollAlojamientos.setHvalue(0);
-        List<Hosting> randomHostings = homeController.getRandomHostings();
-        homeController.updateHostingDisplay(randomHostings, imageViews, titleLabels, descLabels, priceLabels,
-                cityLabels, serviceLabels);
-
+    void iniciarSesion(ActionEvent event) { // Added/Re-added this method
+        MainController.loadScene("userLogin", 900, 600);
     }
 
     @FXML
@@ -299,19 +332,17 @@ public class HomeViewController {
     }
 
     @FXML
-    void reservar(ActionEvent event) {
-
-        Button sourceButton = (Button) event.getSource();
-        Hosting hosting = (Hosting) sourceButton.getUserData();
-        if (hosting != null) {
-            homeController.addHostingToPendingReservations(hosting);
-            MainController.showAlert(
-                    "Reserva Pendiente",
-                    "Reserva pendiente, confirme en su carrito de compras",
-                    Alert.AlertType.INFORMATION);
-        }
-
+    void refresh(ActionEvent event) {
+        // This method will re-fetch and display random hostings, similar to initialize
+        scrollAlojamientos.setHvalue(0); // Reset scroll position if applicable
+        List<Hosting> randomHostings = homeController.getRandomHostings();
+        homeController.assignHostingsToReserveButtons(reserveButtons, randomHostings); // Re-assign data to buttons
+        homeController.updateHostingDisplay(randomHostings, imageViews, titleLabels, descLabels, priceLabels,
+                cityLabels, serviceLabels);
+        // Any other UI updates needed on refresh
     }
+
+    // Removed the duplicate, older reservar method that was here.
 
     public void creationList() {
         imageViews = List.of(img_Alojamiento, img_Alojamiento1, img_Alojamiento2, img_Alojamiento3, img_Alojamiento4);

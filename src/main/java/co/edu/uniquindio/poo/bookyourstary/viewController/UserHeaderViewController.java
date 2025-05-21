@@ -25,7 +25,10 @@ public class UserHeaderViewController {
 
     @FXML
     void abrirCarrito(ActionEvent event) {
-
+        // Navigate to the screen where orders/cart are managed
+        // Assuming "ManageOrder.fxml" is the correct FXML file for this.
+        // Adjust width and height as needed for that scene.
+        co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("ManageOrder", 900, 600);
     }
 
     @FXML
@@ -36,7 +39,14 @@ public class UserHeaderViewController {
 
     private void updateHeader() {
         controller.updateUserHeader(lbl_Nombre, lbl_Saldo);
-        controller.updateHeaderImageAndButton(img_Carrito, btn_Carrito);
+        // controller.updateHeaderImageAndButton(img_Carrito, btn_Carrito); // Removed this call
     }
 
+    @FXML
+    void abrirMenuAdmin(ActionEvent event) {
+        // Navigate to the main admin menu screen
+        // Assuming "menuAdmin.fxml" is the correct FXML file for this.
+        // Adjust width and height as needed for that scene.
+        co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("menuAdmin", 900, 600);
+    }
 }

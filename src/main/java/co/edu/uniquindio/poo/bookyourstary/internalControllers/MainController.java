@@ -17,8 +17,13 @@ import lombok.Setter;
 public class MainController {
 
     private static MainController instance;
-    @Setter
+    // @Setter // Temporarily commenting out to manually add the method
     private static Scene scene;
+
+    // Manually added static setter for the scene
+    public static void setScene(Scene newScene) {
+        MainController.scene = newScene;
+    }
 
     private MainController() {
     }
@@ -209,6 +214,8 @@ public class MainController {
         return CartManager.getInstance();
     }
 
-
-
+    public CityService getCityService() {
+        // Assuming CityService is not a singleton yet, if it becomes one, adjust to CityService.getInstance()
+        return new CityService(CityRepository.getInstance());
+    }
 }

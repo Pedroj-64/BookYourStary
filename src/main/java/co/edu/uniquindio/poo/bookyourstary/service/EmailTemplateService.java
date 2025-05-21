@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo.bookyourstary.service;
 
+import co.edu.uniquindio.poo.bookyourstary.App;
 import co.edu.uniquindio.poo.bookyourstary.model.CodeActivation;
 import co.edu.uniquindio.poo.bookyourstary.model.CodeRecovery;
 import co.edu.uniquindio.poo.bookyourstary.util.TemplateLoader;
@@ -25,6 +26,7 @@ public class EmailTemplateService {
         Map<String, String> values = new HashMap<>();
         values.put("code", activation.getCode().toString());
         values.put("date", activation.getCreationDate().toString());
+        // Pass only the filename, TemplateLoader handles the full path
         return TemplateLoader.loadTemplate("activateAccount.html", values);
     }
 

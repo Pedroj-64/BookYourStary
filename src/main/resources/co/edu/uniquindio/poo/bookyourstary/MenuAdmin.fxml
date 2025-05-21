@@ -40,27 +40,8 @@
                      </children>
                   </HBox>
                   <AnchorPane fx:id="UserHeader0" styleClass="encabezado-anchorpane" HBox.hgrow="ALWAYS">
-                     <children>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="193.0" spacing="15" stylesheets="@css/userHeader.css">
-                           <children>
-                              <VBox spacing="3">
-                                 <children>
-                                    <Label fx:id="lbl_Nombre" styleClass="label-header-usuario" text="User: Admin" />
-                                    <Label fx:id="lbl_Saldo" styleClass="label-header-usuario" text="Saldo: $9999" />
-                                 </children>
-                              </VBox>
-                              <Button fx:id="btn_Tuerquita" onAction="#abrirMenuAdmin" styleClass="header-boton">
-                                 <graphic>
-                                    <ImageView fx:id="img_Carrito" fitHeight="28.0" fitWidth="28.0">
-                                       <image>
-                                          <Image url="@image/tuerquita.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
+                     <!-- Content for this AnchorPane will be loaded dynamically by ViewLoader -->
+                     <!-- The HBox that was here has been removed -->
                   </AnchorPane>
                </children>
             </HBox>

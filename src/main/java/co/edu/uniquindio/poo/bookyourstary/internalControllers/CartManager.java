@@ -19,10 +19,12 @@ public class CartManager {
         return instance;
     }
 
-    public void addHosting(Hosting hosting) {
+    public boolean addHosting(Hosting hosting) {
         if (hosting != null && !pendingReservations.contains(hosting)) {
             pendingReservations.add(hosting);
+            return true; // Successfully added
         }
+        return false; // Not added (either null or already present)
     }
 
     public List<Hosting> getPendingReservations() {

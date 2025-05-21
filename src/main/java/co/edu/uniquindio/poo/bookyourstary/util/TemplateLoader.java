@@ -8,11 +8,12 @@ import java.util.Scanner;
 public class TemplateLoader {
 
     public static String loadTemplate(String fileName, Map<String, String> values) {
+        String fullPath = "co/edu/uniquindio/poo/bookyourstary/emailTemplates/" + fileName;
         InputStream inputStream = TemplateLoader.class.getClassLoader()
-                .getResourceAsStream("EmailTemplates/" + fileName);
+                .getResourceAsStream(fullPath);
 
         if (inputStream == null) {
-            throw new IllegalArgumentException("No se encontró la plantilla: " + fileName);
+            throw new IllegalArgumentException("No se encontró la plantilla: " + fullPath);
         }
 
         String template;

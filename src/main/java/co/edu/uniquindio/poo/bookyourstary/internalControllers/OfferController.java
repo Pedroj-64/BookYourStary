@@ -42,49 +42,42 @@ public class OfferController {
 
         // Iterar sobre las ofertas y aplicar aquellas que correspondan
         for (Offer offer : offers) {
-            if (isOfferApplicable(offer, bookingDate, numberOfNights)) {
-                discountedPrice = offerService.applyOffer(offer.getName(), discountedPrice, numberOfNights,
-                        bookingDate);
+            // Check if the bookingDate is within the offer's active period
+            if (!bookingDate.isBefore(offer.getStartDate()) && !bookingDate.isAfter(offer.getEndDate())) {
+                // The strategy itself will determine if it's applicable (e.g., min nights)
+                // and return originalPrice if not, or discounted price if applicable.
+                // The offerService.applyOffer might be redundant if the strategy is directly accessible and reliable.
+                // Assuming offer.getStrategy().calculateDiscount IS the reliable way.
+                discountedPrice = offer.getStrategy().calculateDiscount(discountedPrice, numberOfNights, bookingDate);
             }
         }
-
         return discountedPrice;
     }
 
     /**
-     * Aplica todas las ofertas globales (Long Stay y Special Date) automáticamente.
-     * No depende de fechas de inicio/fin, sino de la lógica de la estrategia.
+     * Applies all offers based on their strategies if the bookingDate is within the offer's active period.
+     * This method seems to be a duplicate or very similar to applyApplicableOffers if strategies are self-contained.
+     * Keeping it for now but noting potential redundancy. If applyApplicableOffers is the primary method,
+     * this one might be removed or refactored.
+     * For consistency, this should also check offer active dates.
      */
     public double applyAllGlobalOffers(double originalPrice, int numberOfNights, LocalDate bookingDate) {
         double discountedPrice = originalPrice;
         List<Offer> offers = offerService.getAllOffers();
         for (Offer offer : offers) {
-            // Aplica la estrategia de la oferta directamente
-            double newPrice = offer.getStrategy().calculateDiscount(discountedPrice, numberOfNights, bookingDate);
-            if (newPrice < discountedPrice) {
-                discountedPrice = newPrice;
+            // Check if the bookingDate is within the offer's active period
+            if (!bookingDate.isBefore(offer.getStartDate()) && !bookingDate.isAfter(offer.getEndDate())) {
+                 // Aplica la estrategia de la oferta directamente
+                double newPrice = offer.getStrategy().calculateDiscount(discountedPrice, numberOfNights, bookingDate);
+                // This check is fine if calculateDiscount returns the new price.
+                if (newPrice < discountedPrice) {
+                    discountedPrice = newPrice;
+                }
             }
         }
         return discountedPrice;
     }
 
-    /**
-     * Verifica si una oferta es aplicable dependiendo de la fecha y duración de la
-     * reserva.
-     * 
-     * @param offer          La oferta a evaluar.
-     * @param bookingDate    La fecha de la reserva.
-     * @param numberOfNights La cantidad de noches que se reservan.
-     * @return true si la oferta es aplicable, false en caso contrario.
-     */
-    private boolean isOfferApplicable(Offer offer, LocalDate bookingDate, int numberOfNights) {
-        // Verificar si la oferta está dentro del rango de fechas
-        boolean isDateInRange = !bookingDate.isBefore(offer.getStartDate()) && !bookingDate.isAfter(offer.getEndDate());
-
-        // Verificar si la oferta es aplicable dependiendo de la estrategia
-        boolean isApplicable = isDateInRange
-                && offer.getStrategy().calculateDiscount(0, numberOfNights, bookingDate) < 1;
-
-        return isApplicable;
-    }
+    // The isOfferApplicable method is removed as its logic was flawed and
+    // the responsibility is better placed within the strategy or the loop in applyApplicableOffers.
 }

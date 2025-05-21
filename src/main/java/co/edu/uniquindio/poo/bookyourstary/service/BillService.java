@@ -27,7 +27,7 @@ public class BillService {
         if (instance == null) {
             instance = new BillService(BillRepository.getInstance(),
                 co.edu.uniquindio.poo.bookyourstary.service.observer.EmailNotifier.getInstance(),
-                null, // EmailTemplateService singleton si existe
+                EmailTemplateService.getInstance(), // Correctly get instance
                 BookingService.getInstance(),
                 co.edu.uniquindio.poo.bookyourstary.internalControllers.OfferController.getInstance());
         }

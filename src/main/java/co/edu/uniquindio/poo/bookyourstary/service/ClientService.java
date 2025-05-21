@@ -50,9 +50,39 @@ public class ClientService {
         clientRepository.save(client);
     }
 
+    /**
+     * Finalizes the registration of a client. Assumes the client object
+     * already has its password hashed. Creates a wallet and saves the client.
+     * This method is intended to be called after an activation step.
+     * @param client The client object with a pre-hashed password.
+     */
+    public void finalizeClientRegistration(Client client) {
+        if (clientRepository.findById(client.getId()).isPresent()) {
+            // This check might be redundant if initiateSignUp already prevents duplicate emails/IDs
+            // or if IDs are guaranteed unique (e.g., UUIDs not cédulas).
+            // However, keeping it for safety.
+            throw new IllegalArgumentException("Cliente con ID " + client.getId() + " ya existe.");
+        }
+        // Password is assumed to be already hashed and set on the client object.
+        
+        VirtualWallet wallet = virtualWalletService.createWalletForClient(client);
+        client.setVirtualWallet(wallet);
+        // Client active status is handled by CodeActivationService after this step usually.
+        // Or, if activation is implicit with code validation, client.setActive(true) could be here.
+        // For now, assuming activation is handled by CodeActivationService.activateUser.
+        // The client object passed here should have isActive=false initially.
+
+        clientRepository.save(client);
+    }
+
     public Client getClient(String clientId) {
         return clientRepository.findById(clientId)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado con ID: " + clientId));
+    }
+
+    public Client getClientByEmail(String email) {
+        return clientRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado con email: " + email));
     }
 
     public void updateClient(Client client) {
