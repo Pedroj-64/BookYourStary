@@ -1,13 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet;
 
 public class VirtualWalletRepository {
 
-    private final LinkedList<VirtualWallet> virtualWallets;
+    private final List<VirtualWallet> virtualWallets;
     private static VirtualWalletRepository instance;
 
     public static VirtualWalletRepository getInstance() {

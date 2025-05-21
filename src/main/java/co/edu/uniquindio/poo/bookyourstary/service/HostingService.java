@@ -14,40 +14,40 @@ public class HostingService {
     private final HouseRepository houseRepository;
     private final ApartamentRepository apartamentRepository;
     private final HotelRepository hotelRepository;
+    private final HostingRepository hostingRepository;
 
     private static HostingService instance;
 
     public static HostingService getInstance() {
         if (instance == null) {
-            instance = new HostingService(HouseRepository.getInstance(), ApartamentRepository.getInstance(), HotelRepository.getInstance());
+            instance = new HostingService(HouseRepository.getInstance(), ApartamentRepository.getInstance(), HotelRepository.getInstance(),HostingRepository.getInstance());
         }
         return instance;
     }
 
     private HostingService(HouseRepository houseRepository, ApartamentRepository apartamentRepository,
-            HotelRepository hotelRepository) {
+                           HotelRepository hotelRepository, HostingRepository hostingRepository) {
         this.houseRepository = houseRepository;
         this.apartamentRepository = apartamentRepository;
         this.hotelRepository = hotelRepository;
+        this.hostingRepository = hostingRepository;
     }
 
   
     public void saveHosting(Hosting hosting) {
-        if (hosting instanceof House) {
-            houseRepository.save((House) hosting);
-        } else if (hosting instanceof Apartament) {
-            apartamentRepository.save((Apartament) hosting);
-        } else if (hosting instanceof Hotel) {
-            hotelRepository.save((Hotel) hosting);
-        } else {
-            throw new IllegalArgumentException("Tipo de alojamiento no soportado");
+        hostingRepository.save(hosting);
+        switch (hosting) {
+            case House house -> houseRepository.save(house);
+            case Apartament apartament -> apartamentRepository.save(apartament);
+            case Hotel hotel -> hotelRepository.save(hotel);
+            case null, default -> throw new IllegalArgumentException("Tipo de alojamiento no soportado");
         }
     }
 
     // Métodos específicos para creación usando el Factory
     public void createHouse(String name, City city, String description, String imageUrl,
             double priceForNight, int maxGuests,
-            LinkedList<ServiceIncluded> services, double cleaningFee,LocalDate availableFrom, LocalDate availableTo) {
+            List<ServiceIncluded> services, double cleaningFee,LocalDate availableFrom, LocalDate availableTo) {
         Hosting house = HostingFactory.createHouse(name, city, description, imageUrl,
                 priceForNight, maxGuests, services, cleaningFee,availableFrom, availableTo);
         saveHosting(house);
@@ -55,7 +55,7 @@ public class HostingService {
 
     public void createHotel(String name, City city, String description, String imageUrl,
             double basePrice, int maxGuests,
-            LinkedList<ServiceIncluded> services, LinkedList<Room> rooms,LocalDate availableFrom, LocalDate availableTo) {
+            List<ServiceIncluded> services, List<Room> rooms,LocalDate availableFrom, LocalDate availableTo) {
         Hosting hotel = HostingFactory.createHotel(name, city, description, imageUrl,
                 basePrice, maxGuests, services, rooms,availableFrom, availableTo);
         saveHosting(hotel);
@@ -63,7 +63,7 @@ public class HostingService {
 
     public void createApartament(String name, City city, String description, String imageUrl,
             double priceForNight, int maxGuests,
-            LinkedList<ServiceIncluded> services,LocalDate availableFrom, LocalDate availableTo) {
+            List<ServiceIncluded> services,LocalDate availableFrom, LocalDate availableTo) {
         Hosting apartament = HostingFactory.createApartament(name, city, description, imageUrl, priceForNight,
                 maxGuests, services, priceForNight,availableFrom, availableTo);
         saveHosting(apartament);
@@ -75,6 +75,7 @@ public class HostingService {
         hostings.addAll(houseRepository.findAll());
         hostings.addAll(apartamentRepository.findAll());
         hostings.addAll(hotelRepository.findAll());
+        hostings.addAll(hostingRepository.findAll());
         return hostings;
     }
 

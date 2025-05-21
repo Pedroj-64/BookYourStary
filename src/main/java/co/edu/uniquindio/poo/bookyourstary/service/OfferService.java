@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.service;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -63,7 +64,7 @@ public class OfferService {
         return offerRepository.findByName(name);
     }
 
-    public LinkedList<Offer> getAllOffers() {
+    public List<Offer> getAllOffers() {
         return offerRepository.findAll();
     }
 

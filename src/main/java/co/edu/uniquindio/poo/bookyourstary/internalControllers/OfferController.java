@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.internalControllers;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Offer;
 import co.edu.uniquindio.poo.bookyourstary.service.OfferService;
@@ -37,7 +38,7 @@ public class OfferController {
         double discountedPrice = originalPrice;
 
         // Obtener todas las ofertas disponibles
-        LinkedList<Offer> offers = offerService.getAllOffers();
+        List<Offer> offers = offerService.getAllOffers();
 
         // Iterar sobre las ofertas y aplicar aquellas que correspondan
         for (Offer offer : offers) {
@@ -56,7 +57,7 @@ public class OfferController {
      */
     public double applyAllGlobalOffers(double originalPrice, int numberOfNights, LocalDate bookingDate) {
         double discountedPrice = originalPrice;
-        LinkedList<Offer> offers = offerService.getAllOffers();
+        List<Offer> offers = offerService.getAllOffers();
         for (Offer offer : offers) {
             // Aplica la estrategia de la oferta directamente
             double newPrice = offer.getStrategy().calculateDiscount(discountedPrice, numberOfNights, bookingDate);

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class HostingRepository {
-    private final LinkedList<Hosting> hostings;
+    private final List<Hosting> hostings;
     private static HostingRepository instance;
 
     private HostingRepository() {

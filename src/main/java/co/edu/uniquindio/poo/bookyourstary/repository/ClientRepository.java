@@ -1,13 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
 
 public class ClientRepository {
 
-    private final LinkedList<Client> clients;
+    private final List<Client> clients;
 
     private static ClientRepository instance;
 

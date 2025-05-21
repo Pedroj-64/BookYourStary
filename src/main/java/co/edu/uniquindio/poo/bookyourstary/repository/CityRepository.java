@@ -1,13 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 
 public class CityRepository {
 
-    private final LinkedList<City> cities;
+    private final List<City> cities;
     private static CityRepository instance;
 
     private CityRepository() {
@@ -29,7 +30,7 @@ public class CityRepository {
         return cities.stream().filter(city -> city.getName().equalsIgnoreCase(cityName)).findFirst();
     }
 
-    public LinkedList<City> findAll() {
+    public List<City> findAll() {
         return new LinkedList<>(cities);
     }
 

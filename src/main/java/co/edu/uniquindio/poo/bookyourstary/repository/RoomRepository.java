@@ -1,13 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Room;
 
 public class RoomRepository {
 
-    private final LinkedList<Room> rooms;
+    private final List<Room> rooms;
 
     private static RoomRepository instance;
 
@@ -30,7 +31,7 @@ public class RoomRepository {
         return rooms.stream().filter(room -> room.getRoomNumber().equals(roomNumber)).findFirst();
     }
 
-    public LinkedList<Room> findAll() {
+    public List<Room> findAll() {
         return new LinkedList<>(rooms);
     }
 
@@ -38,7 +39,7 @@ public class RoomRepository {
         rooms.remove(room);
     }
 
-    public LinkedList<Room> findByMaxGuests(int maxGuests) {
+    public List<Room> findByMaxGuests(int maxGuests) {
         LinkedList<Room> avalibleRooms = new LinkedList<>();
         for (Room room : rooms) {
             if (room.getMaxGuests() >= maxGuests) {

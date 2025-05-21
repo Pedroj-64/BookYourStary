@@ -43,7 +43,7 @@ public class HotelService {
         return hotelRepository.findById(name);
     }
 
-    public LinkedList<Hotel> findAllHotels() {
+    public List<Hotel> findAllHotels() {
         return hotelRepository.findAll();
     }
 

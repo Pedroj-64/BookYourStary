@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public interface Hosting {
@@ -12,7 +13,7 @@ public interface Hosting {
     String getImageUrl();
     double getPricePerNight();
     int getMaxGuests();
-    LinkedList<ServiceIncluded> getIncludedServices(); 
+    List<ServiceIncluded> getIncludedServices();
     LocalDate getAvailableFrom();
     LocalDate getAvailableTo();
 
@@ -22,7 +23,7 @@ public interface Hosting {
     void setImageUrl(String imageUrl);
     void setPricePerNight(double pricePerNight);
     void setMaxGuests(int maxGuests);
-    void setIncludedServices(LinkedList<ServiceIncluded> includedServices);
+    void setIncludedServices(List<ServiceIncluded> includedServices);
     void setAvailableFrom(LocalDate availableFrom);
     void setAvailableTo(LocalDate availableTo);
 

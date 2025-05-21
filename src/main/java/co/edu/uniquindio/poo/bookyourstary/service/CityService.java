@@ -4,6 +4,7 @@ import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.repository.CityRepository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 public class CityService {
@@ -23,7 +24,7 @@ public class CityService {
         return cityRepository.findById(cityName);
     }
 
-    public LinkedList<City> findAllCities() {
+    public List<City> findAllCities() {
         return cityRepository.findAll();
     }
 

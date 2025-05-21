@@ -18,6 +18,7 @@ module co.edu.uniquindio.poo.bookyourstary {
     requires static lombok;
     requires javafx.base;
     requires com.sun.xml.bind;
+    requires annotations;
 
     opens co.edu.uniquindio.poo.bookyourstary to javafx.fxml;
 

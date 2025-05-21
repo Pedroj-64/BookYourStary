@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 
 import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
 import lombok.Builder;
@@ -19,13 +20,13 @@ public class House implements Hosting {
     private String imageUrl;
     private double pricePerNight;
     private int maxGuests;
-    private LinkedList<ServiceIncluded> includedServices;
+    private List<ServiceIncluded> includedServices;
     private double cleaningFee;
     private LocalDate availableFrom;
     private LocalDate availableTo;
 
     public House(String name, City city, String description, String imageUrl, double pricePerNight,
-                 int maxGuests, LinkedList<ServiceIncluded> includedServices, double cleaningFee,
+                 int maxGuests, List<ServiceIncluded> includedServices, double cleaningFee,
                  LocalDate availableFrom, LocalDate availableTo) {
         this.name = name;
         this.city = city;
@@ -40,7 +41,7 @@ public class House implements Hosting {
     }
 
     @Override
-    public LinkedList<ServiceIncluded> getIncludedServices() {
+    public List<ServiceIncluded> getIncludedServices() {
         return includedServices;
     }
 

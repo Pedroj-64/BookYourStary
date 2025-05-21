@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.model.factory;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Apartament;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
@@ -15,7 +16,7 @@ import co.edu.uniquindio.poo.bookyourstary.repository.HostingRepository;
 public class HostingFactory {
 
     public static Hosting createHouse(String name, City city2, String description, String imageUrl,
-            double priceForNight, int maxGuests, LinkedList<ServiceIncluded> serviceIncludeds,
+            double priceForNight, int maxGuests, List<ServiceIncluded> serviceIncludeds,
             double priceForCleaning, LocalDate availableFrom, LocalDate availableTo) {
         House house = House.builder().name(name).city(city2).description(description).imageUrl(imageUrl)
                 .pricePerNight(priceForNight).maxGuests(maxGuests).includedServices(serviceIncludeds)
@@ -27,7 +28,7 @@ public class HostingFactory {
     }
 
     public static Hosting createHotel(String name, City city2, String description, String imageUrl, double basePrice,
-            int maxGuests, LinkedList<ServiceIncluded> serviceIncludeds, LinkedList<Room> rooms,
+            int maxGuests, List<ServiceIncluded> serviceIncludeds, List<Room> rooms,
             LocalDate availableFrom, LocalDate availableTo) {
         Hotel hotel = Hotel.builder().name(name).city(city2).description(description).imageUrl(imageUrl)
                 .basePrice(basePrice).maxGuests(maxGuests).includedServices(serviceIncludeds).rooms(rooms)
@@ -38,7 +39,7 @@ public class HostingFactory {
     }
 
     public static Hosting createApartament(String name, City city2, String description, String imageUrl,
-            double priceForNight, int maxGuests, LinkedList<ServiceIncluded> serviceIncludeds,
+            double priceForNight, int maxGuests, List<ServiceIncluded> serviceIncludeds,
             double priceForCleaning, LocalDate availableFrom, LocalDate availableTo) {
         Apartament apartament = Apartament.builder().name(name).city(city2).description(description).imageUrl(imageUrl)
                 .pricePerNight(priceForNight).maxGuests(maxGuests).includedServices(serviceIncludeds)

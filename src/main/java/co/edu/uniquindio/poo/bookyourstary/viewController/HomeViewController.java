@@ -30,6 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.jetbrains.annotations.NotNull;
 
 public class HomeViewController {
 
@@ -221,17 +222,22 @@ public class HomeViewController {
     private final HomeController homeController = new HomeController();
 
     private FilterData collectFilterData() {
-        String ciudad = combo_Ciudad.getValue().getName() != null ? combo_Ciudad.getValue().toString() : null;
-        String tipo = combo_tipoAlojamiento.getValue() != null ? combo_tipoAlojamiento.getValue().toString() : null;
-        Double minPrecio = txt_minPrecio.getText().isEmpty() ? null : Double.valueOf(txt_minPrecio.getText());
-        Double maxPrecio = txt_maxPrecio.getText().isEmpty() ? null : Double.valueOf(txt_maxPrecio.getText());
-        Integer numHuespedes = txt_numHuespedes.getText().isEmpty() ? null
-                : Integer.valueOf(txt_numHuespedes.getText());
-        Boolean wifi = check_wifi.isSelected() ? true : null;
-        Boolean piscina = check_piscina.isSelected() ? true : null;
-        Boolean desayuno = check_desayuno.isSelected() ? true : null;
-        LocalDate fechaInicio = date_inicio.getValue();
-        LocalDate fechaFin = date_fin.getValue();
+        return getFilterData(combo_Ciudad, combo_tipoAlojamiento, txt_minPrecio, txt_maxPrecio, txt_numHuespedes, check_wifi, check_piscina, check_desayuno, date_inicio, date_fin);
+    }
+
+    @NotNull
+    static FilterData getFilterData(ComboBox<City> comboCiudad, ComboBox<String> comboTipoAlojamiento, TextField txtMinPrecio, TextField txtMaxPrecio, TextField txtNumHuespedes, CheckBox checkWifi, CheckBox checkPiscina, CheckBox checkDesayuno, DatePicker dateInicio, DatePicker dateFin) {
+        String ciudad = comboCiudad.getValue().getName() != null ? comboCiudad.getValue().toString() : null;
+        String tipo = comboTipoAlojamiento.getValue() != null ? comboTipoAlojamiento.getValue().toString() : null;
+        Double minPrecio = txtMinPrecio.getText().isEmpty() ? null : Double.valueOf(txtMinPrecio.getText());
+        Double maxPrecio = txtMaxPrecio.getText().isEmpty() ? null : Double.valueOf(txtMaxPrecio.getText());
+        Integer numHuespedes = txtNumHuespedes.getText().isEmpty() ? null
+                : Integer.valueOf(txtNumHuespedes.getText());
+        Boolean wifi = checkWifi.isSelected() ? true : null;
+        Boolean piscina = checkPiscina.isSelected() ? true : null;
+        Boolean desayuno = checkDesayuno.isSelected() ? true : null;
+        LocalDate fechaInicio = dateInicio.getValue();
+        LocalDate fechaFin = dateFin.getValue();
         return new FilterData(ciudad, tipo, minPrecio, maxPrecio, numHuespedes, wifi, piscina, desayuno, fechaInicio,
                 fechaFin);
     }

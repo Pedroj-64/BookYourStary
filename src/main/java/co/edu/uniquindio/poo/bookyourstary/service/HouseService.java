@@ -39,7 +39,7 @@ public class HouseService {
         return houseRepository.findById(name);
     }
 
-    public LinkedList<House> findAllHouses() {
+    public List<House> findAllHouses() {
         return houseRepository.findAll();
     }
 

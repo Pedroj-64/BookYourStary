@@ -1,6 +1,7 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -10,7 +11,7 @@ import co.edu.uniquindio.poo.bookyourstary.model.CodeRecovery;
 public class CodeRecoveryRepository {
 
     private static CodeRecoveryRepository instance;
-    private final LinkedList<CodeRecovery> recoveries;
+    private final List<CodeRecovery> recoveries;
 
     private CodeRecoveryRepository() {
         this.recoveries = new LinkedList<>();
@@ -37,7 +38,7 @@ public class CodeRecoveryRepository {
         recoveries.remove(codeRecovery);
     }
 
-    public LinkedList<CodeRecovery> findByEmail(String email) {
+    public List<CodeRecovery> findByEmail(String email) {
         return recoveries.stream()
                 .filter(recovery -> recovery.getUserEmail().equalsIgnoreCase(email))
                 .collect(Collectors.toCollection(LinkedList::new));
@@ -47,7 +48,7 @@ public class CodeRecoveryRepository {
         findById(code).ifPresent(c -> c.setUsed(true));
     }
 
-    public LinkedList<CodeRecovery> findAll() {
+    public List<CodeRecovery> findAll() {
         return new LinkedList<>(recoveries);
     }
 

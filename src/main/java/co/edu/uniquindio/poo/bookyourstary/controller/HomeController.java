@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo.bookyourstary.controller;
 
+import co.edu.uniquindio.poo.bookyourstary.config.mapping.DataMapping;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +25,7 @@ public class HomeController {
      */
     public List<Hosting> getRandomHostings() {
         LocalDate today = LocalDate.now();
-        List<Hosting> availableHostings = MainController.getInstance().getHostingService().getAvailableHostingsOn(today);
+        List<Hosting> availableHostings = MainController.getInstance().getHostingService().findAllHostings();
         Collections.shuffle(availableHostings, new Random());
         return availableHostings.stream().limit(5).collect(Collectors.toList());
     }

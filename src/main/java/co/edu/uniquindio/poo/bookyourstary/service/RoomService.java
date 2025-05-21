@@ -4,6 +4,7 @@ import co.edu.uniquindio.poo.bookyourstary.model.Room;
 import co.edu.uniquindio.poo.bookyourstary.repository.RoomRepository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 public class RoomService {
@@ -23,7 +24,7 @@ public class RoomService {
         return roomRepository.findById(roomNumber);
     }
 
-    public LinkedList<Room> findAllRooms() {
+    public List<Room> findAllRooms() {
         return roomRepository.findAll();
     }
 
@@ -33,7 +34,7 @@ public class RoomService {
         roomRepository.delete(room);
     }
 
-    public LinkedList<Room> findAvailableRooms(int maxGuests) {
+    public List<Room> findAvailableRooms(int maxGuests) {
         return roomRepository.findByMaxGuests(maxGuests);
     }
 

@@ -23,6 +23,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import static co.edu.uniquindio.poo.bookyourstary.viewController.HomeViewController.getFilterData;
+
 public class MenuAdminViewController {
 
     @FXML
@@ -214,15 +216,15 @@ public class MenuAdminViewController {
     @FXML
     private TextField txt_numHuespedes;
 
-    private List<ImageView> imageViews = List.of(img_Alojamiento, img_Alojamiento1, img_Alojamiento3, img_Alojamiento4,
+    private final List<ImageView> imageViews = List.of(img_Alojamiento, img_Alojamiento1, img_Alojamiento3, img_Alojamiento4,
             img_Alojamiento4);
-    private List<Label> titleLabels = List.of(lbl_tituloAlojamiento, lbl_tituloAlojamiento1, lbl_tituloAlojamiento2,
+    private final List<Label> titleLabels = List.of(lbl_tituloAlojamiento, lbl_tituloAlojamiento1, lbl_tituloAlojamiento2,
             lbl_tituloAlojamiento3, lbl_tituloAlojamiento4);
-    private List<Label> descLabels = List.of(lbl_descripcion, lbl_descripcion1, lbl_descripcion2, lbl_descripcion3,
+    private final List<Label> descLabels = List.of(lbl_descripcion, lbl_descripcion1, lbl_descripcion2, lbl_descripcion3,
             lbl_descripcion4);
-    private List<Label> priceLabels = List.of(lbl_Price, lbl_Price1, lbl_Price2, lbl_Price3, lbl_Price4);
-    private List<Label> cityLabels = List.of(lbl_Cuidad, lbl_Cuidad1, lbl_Cuidad2, lbl_Cuidad3, lbl_Cuidad4);
-    private List<Label> serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1,
+    private final List<Label> priceLabels = List.of(lbl_Price, lbl_Price1, lbl_Price2, lbl_Price3, lbl_Price4);
+    private final List<Label> cityLabels = List.of(lbl_Cuidad, lbl_Cuidad1, lbl_Cuidad2, lbl_Cuidad3, lbl_Cuidad4);
+    private final List<Label> serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1,
             lbl_serviciosAdicionales2, lbl_serviciosAdicionales3, lbl_serviciosAdicionales4);
     private List<Button> editButtons;
     private List<Hosting> currentHostings;
@@ -230,19 +232,7 @@ public class MenuAdminViewController {
     MenuAdminController menuAdminController = new MenuAdminController();
 
     private FilterData collectFilterData() {
-        String ciudad = combo_Ciudad.getValue().getName() != null ? combo_Ciudad.getValue().toString() : null;
-        String tipo = combo_tipoAlojamiento.getValue() != null ? combo_tipoAlojamiento.getValue().toString() : null;
-        Double minPrecio = txt_minPrecio.getText().isEmpty() ? null : Double.valueOf(txt_minPrecio.getText());
-        Double maxPrecio = txt_maxPrecio.getText().isEmpty() ? null : Double.valueOf(txt_maxPrecio.getText());
-        Integer numHuespedes = txt_numHuespedes.getText().isEmpty() ? null
-                : Integer.valueOf(txt_numHuespedes.getText());
-        Boolean wifi = check_wifi.isSelected() ? true : null;
-        Boolean piscina = check_piscina.isSelected() ? true : null;
-        Boolean desayuno = check_desayuno.isSelected() ? true : null;
-        LocalDate fechaInicio = date_inicio.getValue();
-        LocalDate fechaFin = date_fin.getValue();
-        return new FilterData(ciudad, tipo, minPrecio, maxPrecio, numHuespedes, wifi, piscina, desayuno, fechaInicio,
-                fechaFin);
+        return getFilterData(combo_Ciudad, combo_tipoAlojamiento, txt_minPrecio, txt_maxPrecio, txt_numHuespedes, check_wifi, check_piscina, check_desayuno, date_inicio, date_fin);
     }
 
     @FXML

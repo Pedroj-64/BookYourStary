@@ -1,13 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Apartament;
 
 public class ApartamentRepository {
 
-    private final LinkedList<Apartament> apartaments;
+    private final List<Apartament> apartaments;
     private static ApartamentRepository instance;
 
     private ApartamentRepository() {
@@ -33,7 +34,7 @@ public class ApartamentRepository {
         apartaments.remove(apartament);
     }
 
-    public LinkedList<Apartament> findAll() {
+    public List<Apartament> findAll() {
         return new LinkedList<>(apartaments);
     }
 

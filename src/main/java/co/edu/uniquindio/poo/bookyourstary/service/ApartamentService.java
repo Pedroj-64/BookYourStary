@@ -42,7 +42,7 @@ public class ApartamentService {
         return apartamentRepository.findById(name);
     }
 
-    public LinkedList<Apartament> findAllApartaments() {
+    public List<Apartament> findAllApartaments() {
         return apartamentRepository.findAll();
     }
 

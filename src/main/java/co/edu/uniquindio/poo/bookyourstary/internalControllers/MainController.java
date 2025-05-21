@@ -12,10 +12,12 @@ import co.edu.uniquindio.poo.bookyourstary.controller.CreationAndEditingFormCont
 import co.edu.uniquindio.poo.bookyourstary.repository.*;
 import co.edu.uniquindio.poo.bookyourstary.service.*;
 import co.edu.uniquindio.poo.bookyourstary.service.observer.EmailNotifier;
+import lombok.Setter;
 
 public class MainController {
 
     private static MainController instance;
+    @Setter
     private static Scene scene;
 
     private MainController() {
@@ -26,10 +28,6 @@ public class MainController {
             instance = new MainController();
         }
         return instance;
-    }
-
-    public static void setScene(Scene mainScene) {
-        scene = mainScene;
     }
 
     public static Parent loadFXML(String fxml) throws IOException {

@@ -1,13 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Booking;
 
 public class BookingRepository {
 
-    private final LinkedList<Booking> bookings;
+    private final List<Booking> bookings;
     private static BookingRepository instance;
 
     private BookingRepository() {
@@ -29,7 +30,7 @@ public class BookingRepository {
         return bookings.stream().filter(booking -> booking.getBookingId().equals(bookingId)).findFirst();
     }
 
-    public LinkedList<Booking> findAll() {
+    public List<Booking> findAll() {
         return new LinkedList<>(bookings);
     }
 
@@ -37,7 +38,7 @@ public class BookingRepository {
         bookings.removeIf(booking -> booking.getBookingId().equals(bookingId));
     }
 
-    public LinkedList<Booking> findByClientId(String clientId) {
+    public List<Booking> findByClientId(String clientId) {
         LinkedList<Booking> result = new LinkedList<>();
         for (Booking booking : bookings) {
             if (booking.getClient().getId().equals(clientId)) {
@@ -47,7 +48,7 @@ public class BookingRepository {
         return result;
     }
 
-    public LinkedList<Booking> findByHostingName(String hostingName) {
+    public List<Booking> findByHostingName(String hostingName) {
         LinkedList<Booking> result = new LinkedList<>();
         for (Booking booking : bookings) {
             if (booking.getHosting().getName().equalsIgnoreCase(hostingName)) {

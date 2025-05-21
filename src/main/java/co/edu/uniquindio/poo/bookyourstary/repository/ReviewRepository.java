@@ -1,13 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Review;
 
 public class ReviewRepository {
 
-    private final LinkedList<Review> reviews;
+    private final List<Review> reviews;
     private static ReviewRepository instance;
 
     private ReviewRepository() {
@@ -30,7 +31,7 @@ public class ReviewRepository {
         return reviews.stream().filter(review -> review.getId().equals(id)).findFirst();
     }
 
-    public LinkedList<Review> findByHostingId(String hostingId){
+    public List<Review> findByHostingId(String hostingId){
         LinkedList<Review> hostingReviews = new LinkedList<>();
         for (Review review : reviews) {
             if (review.getHostingId().equals(hostingId)) {
@@ -45,7 +46,7 @@ public class ReviewRepository {
     }
     
 
-    public LinkedList<Review> findAll() {
+    public List<Review> findAll() {
         return new LinkedList<>(reviews);
     }
 }
