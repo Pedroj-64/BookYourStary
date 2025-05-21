@@ -30,4 +30,10 @@ public class HostingRepository {
     public void delete(Hosting hosting) {
         hostings.remove(hosting);
     }
+
+    public void saveAll(List<Hosting> hostings2) {
+        for (Hosting hosting : hostings2) {
+            save(hosting);
+        }
+    }
 }

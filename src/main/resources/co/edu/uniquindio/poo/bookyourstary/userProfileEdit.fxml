@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" prefHeight="170.0" prefWidth="400" vgap="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bookyourstay.viewController.ProfileViewController">
+<GridPane alignment="center" hgap="10" prefHeight="170.0" prefWidth="400" vgap="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.ProfileViewController">
 
     <Label styleClass="title" text="Editar Perfil" GridPane.columnSpan="2" />
 

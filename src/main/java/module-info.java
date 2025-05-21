@@ -19,7 +19,6 @@ module co.edu.uniquindio.poo.bookyourstary {
     requires javafx.base;
     requires com.sun.xml.bind;
 
-
     opens co.edu.uniquindio.poo.bookyourstary to javafx.fxml;
 
     exports co.edu.uniquindio.poo.bookyourstary;

@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.bookyourstay.controllers.ClientController">
+            fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.ClientController">
 
     <top>
         <MenuBar>

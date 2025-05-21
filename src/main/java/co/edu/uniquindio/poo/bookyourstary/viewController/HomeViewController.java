@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import co.edu.uniquindio.poo.bookyourstary.config.mapping.DataMapping;
 import co.edu.uniquindio.poo.bookyourstary.controller.HomeController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
@@ -15,6 +16,7 @@ import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.util.FilterData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -99,6 +101,9 @@ public class HomeViewController {
 
     @FXML
     private ImageView img_Alojamiento1;
+
+    @FXML
+    private ImageView img_Alojamiento2;
 
     @FXML
     private ImageView img_Alojamiento3;
@@ -202,27 +207,18 @@ public class HomeViewController {
     @FXML
     private TextField txt_numHuespedes;
 
-    private List<ImageView> imageViews = List.of(img_Alojamiento, img_Alojamiento1, img_Alojamiento3, img_Alojamiento4,
-            img_Alojamiento4);
-    private List<Label> titleLabels = List.of(lbl_tituloAlojamiento, lbl_tituloAlojamiento1, lbl_tituloAlojamiento2,
-            lbl_tituloAlojamiento3, lbl_tituloAlojamiento4);
-    private List<Label> descLabels = List.of(lbl_descripcion, lbl_descripcion1, lbl_descripcion2, lbl_descripcion3,
-            lbl_descripcion4);
-    private List<Label> priceLabels = List.of(lbl_Price, lbl_Price1, lbl_Price2, lbl_Price3, lbl_Price4);
-    private List<Label> cityLabels = List.of(lbl_Cuidad, lbl_Cuidad1, lbl_Cuidad2, lbl_Cuidad3, lbl_Cuidad4);
-    private List<Label> serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1,
-            lbl_serviciosAdicionales2, lbl_serviciosAdicionales3, lbl_serviciosAdicionales4);
+    @FXML
+    private Label lbl_puto;
+
+    private List<ImageView> imageViews;
+    private List<Label> titleLabels;
+    private List<Label> descLabels;
+    private List<Label> priceLabels;
+    private List<Label> cityLabels;
+    private List<Label> serviceLabels;
     private List<Button> reserveButtons;
 
     private final HomeController homeController = new HomeController();
-
-    @FXML
-    void ayudaBtn(ActionEvent event) {
-        MainController.showAlert(
-                "Ayuda",
-                "Si tienes problemas, contacta con el equipo de margaDevSociety.",
-                AlertType.INFORMATION);
-    }
 
     private FilterData collectFilterData() {
         String ciudad = combo_Ciudad.getValue().getName() != null ? combo_Ciudad.getValue().toString() : null;
@@ -240,62 +236,6 @@ public class HomeViewController {
                 fechaFin);
     }
 
-    @FXML
-    void filtrar(ActionEvent event) {
-        FilterData data = collectFilterData();
-        List<Hosting> filtrados = homeController.filterHostings(
-                data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, data.fechaInicio, data.fechaFin,
-                data.numHuespedes, data.wifi,
-                data.piscina, data.desayuno, data.fechaInicio, data.fechaFin);
-        homeController.updateHostingDisplay(filtrados, imageViews, titleLabels, descLabels, priceLabels, cityLabels,
-                serviceLabels);
-    }
-
-    @FXML
-    void iniciarSesion(ActionEvent event) {
-
-        MainController.loadScene("userLogin", 900, 600);
-
-    }
-
-    @FXML
-    void refresh(ActionEvent event) {
-        scrollAlojamientos.setHvalue(0);
-        List<Hosting> randomHostings = homeController.getRandomHostings();
-        homeController.updateHostingDisplay(randomHostings, imageViews, titleLabels, descLabels, priceLabels,
-                cityLabels, serviceLabels);
-    }
-
-    @FXML
-    void registrateYa(MouseEvent event) {
-        MainController.loadScene("userRegister", 900, 600);
-
-    }
-
-    @FXML
-    void reservar(ActionEvent event) {
-        Button sourceButton = (Button) event.getSource();
-        Hosting hosting = (Hosting) sourceButton.getUserData();
-        if (hosting != null) {
-            homeController.addHostingToPendingReservations(hosting);
-            MainController.showAlert(
-                "Reserva Pendiente",
-                "Reserva pendiente, confirme en su carrito de compras",
-                AlertType.INFORMATION
-            );
-        }
-    }
-
-    @FXML
-    void initialize() {
-        setupComboBox();
-        checkUserAndUpdateHeader();
-        homeController.updateButtonIfLoggedIn(btn_IniciarSesion);
-        reserveButtons = List.of(btn_reservar, btn_reservar1, btn_reservar2, btn_reservar3, btn_reservar4);
-        List<Hosting> randomHostings = homeController.getRandomHostings();
-        homeController.assignHostingsToReserveButtons(reserveButtons, randomHostings);
-    }
-
     private void setupComboBox() {
         combo_tipoAlojamiento.getItems().setAll(HomeController.getHostingTypes());
         combo_Ciudad.getItems().setAll(homeController.getAvailableCities());
@@ -309,4 +249,88 @@ public class HomeViewController {
             ViewLoader.setContent(UserHeader0, "AdminHeader");
         }
     }
+
+    @FXML
+    void ayudaBtn(ActionEvent event) {
+        MainController.showAlert(
+                "Ayuda",
+                "Si tienes problemas, contacta con el equipo de margaDevSociety.",
+                AlertType.INFORMATION);
+    }
+
+    @FXML
+    void filtrar(ActionEvent event) {
+
+        FilterData data = collectFilterData();
+        List<Hosting> filtrados = homeController.filterHostings(
+                data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, data.fechaInicio, data.fechaFin,
+                data.numHuespedes, data.wifi,
+                data.piscina, data.desayuno, data.fechaInicio, data.fechaFin);
+        homeController.updateHostingDisplay(filtrados, imageViews, titleLabels, descLabels, priceLabels, cityLabels,
+                serviceLabels);
+
+    }
+
+    @FXML
+    void iniciarSesion(ActionEvent event) {
+        MainController.loadScene("userLogin", 900, 600);
+
+    }
+
+    @FXML
+    void refresh(ActionEvent event) {
+        scrollAlojamientos.setHvalue(0);
+        List<Hosting> randomHostings = homeController.getRandomHostings();
+        homeController.updateHostingDisplay(randomHostings, imageViews, titleLabels, descLabels, priceLabels,
+                cityLabels, serviceLabels);
+
+    }
+
+    @FXML
+    void registrateYa(MouseEvent event) {
+        MainController.loadScene("userRegister", 900, 600);
+
+    }
+
+    @FXML
+    void reservar(ActionEvent event) {
+
+        Button sourceButton = (Button) event.getSource();
+        Hosting hosting = (Hosting) sourceButton.getUserData();
+        if (hosting != null) {
+            homeController.addHostingToPendingReservations(hosting);
+            MainController.showAlert(
+                    "Reserva Pendiente",
+                    "Reserva pendiente, confirme en su carrito de compras",
+                    Alert.AlertType.INFORMATION);
+        }
+
+    }
+
+    public void creationList() {
+        imageViews = List.of(img_Alojamiento, img_Alojamiento1, img_Alojamiento2, img_Alojamiento3, img_Alojamiento4);
+        titleLabels = List.of(lbl_tituloAlojamiento, lbl_tituloAlojamiento1, lbl_tituloAlojamiento2,
+                lbl_tituloAlojamiento3, lbl_tituloAlojamiento4);
+        descLabels = List.of(lbl_descripcion, lbl_descripcion1, lbl_descripcion2, lbl_descripcion3, lbl_descripcion4);
+        priceLabels = List.of(lbl_Price, lbl_Price1, lbl_Price2, lbl_Price3, lbl_Price4);
+        cityLabels = List.of(lbl_Cuidad, lbl_Cuidad1, lbl_Cuidad2, lbl_Cuidad3, lbl_Cuidad4);
+        serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1, lbl_serviciosAdicionales2,
+                lbl_serviciosAdicionales3, lbl_serviciosAdicionales4);
+        reserveButtons = List.of(btn_reservar, btn_reservar1, btn_reservar2, btn_reservar3, btn_reservar4);
+
+    }
+
+    @FXML
+    void initialize() {
+        creationList();
+        setupComboBox();
+        checkUserAndUpdateHeader();
+        homeController.updateButtonIfLoggedIn(btn_IniciarSesion);
+        List<Hosting> randomHostings = homeController.getRandomHostings();
+        homeController.assignHostingsToReserveButtons(reserveButtons, randomHostings);
+        homeController.updateHostingDisplay(randomHostings, imageViews, titleLabels, descLabels, priceLabels,
+                cityLabels, serviceLabels);
+
+    }
+
 }

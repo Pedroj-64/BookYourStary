@@ -167,4 +167,12 @@ public class HostingService {
         if (hosting == null || hosting.getIncludedServices() == null) return false;
         return hosting.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("desayuno"));
     }
+
+    
+   
+    public void addHostings(List<Hosting> hostings) {
+        for (Hosting hosting : hostings) {
+            saveHosting(hosting);
+        }
+    }
 }

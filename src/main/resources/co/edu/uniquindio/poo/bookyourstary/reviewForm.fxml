@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="center" prefHeight="144.0" prefWidth="478.0" spacing="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bookyourstay.viewController.ReviewViewController">
+<VBox alignment="center" prefHeight="144.0" prefWidth="478.0" spacing="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.ReviewViewController">
 
     <Label styleClass="title" text="Dejar Reseña" />
 

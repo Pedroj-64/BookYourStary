@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 
 import java.io.IOException;
-
+import co.edu.uniquindio.poo.bookyourstary.App;
 import co.edu.uniquindio.poo.bookyourstary.config.EmailConfig;
 import co.edu.uniquindio.poo.bookyourstary.controller.CreationAndEditingFormController;
 import co.edu.uniquindio.poo.bookyourstary.repository.*;
@@ -33,7 +33,7 @@ public class MainController {
     }
 
     public static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
@@ -210,5 +210,7 @@ public class MainController {
     public CartManager getCartManager() {
         return CartManager.getInstance();
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo.bookyourstary.internalControllers;
 
+import co.edu.uniquindio.poo.bookyourstary.App;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -31,7 +32,7 @@ public class ShowHostingList {
                 try {
                     imageViews.get(i).setImage(new Image(hosting.getImageUrl()));
                 } catch (Exception e) {
-                    imageViews.get(i).setImage(null); // O una imagen por defecto
+                    imageViews.get(i).setImage(new Image(App.class.getResource("image/FotoHotelRelleno.png").toExternalForm())); // O una imagen por defecto
                 }
                 // Título
                 titleLabels.get(i).setText(hosting.getName());
@@ -49,12 +50,12 @@ public class ShowHostingList {
                 );
             } else {
                 // Si no hay alojamiento para este slot, limpia los campos
-                imageViews.get(i).setImage(null);
-                titleLabels.get(i).setText("");
-                descLabels.get(i).setText("");
-                priceLabels.get(i).setText("");
-                cityLabels.get(i).setText("");
-                serviceLabels.get(i).setText("");
+                imageViews.get(i).setImage(new Image(App.class.getResource("image/FotoHotelRelleno.png").toExternalForm()));
+                titleLabels.get(i).setText("null");
+                descLabels.get(i).setText("null");
+                priceLabels.get(i).setText("null");
+                cityLabels.get(i).setText("null");
+                serviceLabels.get(i).setText("null");
             }
         }
     }

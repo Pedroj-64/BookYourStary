@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="193.0" spacing="15" stylesheets="@css/userHeader.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bookyourstary.controller.UserHeaderViewController">
+<HBox alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="193.0" spacing="15" stylesheets="@css/userHeader.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.UserHeaderViewController">
 
     <!-- VBox para agrupar nombre y saldo -->
     <VBox spacing="3">

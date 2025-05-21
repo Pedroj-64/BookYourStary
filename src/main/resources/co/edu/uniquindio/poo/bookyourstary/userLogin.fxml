@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="center" prefHeight="317.0" prefWidth="320" styleClass="login-panel" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bookyourstay.viewControllers.UserLoginViewController">
+<VBox alignment="center" prefHeight="317.0" prefWidth="320" styleClass="login-panel" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.UserLoginViewController">
 
     <Label styleClass="login-title" text="Inicio de Sesión" />
 

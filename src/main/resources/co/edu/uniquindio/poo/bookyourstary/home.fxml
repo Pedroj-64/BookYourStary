@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="575.0" prefWidth="837.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.HomeViewController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="657.0" prefWidth="1006.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.HomeViewController">
    <content>
       <VBox fx:id="contenedorPrincipal" prefHeight="385.0" prefWidth="597.0" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
@@ -148,28 +148,16 @@
          <children>
 
             <!-- Tarjeta de alojamiento 1 -->
-            <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento" HBox.hgrow="ALWAYS">
+            <HBox alignment="BOTTOM_CENTER" maxWidth="743.0" prefHeight="173.0" prefWidth="743.0" spacing="20.0" styleClass="tarjeta-alojamiento" HBox.hgrow="ALWAYS">
                <children>
                   <ImageView fx:id="img_Alojamiento" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                  <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                  <VBox prefHeight="141.0" prefWidth="447.0" spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label fx:id="lbl_tituloAlojamiento" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
-                        <Label fx:id="lbl_descripcion" text="Descripción:" wrapText="true" />
-                        <HBox alignment="CENTER_LEFT" spacing="10.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="lbl_serviciosAdicionales" prefHeight="17.0" prefWidth="178.0" text="Servicios adicionales:" />
-                           </children>
-                        </HBox>
-                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                             <children>
-                                                <Label fx:id="lbl_Price" prefHeight="17.0" prefWidth="178.0" text="Price" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                             <children>
-                                                <Label fx:id="lbl_Cuidad" prefHeight="17.0" prefWidth="178.0" text="Ciudad" />
-                                             </children>
-                                          </HBox>
+                        <Label fx:id="lbl_tituloAlojamiento" prefHeight="17.0" prefWidth="271.0" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
+                        <Label fx:id="lbl_descripcion" prefHeight="17.0" prefWidth="297.0" text="Descripción:" wrapText="true" />
+                        <Label fx:id="lbl_serviciosAdicionales" prefHeight="17.0" prefWidth="310.0" text="Servicios adicionales:" />
+                                          <Label fx:id="lbl_Price" prefHeight="17.0" prefWidth="354.0" text="Price" />
+                                          <Label fx:id="lbl_Cuidad" prefHeight="17.0" prefWidth="363.0" text="Ciudad" />
                      </children>
                   </VBox>
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
@@ -179,7 +167,7 @@
                                     </AnchorPane>
                </children>
             </HBox>
-                              <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                              <HBox alignment="BOTTOM_CENTER" maxWidth="747.0" prefHeight="173.0" prefWidth="747.0" spacing="20.0" styleClass="tarjeta-alojamiento">
                                  <children>
                                     <ImageView fx:id="img_Alojamiento1" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                     <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
@@ -210,9 +198,9 @@
                                     </AnchorPane>
                                  </children>
                               </HBox>
-                              <HBox alignment="BOTTOM_CENTER" maxWidth="602.0" prefHeight="109.0" prefWidth="602.0" spacing="20.0" styleClass="tarjeta-alojamiento">
+                              <HBox alignment="BOTTOM_CENTER" maxWidth="749.0" prefHeight="173.0" prefWidth="749.0" spacing="20.0" styleClass="tarjeta-alojamiento">
                                  <children>
-                                    <ImageView fx:id="img_Alojamiento3" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="img_Alojamiento2" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                     <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                                        <children>
                                           <Label fx:id="lbl_tituloAlojamiento2" styleClass="titulo-alojamiento" text="Título de alojamiento:" />

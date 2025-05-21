@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.bookyourstay.viewController.OfferViewController" spacing="15">
+      fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.OfferViewController" spacing="15">
 
     <TableView fx:id="offersTable">
         <columns>

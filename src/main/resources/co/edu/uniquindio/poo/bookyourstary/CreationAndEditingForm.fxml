@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="15" stylesheets="@css/accommodation-form.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreationAndEditingFormViewController">
+<VBox spacing="15" stylesheets="@css/accommodation-form.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.CreationAndEditingFormViewController">
     <padding>
         <Insets bottom="15" left="20" right="20" top="15" />
     </padding>
