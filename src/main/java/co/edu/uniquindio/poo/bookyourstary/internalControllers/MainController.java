@@ -26,11 +26,16 @@ public class MainController {
     }
 
     private MainController() {
-    }
-
-    public static MainController getInstance() {
+    }    public static MainController getInstance() {
         if (instance == null) {
             instance = new MainController();
+            // Inicializar el sistema de logging
+            try {
+                co.edu.uniquindio.poo.bookyourstary.util.LoggerConfig.configureLogger();
+                System.out.println("Sistema de logging inicializado correctamente");
+            } catch (Exception e) {
+                System.err.println("Error al inicializar el sistema de logging: " + e.getMessage());
+            }
         }
         return instance;
     }
@@ -56,19 +61,37 @@ public class MainController {
         alert.setContentText(message);
         alert.setOnHidden(evt -> loadScene(fxml, width, height));
         alert.show();
-    }
-
-    public static void loadScene(String fxml, double width, double height) {
+    }    public static void loadScene(String fxml, double width, double height) {
         try {
-            Parent root = loadFXML(fxml);
+            // Normalizar el nombre del archivo (remover extensión .fxml si está presente)
+            String normalizedFxml = fxml.replace(".fxml", "");
+            
+            // Registrar la acción para depuración
+            System.out.println("Cargando escena: " + normalizedFxml);
+            
+            Parent root = loadFXML(normalizedFxml);
             if (scene != null) {
                 scene.setRoot(root);
                 scene.getWindow().setWidth(width);
                 scene.getWindow().setHeight(height);
+                System.out.println("Escena cargada exitosamente: " + normalizedFxml);
+            } else {
+                System.err.println("Error: Scene es null, no se puede cambiar la raíz");
+                showAlert("Error al cambiar la vista", 
+                        "La escena principal no está inicializada correctamente.", 
+                        Alert.AlertType.ERROR);
             }
-            // Si usas App.getStage(), puedes agregar aquí la lógica para cambiar la escena global
         } catch (IOException e) {
-            showAlert("Error al cambiar la vista", "No se pudo cargar el archivo FXML: " + e.getMessage(),
+            System.err.println("Error al cargar FXML: " + fxml + " - " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error al cambiar la vista", 
+                    "No se pudo cargar el archivo FXML: " + fxml + "\n" + e.getMessage(),
+                    Alert.AlertType.ERROR);
+        } catch (Exception e) {
+            System.err.println("Error inesperado al cargar escena: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error inesperado", 
+                    "Ocurrió un error al cambiar la vista: " + e.getMessage(),
                     Alert.AlertType.ERROR);
         }
     }
@@ -168,10 +191,16 @@ public class MainController {
 
     public HostingService getHostingService() {
         return HostingService.getInstance();
-    }
-
-    public ServiceIncludedService getServiceIncludedService() {
+    }    public ServiceIncludedService getServiceIncludedService() {
         return ServiceIncludedService.getInstance();
+    }
+    
+    /**
+     * Obtiene la instancia del controlador de login
+     * @return Instancia única de LoginInternalController
+     */
+    public LoginInternalController getLoginInternalController() {
+        return LoginInternalController.getInstance();
     }
 
     public HostingFilterService getHostingFilterService() {
@@ -218,4 +247,5 @@ public class MainController {
         // Assuming CityService is not a singleton yet, if it becomes one, adjust to CityService.getInstance()
         return new CityService(CityRepository.getInstance());
     }
+
 }

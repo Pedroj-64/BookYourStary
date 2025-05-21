@@ -40,13 +40,22 @@ public class UserHeaderViewController {
     private void updateHeader() {
         controller.updateUserHeader(lbl_Nombre, lbl_Saldo);
         // controller.updateHeaderImageAndButton(img_Carrito, btn_Carrito); // Removed this call
-    }
-
-    @FXML
+    }    @FXML
     void abrirMenuAdmin(ActionEvent event) {
-        // Navigate to the main admin menu screen
-        // Assuming "menuAdmin.fxml" is the correct FXML file for this.
-        // Adjust width and height as needed for that scene.
-        co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("menuAdmin", 900, 600);
+        try {
+            System.out.println("Intentando cargar la pantalla del MenuAdmin...");
+            // Navigate to the main admin menu screen
+            // La ruta correcta es "MenuAdmin" (con M mayúscula)
+            co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("MenuAdmin", 900, 600);
+            System.out.println("Pantalla de MenuAdmin cargada exitosamente");
+        } catch (Exception e) {
+            System.err.println("Error al cargar MenuAdmin: " + e.getMessage());
+            e.printStackTrace();
+            co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.showAlert(
+                "Error", 
+                "No se pudo abrir el menú de administrador: " + e.getMessage(),
+                javafx.scene.control.Alert.AlertType.ERROR
+            );
+        }
     }
 }

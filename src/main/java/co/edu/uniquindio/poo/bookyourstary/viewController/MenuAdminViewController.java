@@ -95,6 +95,9 @@ public class MenuAdminViewController {
     private ImageView img_Alojamiento1;
 
     @FXML
+    private ImageView img_Alojamiento2;
+
+    @FXML
     private ImageView img_Alojamiento3;
 
     @FXML
@@ -217,7 +220,7 @@ public class MenuAdminViewController {
     @FXML
     private TextField txt_numHuespedes;
 
-    private final List<ImageView> imageViews = List.of(img_Alojamiento, img_Alojamiento1, img_Alojamiento3, img_Alojamiento4,
+    private final List<ImageView> imageViews = List.of(img_Alojamiento, img_Alojamiento1, img_Alojamiento2, img_Alojamiento3,
             img_Alojamiento4);
     private final List<Label> titleLabels = List.of(lbl_tituloAlojamiento, lbl_tituloAlojamiento1, lbl_tituloAlojamiento2,
             lbl_tituloAlojamiento3, lbl_tituloAlojamiento4);
@@ -241,15 +244,36 @@ public class MenuAdminViewController {
 
         menuAdminController.logout();
 
-    }
-
-    @FXML
+    }    @FXML
     void abrirMenuAdmin(ActionEvent event) {
-
-        Button sourceButton = (Button) event.getSource();
-        Hosting hosting = (Hosting) sourceButton.getUserData();
-        if (hosting != null) {
-            menuAdminController.openEditHostingWindow(hosting);
+        try {
+            Button sourceButton = (Button) event.getSource();
+            if (sourceButton == null) {
+                System.err.println("El botón origen es nulo");
+                return;
+            }
+            
+            Hosting hosting = (Hosting) sourceButton.getUserData();
+            if (hosting != null) {
+                System.out.println("Abriendo ventana de edición para: " + hosting.getName());
+                menuAdminController.openEditHostingWindow(hosting);
+                
+                // Recargar los alojamientos después de la edición
+                loadAndDisplayHostings();
+            } else {
+                System.err.println("No hay alojamiento asociado al botón");
+                MainController.showAlert(
+                    "Error", 
+                    "No se encontró el alojamiento a editar.", 
+                    AlertType.ERROR);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al abrir el menú de edición: " + e.getMessage());
+            e.printStackTrace();
+            MainController.showAlert(
+                "Error", 
+                "No se pudo abrir el editor: " + e.getMessage(), 
+                AlertType.ERROR);
         }
     }
 
@@ -261,81 +285,169 @@ public class MenuAdminViewController {
                 "Si tienes problemas, contacta con el equipo de margaDevSociety.",
                 AlertType.INFORMATION);
 
-    }
-
-    @FXML
+    }    @FXML
     void editing(ActionEvent event) {
-        Button sourceButton = (Button) event.getSource();
-        Hosting hosting = (Hosting) sourceButton.getUserData();
-        if (hosting != null) {
-            menuAdminController.openEditHostingWindow(hosting);
+        try {
+            Button sourceButton = (Button) event.getSource();
+            if (sourceButton == null) {
+                System.err.println("El botón origen es nulo");
+                return;
+            }
+            
+            Hosting hosting = (Hosting) sourceButton.getUserData();
+            if (hosting != null) {
+                System.out.println("Editando alojamiento: " + hosting.getName());
+                menuAdminController.openEditHostingWindow(hosting);
+                
+                // Recargar los alojamientos después de la edición
+                loadAndDisplayHostings();
+            } else {
+                System.err.println("No hay alojamiento asociado al botón de edición");
+                MainController.showAlert(
+                    "Error", 
+                    "No se encontró el alojamiento a editar.", 
+                    AlertType.ERROR);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al editar alojamiento: " + e.getMessage());
+            e.printStackTrace();
+            MainController.showAlert(
+                "Error", 
+                "No se pudo editar el alojamiento: " + e.getMessage(), 
+                AlertType.ERROR);
         }
     }
 
     private void setupComboBox() {
         combo_tipoAlojamiento.getItems().setAll(MenuAdminController.getHostingTypes());
         combo_Ciudad.getItems().setAll(menuAdminController.getAvailableCities());
-    }
-
-    @FXML
+    }    @FXML
     void initialize() {
-        setupComboBox();
-        if (UserHeader0 != null) { // Ensure UserHeader0 is injected before using
-            ViewLoader.setContent(UserHeader0, "AdminHeader");
-        } else {
-            System.err.println("UserHeader0 is null in MenuAdminViewController.initialize()");
-            // Optionally show an alert here if this is critical
-            // MainController.showAlert("Error de UI", "No se pudo cargar el cabezal del administrador.", AlertType.ERROR);
+        try {
+            System.out.println("Inicializando MenuAdminViewController...");
+            
+            // Setup combobox first
+            setupComboBox();
+              // Load the admin header
+            if (UserHeader0 != null) {
+                System.out.println("Cargando AdminHeader en UserHeader0...");
+                try {
+                    ViewLoader.setContent(UserHeader0, "AdminHeader");
+                    System.out.println("AdminHeader cargado exitosamente");
+                } catch (Exception e) {
+                    System.err.println("Error al cargar AdminHeader: " + e.getMessage());
+                    e.printStackTrace();
+                    
+                    // Intentar carga alternativa con ruta completa
+                    try {
+                        System.out.println("Intentando ruta alternativa para AdminHeader...");
+                        ViewLoader.setContent(UserHeader0, "co/edu/uniquindio/poo/bookyourstary/AdminHeader");
+                        System.out.println("AdminHeader cargado exitosamente con ruta alternativa");
+                    } catch (Exception ex) {
+                        System.err.println("Error en carga alternativa de AdminHeader: " + ex.getMessage());
+                        ex.printStackTrace();
+                        MainController.showAlert("Error de UI", 
+                            "No se pudo cargar el cabezal del administrador. Detalles: " + ex.getMessage(), 
+                            AlertType.WARNING);
+                    }
+                }
+            } else {
+                System.err.println("UserHeader0 es nulo en MenuAdminViewController.initialize()");
+                MainController.showAlert("Error de UI", 
+                    "No se pudo cargar el cabezal del administrador. Esto puede afectar la funcionalidad.", 
+                    AlertType.WARNING);
+            }
+            
+            // Initialize and load the hostings display
+            try {
+                System.out.println("Inicializando la vista de alojamientos...");
+                
+                // Inicializar los botones de edición una vez
+                if (btn_editing != null) {
+                    System.out.println("Configurando botones de edición...");
+                    editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4);
+                } else {
+                    System.err.println("Los botones de edición no están definidos en FXML");
+                }
+                
+                // Cargar y mostrar alojamientos
+                loadAndDisplayHostings();
+                System.out.println("Vista de alojamientos inicializada correctamente");
+                
+            } catch (Exception e) {
+                System.err.println("Error al inicializar la vista de alojamientos: " + e.getMessage());
+                e.printStackTrace();
+                MainController.showAlert("Error de inicialización", 
+                    "No se pudieron cargar los alojamientos: " + e.getMessage(), 
+                    AlertType.ERROR);
+            }
+            
+            System.out.println("MenuAdminViewController inicializado completamente");
+            
+        } catch (Exception e) {
+            System.err.println("Error general en la inicialización de MenuAdminViewController: " + e.getMessage());
+            e.printStackTrace();
+            MainController.showAlert("Error de inicialización", 
+                "No se pudo inicializar el panel de administración: " + e.getMessage(), 
+                AlertType.ERROR);
         }
-        // The FXML for MenuAdminViewController might not have all these imageViews, titleLabels etc.
-        // This part seems to be copied from HomeViewController and might not apply directly or fully.
-        // For now, I'll keep it, but it needs verification against menuAdmin.fxml's actual content structure.
-        // If menuAdmin.fxml is primarily for managing a list/table of hostings, this display logic might be different.
-        // However, the user requested to fix AdminMenu loading, and the header is part of that.
-        // The display of hostings in cards might still be relevant.
-
-        // Assuming these lists are correctly populated based on menuAdmin.fxml's @FXML fields
-        // If menuAdmin.fxml does not have these exact fx:ids for imageViews, titleLabels, etc., this will fail.
-        // For safety, check if these lists are populated by FXML injection before use.
-        // This part of the code is highly dependent on the FXML structure of menuAdmin.fxml for displaying hostings.
-        // For now, focusing on the header loading.
-        // The following lines for updating hosting display might need to be adjusted based on how menuAdmin.fxml actually displays hostings.
-        
-        // editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4); // Ensure these fx:ids exist
-        // currentHostings = menuAdminController.getRandomHostings();
-        // if (imageViews != null && !imageViews.isEmpty() && currentHostings != null) { // Add null/empty checks
-        //    menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, descLabels, priceLabels,
-        //            cityLabels, serviceLabels);
-        //    menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
-        //}
-        
-        // Simplified initialization for now, focusing on header and core functionality.
-        // The display of hostings needs to be verified against menuAdmin.fxml structure.
-        loadAndDisplayHostings();
-    }
-
-    private void loadAndDisplayHostings() {
-        // This method would contain the logic to fetch and display hostings
-        // specific to the admin menu's layout.
-        // For example, if it's a table view:
-        // currentHostings = menuAdminController.getAllHostings(); // Or some initial list
-        // populateTable(currentHostings);
-
-        // If it uses the card view similar to HomeViewController:
-        // Ensure FXML fields like imageViews, titleLabels, editButtons are correctly defined in MenuAdminViewController
-        // and linked in menuAdmin.fxml.
-        // The current FXML provided for menuAdmin.fxml DOES show a card-like display.
-        if (btn_editing != null) { // Check if one of the buttons is initialized (implies others might be too)
-             editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4);
-        }
-        currentHostings = menuAdminController.getRandomHostings(); // Or getAllHostings()
-        
-        // Check if the display elements are available (they are defined in the FXML)
-        if (imageViews != null && titleLabels != null && descLabels != null && priceLabels != null && cityLabels != null && serviceLabels != null && editButtons != null) {
-            menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, descLabels, priceLabels, cityLabels, serviceLabels);
-            menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
-        } else {
-            System.err.println("Some UI elements for hosting display are null in MenuAdminViewController.initialize(). Verify FXML fx:id links.");
+    }    private void loadAndDisplayHostings() {
+        try {
+            // Cargar alojamientos
+            currentHostings = menuAdminController.getRandomHostings();
+            System.out.println("Alojamientos cargados: " + (currentHostings != null ? currentHostings.size() : 0));
+            
+            // Verificar que los elementos necesarios para mostrar los alojamientos existan
+            boolean hasImageViews = imageViews != null && !imageViews.isEmpty();
+            boolean hasTitleLabels = titleLabels != null && !titleLabels.isEmpty();
+            boolean hasDescLabels = descLabels != null && !descLabels.isEmpty();
+            boolean hasPriceLabels = priceLabels != null && !priceLabels.isEmpty();
+            boolean hasCityLabels = cityLabels != null && !cityLabels.isEmpty();
+            boolean hasServiceLabels = serviceLabels != null && !serviceLabels.isEmpty();
+            boolean hasEditButtons = editButtons != null && !editButtons.isEmpty();
+            
+            if (!hasImageViews) System.err.println("imageViews es nulo o vacío");
+            if (!hasTitleLabels) System.err.println("titleLabels es nulo o vacío");
+            if (!hasDescLabels) System.err.println("descLabels es nulo o vacío");
+            if (!hasPriceLabels) System.err.println("priceLabels es nulo o vacío");
+            if (!hasCityLabels) System.err.println("cityLabels es nulo o vacío");
+            if (!hasServiceLabels) System.err.println("serviceLabels es nulo o vacío");
+            if (!hasEditButtons) System.err.println("editButtons es nulo o vacío");
+            
+            // Verificar si podemos mostrar los alojamientos
+            if (currentHostings != null && !currentHostings.isEmpty() &&
+                hasImageViews && hasTitleLabels && hasDescLabels && 
+                hasPriceLabels && hasCityLabels && hasServiceLabels) {
+                
+                System.out.println("Actualizando visualización de alojamientos...");
+                menuAdminController.updateHostingDisplay(
+                    currentHostings, imageViews, titleLabels, descLabels, 
+                    priceLabels, cityLabels, serviceLabels
+                );
+                
+                // Asignar alojamientos a los botones de edición si están disponibles
+                if (hasEditButtons) {
+                    menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
+                    System.out.println("Alojamientos asignados a botones de edición");
+                }
+                
+                System.out.println("Visualización de alojamientos actualizada exitosamente");
+            } else {
+                System.err.println("No se puede mostrar la lista de alojamientos porque faltan elementos en la interfaz o no hay alojamientos");
+                // Intentar mostrar al menos una notificación al usuario
+                if (contenedorPrincipal != null) {
+                    // Si no se pueden mostrar los alojamientos pero el contenedor principal existe,
+                    // al menos mostrar un mensaje en la interfaz
+                    if (currentHostings == null || currentHostings.isEmpty()) {
+                        MainController.showAlert("Sin alojamientos", 
+                            "No hay alojamientos disponibles para mostrar.", 
+                            AlertType.INFORMATION);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al cargar y mostrar los alojamientos: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

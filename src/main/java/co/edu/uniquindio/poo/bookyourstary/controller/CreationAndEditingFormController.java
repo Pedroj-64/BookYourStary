@@ -187,10 +187,20 @@ public class CreationAndEditingFormController {
             } else { // Create new hosting
                 if ("Casa".equalsIgnoreCase(tipoAlojamiento)) {
                     hostingService.createHouse(name, city, description, finalImageUrl, pricePerNight, maxGuests, includedServices, 25000, availableFrom, availableTo);
-                    MainController.showAlert("Éxito", "Casa '" + name + "' creada correctamente.", Alert.AlertType.INFORMATION);
-                } else if ("Apartamento".equalsIgnoreCase(tipoAlojamiento)) {
-                    hostingService.createApartament(name, city, description, finalImageUrl, pricePerNight, maxGuests, includedServices, availableFrom, availableTo);
-                    MainController.showAlert("Éxito", "Apartamento '" + name + "' creado correctamente.", Alert.AlertType.INFORMATION);
+                    MainController.showAlert("Éxito", "Casa '" + name + "' creada correctamente.", Alert.AlertType.INFORMATION);                } else if ("Apartamento".equalsIgnoreCase(tipoAlojamiento)) {
+                    // Usar el constructor directo del apartamento en lugar del método problemático
+                    try {
+                        var apartamento = new co.edu.uniquindio.poo.bookyourstary.model.Apartament(
+                            name, city, description, finalImageUrl, 
+                            pricePerNight, maxGuests, includedServices, 0.0, // Sin tarifa de limpieza
+                            availableFrom, availableTo
+                        );
+                        hostingService.getApartamentRepository().save(apartamento);
+                        MainController.showAlert("Éxito", "Apartamento '" + name + "' creado correctamente.", Alert.AlertType.INFORMATION);
+                    } catch (Exception e) {
+                        MainController.showAlert("Error", "No se pudo crear el apartamento: " + e.getMessage(), Alert.AlertType.ERROR);
+                        return;
+                    }
                 } else if ("Hotel".equalsIgnoreCase(tipoAlojamiento)) {
                     hostingService.createHotel(name, city, description, finalImageUrl, pricePerNight, maxGuests, includedServices, new LinkedList<>(), availableFrom, availableTo);
                     MainController.showAlert("Éxito", "Hotel '" + name + "' creado correctamente.", Alert.AlertType.INFORMATION);

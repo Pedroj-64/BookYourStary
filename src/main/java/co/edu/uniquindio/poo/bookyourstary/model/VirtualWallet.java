@@ -1,17 +1,22 @@
 package co.edu.uniquindio.poo.bookyourstary.model;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class VirtualWallet {
+@NoArgsConstructor
+public class VirtualWallet implements Serializable {
 
-    private final String idWallet;
+    private static final long serialVersionUID = 1L;
+    
+    private String idWallet;
     private double balance;
-    private final Client propertyClient;
+    private Client propertyClient;
 
     public VirtualWallet(Client propertyClient) {
         this.idWallet = UUID.randomUUID().toString();

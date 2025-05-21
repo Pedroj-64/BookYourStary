@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Admin;
@@ -24,8 +25,8 @@ public class AdminRepository {
         this.admin = admin;
     }
 
-    public Optional<Admin> getAdmin() {
-        return Optional.ofNullable(admin);
+    public List<Admin> getAdmin() {
+        return admin != null ? List.of(admin) : List.of();
     }
 
     public void deleteAdmin() {

@@ -11,6 +11,19 @@ public class LoginInternalController {
 
     private final AdminService adminService;
     private final ClientService clientService;
+    
+    // Singleton pattern
+    private static LoginInternalController instance;
+    
+    public static LoginInternalController getInstance() {
+        if (instance == null) {
+            instance = new LoginInternalController(
+                AdminService.getInstance(), 
+                ClientService.getInstance()
+            );
+        }
+        return instance;
+    }
 
     public LoginInternalController(AdminService adminService, ClientService clientService) {
         this.adminService = adminService;
@@ -20,10 +33,24 @@ public class LoginInternalController {
     /**
      * Verifica el inicio de sesión y retorna el SessionManager con el usuario autenticado si es exitoso, null si no.
      * Si la contraseña es incorrecta o el usuario no existe, retorna null.
-     */
-    public SessionManager login(String email, String password) { // Renamed id to email for clarity
+     */    public SessionManager login(String email, String password) { // Renamed id to email for clarity
+        // Credenciales hardcodeadas para el admin principal
+        if (email.equalsIgnoreCase("pepito@gmail.com") && password.equals("adminpass")) {
+            Admin admin = adminService.getAdmin();
+            if (admin == null) {
+                // Si no existe, crear el admin por defecto
+                admin = new co.edu.uniquindio.poo.bookyourstary.model.Admin("1", "admin", "1234567890", "pepito@gmail.com", "adminpass");
+                admin.setActive(true);
+                adminService.registerAdmin(admin);
+            }
+            SessionManager session = MainController.getInstance().getSessionManager();
+            session.setUsuarioActual(admin);
+            System.out.println("Admin logueado exitosamente: " + admin.getName());
+            return session;
+        }
+        
+        // Intentar login normal de admin
         Admin admin = adminService.getAdmin();
-        // Admin login: check email (case-insensitive) and password
         if (admin != null && admin.getEmail().equalsIgnoreCase(email) && adminService.verifyPassword(admin, password)) {
             SessionManager session = MainController.getInstance().getSessionManager();
             session.setUsuarioActual(admin);

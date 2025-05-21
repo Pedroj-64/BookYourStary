@@ -32,13 +32,23 @@
     -fx-padding: 5px;
 }
 
-/* TextArea styling */
-.text-area {
+/* TextField styling */
+.text-field {
     -fx-background-color: white;
     -fx-border-color: #cccccc;
     -fx-border-radius: 5px;
-    -fx-padding: 10px;
+    -fx-padding: 8px;
+    -fx-prompt-text-fill: #888888;
     -fx-text-fill: #333333;
+}
+
+.text-field:focused {
+    -fx-border-color: #ff6f00;
+    -fx-background-color: #fffefd;
+}
+
+.text-field:disabled {
+    -fx-opacity: 0.6;
 }
 
 /* TableView styling */

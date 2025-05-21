@@ -55,18 +55,47 @@ public class ManageOrderController {
     /**
      * Devuelve una lista de precios (uno por hosting pendiente) para el rango de fechas dado,
      * aplicando promociones/ofertas si existen.
-     */
-    public List<Double> calculatePricesForPendingHostings(LocalDate startDate, LocalDate endDate) {
+     */    public List<Double> calculatePricesForPendingHostings(LocalDate startDate, LocalDate endDate) {
         List<Hosting> hostings = getPendingHostings();
+        // Verificaciones de seguridad para evitar NullPointerException
+        if (startDate == null || endDate == null) {
+            throw new IllegalArgumentException("Las fechas de inicio o fin no pueden ser nulas");
+        }
+        
+        // Asegurar que hay al menos una noche
         long nights = Math.max(1, java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate));
-        var offerController = MainController.getInstance().getOfferController();
-        return hostings.stream()
-                .map(h -> {
-                    double basePrice = h.getPricePerNight() * nights;
-                    double finalPrice = offerController.applyApplicableOffers(basePrice, (int) nights, startDate);
-                    return finalPrice;
-                })
-                .toList();
+        System.out.println("Calculando precios para " + hostings.size() + " alojamientos por " + nights + " noches");
+        
+        try {
+            var offerController = MainController.getInstance().getOfferController();
+            return hostings.stream()
+                    .map(h -> {
+                        if (h == null) {
+                            System.err.println("¡Alerta! Alojamiento nulo encontrado en la lista de pendientes");
+                            return 0.0; // Precio cero para alojamientos nulos
+                        }
+                        
+                        double basePrice = h.getPricePerNight() * nights;
+                        System.out.println("Precio base para " + h.getName() + ": $" + basePrice);
+                        
+                        double finalPrice;
+                        try {
+                            finalPrice = offerController.applyApplicableOffers(basePrice, (int) nights, startDate);
+                            System.out.println("Precio final con descuentos para " + h.getName() + ": $" + finalPrice);
+                        } catch (Exception e) {
+                            System.err.println("Error al aplicar descuentos para " + h.getName() + ": " + e.getMessage());
+                            finalPrice = basePrice; // Usar precio base si hay error en los descuentos
+                        }
+                        
+                        return finalPrice;
+                    })
+                    .toList();
+        } catch (Exception e) {
+            System.err.println("Error general al calcular precios: " + e.getMessage());
+            e.printStackTrace();
+            // En caso de error, devolver lista vacía en lugar de null
+            return java.util.Collections.emptyList();
+        }
     }
 
     /**

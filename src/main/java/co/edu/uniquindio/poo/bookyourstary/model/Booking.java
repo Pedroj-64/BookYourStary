@@ -1,15 +1,20 @@
 package co.edu.uniquindio.poo.bookyourstary.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import co.edu.uniquindio.poo.bookyourstary.model.enums.BookingState;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Booking {
+@NoArgsConstructor
+public class Booking implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     private String bookingId;
     private Client client;
     private Hosting hosting;
@@ -30,5 +35,4 @@ public class Booking {
         this.totalPrice = totalPrice;
         this.bookingState = bookingState;
     }
-
 }

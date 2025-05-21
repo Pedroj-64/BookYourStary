@@ -1,11 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
 
-
-public interface Hosting {
+/**
+ * Interfaz que define un alojamiento en el sistema BookYourStary.
+ * Implementa Serializable para permitir serialización XML.
+ */
+public interface Hosting extends Serializable {
 
     String getName();
     City getCity();
@@ -28,6 +31,6 @@ public interface Hosting {
     void setAvailableTo(LocalDate availableTo);
 
     default String getCityName() {
-        return getCity().toString();
+        return getCity() != null ? getCity().toString() : "Sin ciudad";
     }
 }

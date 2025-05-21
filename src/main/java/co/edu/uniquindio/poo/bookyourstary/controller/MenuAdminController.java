@@ -65,15 +65,20 @@ public class MenuAdminController {
 
     /**
      * Abre la ventana de edición de alojamiento en un nuevo Stage modal y le pasa el objeto Hosting a editar.
-     */
-    public void openEditHostingWindow(Hosting hosting) {
+     */    public void openEditHostingWindow(Hosting hosting) {
         try {
+            System.out.println("Abriendo ventana de edición para alojamiento: " + (hosting != null ? hosting.getName() : "null"));
+            
             FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/CreationAndEditingForm.fxml"));
             Parent root = loader.load();
+            
+            // Obtener el controlador y establecer el hosting a editar
             CreationAndEditingFormController controller = MainController.getInstance().getCreationAndEditingFormController();
             controller.setHostingToEdit(hosting);
+            
+            // Configurar y mostrar la ventana
             Stage stage = new Stage();
-            stage.setTitle("Editar alojamiento");
+            stage.setTitle("Editar alojamiento: " + hosting.getName());
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
