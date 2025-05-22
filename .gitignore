@@ -44,3 +44,6 @@ data/clients.xml
 /data
 *.xml
 data/admins.xml
+data/hostings.xml
+data/bookings.xml
+*.xml

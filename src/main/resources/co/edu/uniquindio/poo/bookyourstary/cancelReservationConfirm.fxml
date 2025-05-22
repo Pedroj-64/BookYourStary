@@ -3,10 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="center" prefHeight="73.0" prefWidth="300" spacing="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="center" prefHeight="73.0" prefWidth="300" spacing="10"
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@css/general.css">
     <Label styleClass="warning-text" text="¿Está seguro de cancelar esta reserva?" />
     <HBox alignment="center" spacing="10">
         <Button onAction="#handleConfirmCancel" styleClass="danger-button" text="Confirmar" />
-        <Button onAction="#closeDialog" text="Cancelar" />
+        <Button onAction="#closeDialog" styleClass="secondary-button" text="Cancelar" />
     </HBox>
 </VBox>

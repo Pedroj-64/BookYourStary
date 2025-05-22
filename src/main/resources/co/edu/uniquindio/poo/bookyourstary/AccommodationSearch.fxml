@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" spacing="10">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" stylesheets="@css/general.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
     <HBox spacing="10">
-        <DatePicker fx:id="checkInDate" promptText="Fecha de entrada"/>
-        <DatePicker fx:id="checkOutDate" promptText="Fecha de salida"/>
-        <Spinner fx:id="guestsSpinner" editable="true"/>
-        <Button text="Aplicar Filtros" onAction="#applyFilters"/>
+        <DatePicker fx:id="checkInDate" promptText="Fecha de entrada" styleClass="form-field" />
+        <DatePicker fx:id="checkOutDate" promptText="Fecha de salida" styleClass="form-field" />
+        <Spinner fx:id="guestsSpinner" editable="true" styleClass="form-field" />
+        <Button onAction="#applyFilters" prefHeight="36.0" prefWidth="91.0" styleClass="general-button" text="Aplicar Filtros" />
     </HBox>
 
-    <TableView fx:id="accommodationsTable">
+    <TableView fx:id="accommodationsTable" prefHeight="404.0" prefWidth="617.0" styleClass="items-table">
         <columns>
-            <TableColumn text="Nombre"/>
-            <TableColumn text="Ciudad"/>
-            <TableColumn text="Precio/Noche"/>
+            <TableColumn text="Nombre" />
+            <TableColumn text="Ciudad" />
+            <TableColumn text="Precio/Noche" />
         </columns>
     </TableView>
 </VBox>
