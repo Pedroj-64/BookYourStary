@@ -73,13 +73,22 @@ public class HostingService {
                 throw new IllegalArgumentException("El hosting no puede ser nulo");
             }
             
+            // Guardar en el repositorio específico y en el repositorio general
             switch (hosting) {
-                case House house -> houseRepository.save(house);
-                case Apartament apartament -> apartamentRepository.save(apartament);
-                case Hotel hotel -> hotelRepository.save(hotel);
+                case House house -> {
+                    houseRepository.save(house);
+                    hostingRepository.save(house);
+                }
+                case Apartament apartament -> {
+                    apartamentRepository.save(apartament);
+                    hostingRepository.save(apartament);
+                }
+                case Hotel hotel -> {
+                    hotelRepository.save(hotel);
+                    hostingRepository.save(hotel);
+                }
                 case null, default -> {
                     hostingRepository.save(hosting);
-                    System.out.println("Guardado alojamiento de tipo genérico: " + hosting.getName());
                 }
             }
             
@@ -206,31 +215,10 @@ public class HostingService {
 
     public List<Hosting> findAllHostings() {
         try {
-            // Usamos un Set para evitar duplicados
-            java.util.Set<Hosting> uniqueHostings = new java.util.HashSet<>();
-            
-            // Agregamos primero los alojamientos de los repositorios específicos
-            List<House> houses = houseRepository.findAll();
-            List<Apartament> apartaments = apartamentRepository.findAll();
-            List<Hotel> hotels = hotelRepository.findAll();
-            
-            System.out.println("Encontrados en repositorios específicos: " + 
-                             houses.size() + " casas, " + 
-                             apartaments.size() + " apartamentos, " + 
-                             hotels.size() + " hoteles");
-            
-            uniqueHostings.addAll(houses);
-            uniqueHostings.addAll(apartaments);
-            uniqueHostings.addAll(hotels);
-            
-            // Verificamos si hay otros tipos de Hosting en el repositorio general
-            for (Hosting h : hostingRepository.findAll()) {
-                uniqueHostings.add(h);
-            }
-            
-            List<Hosting> result = new LinkedList<>(uniqueHostings);
-            System.out.println("Total de hostings únicos encontrados: " + result.size());
-            return result;
+            // Solo usar el repositorio general que contiene todos los hostings
+            List<Hosting> allHostings = hostingRepository.findAll();
+            System.out.println("Total de hostings encontrados: " + allHostings.size());
+            return new LinkedList<>(allHostings);
         } catch (Exception e) {
             System.err.println("Error al buscar todos los hostings: " + e.getMessage());
             e.printStackTrace();
@@ -351,10 +339,15 @@ public class HostingService {
     /**
      * Añade una lista de alojamientos al sistema
      * @param hostings Lista de alojamientos a añadir
-     */
-    public void addHostings(List<Hosting> hostings) {
-        for (Hosting hosting : hostings) {
-            saveHosting(hosting);
+     */    public void addHostings(List<Hosting> hostings) {
+        // Agregar cada hosting usando saveHosting que lo guarda en todos los repositorios necesarios
+        // Ya no limpiamos los repositorios para mantener los datos existentes
+        if (hostings != null) {
+            for (Hosting hosting : hostings) {
+                if (hosting != null) {
+                    saveHosting(hosting);
+                }
+            }
         }
     }
 

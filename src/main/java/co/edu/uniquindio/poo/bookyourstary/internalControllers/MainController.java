@@ -255,8 +255,7 @@ public class MainController {
 
     public CityService getCityService() {
         // Assuming CityService is not a singleton yet, if it becomes one, adjust to
-        // CityService.getInstance()
-        return new CityService(CityRepository.getInstance());
+        return CityService.getInstance();
     } // Variable para almacenar referencia al último MenuAdminViewController activo
 
     private static MenuAdminViewController activeMenuAdminController;

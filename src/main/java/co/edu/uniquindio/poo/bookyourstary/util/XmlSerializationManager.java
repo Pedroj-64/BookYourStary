@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.*;
@@ -21,13 +22,13 @@ import co.edu.uniquindio.poo.bookyourstary.service.CityService;
  * Implementa el patrón Singleton para garantizar consistencia en el guardado/carga de datos.
  */
 public class XmlSerializationManager {
-    
-    private static XmlSerializationManager instance;
+      private static XmlSerializationManager instance;
     private static final String DATA_DIR = "data";
     private static final String BACKUP_DIR = "data/backup";
     private static final Logger logger = Logger.getLogger(XmlSerializationManager.class.getName());
     private static final int MAX_RETRIES = 3;
     private static final long RETRY_DELAY_MS = 1000;
+    private static final int MAX_BACKUPS = 5; // Mantener solo los últimos 5 backups
     
     // Nombres de los archivos para cada tipo de datos
     private static final String HOSTINGS_FILE = "hostings.xml";
@@ -60,8 +61,44 @@ public class XmlSerializationManager {
         }
     }
 
+    private void deleteDirectory(Path directory) {
+        try {
+            Files.walk(directory)
+                .sorted(Comparator.reverseOrder())
+                .forEach(path -> {
+                    try {
+                        Files.delete(path);
+                    } catch (IOException e) {
+                        logger.log(Level.WARNING, "Error al eliminar archivo/directorio: " + path, e);
+                    }
+                });
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Error al eliminar directorio de backup: " + directory, e);
+        }
+    }
+
     private void createBackup() {
         try {
+            Path backupPath = Paths.get(BACKUP_DIR);
+            if (!Files.exists(backupPath)) {
+                Files.createDirectories(backupPath);
+            }
+
+            // Eliminar backups antiguos si exceden el límite
+            try (Stream<Path> backupDirs = Files.list(backupPath)
+                    .filter(Files::isDirectory)
+                    .sorted((a, b) -> b.getFileName().toString().compareTo(a.getFileName().toString()))) {
+                
+                List<Path> allBackups = backupDirs.collect(Collectors.toList());
+                if (allBackups.size() >= MAX_BACKUPS) {
+                    // Eliminar los backups más antiguos
+                    for (int i = MAX_BACKUPS - 1; i < allBackups.size(); i++) {
+                        deleteDirectory(allBackups.get(i));
+                    }
+                }
+            }
+
+            // Crear nuevo backup
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
             String backupFolder = BACKUP_DIR + File.separator + timestamp;
             Files.createDirectory(Paths.get(backupFolder));
@@ -74,6 +111,7 @@ public class XmlSerializationManager {
                     Files.copy(source, Paths.get(backupFolder, file), StandardCopyOption.REPLACE_EXISTING);
                 }
             }
+
             logger.info("Backup creado en: " + backupFolder);
         } catch (IOException e) {
             logger.log(Level.WARNING, "No se pudo crear el backup", e);
@@ -96,21 +134,58 @@ public class XmlSerializationManager {
     
     /**
      * Guarda los datos de la aplicación completa
-     */
-    public void saveAllData() {
+     */    public void saveAllData() {
         createBackup();
         boolean success = false;
         int retries = 0;
         
         while (!success && retries < MAX_RETRIES) {
             try {
+                // Obtener conteos antes de guardar
+                List<Hosting> originalHostings = MainController.getInstance().getHostingService().findAllHostings();
+                List<Client> originalClients = MainController.getInstance().getClientRepository().findAll();
+                List<Admin> originalAdmins = MainController.getInstance().getAdminRepository().getAdmin();
+                
+                int originalHostingsCount = originalHostings != null ? originalHostings.size() : 0;
+                int originalClientsCount = originalClients != null ? originalClients.size() : 0;
+                int originalAdminsCount = originalAdmins != null ? originalAdmins.size() : 0;
+                
+                logger.info("Preparando para guardar - Hostings: " + originalHostingsCount + 
+                           ", Clients: " + originalClientsCount + 
+                           ", Admins: " + originalAdminsCount);
+                
+                // Guardar los datos
                 saveHostings();
                 saveClients();
                 saveAdmins();
                 saveBookings();
                 saveCities();
-                success = true;
-                logger.info("Todos los datos guardados exitosamente en formato XML");
+                
+                // Verificar que los datos se guardaron correctamente
+                List<Hosting> savedHostings = (List<Hosting>) loadObjectFromXml(HOSTINGS_FILE);
+                List<Client> savedClients = (List<Client>) loadObjectFromXml(CLIENTS_FILE);
+                List<Admin> savedAdmins = (List<Admin>) loadObjectFromXml(ADMINS_FILE);
+                
+                int savedHostingsCount = savedHostings != null ? savedHostings.size() : 0;
+                int savedClientsCount = savedClients != null ? savedClients.size() : 0;
+                int savedAdminsCount = savedAdmins != null ? savedAdmins.size() : 0;
+                
+                // Verificar que se guardaron todos los datos
+                boolean hostingsMatch = savedHostingsCount == originalHostingsCount;
+                boolean clientsMatch = savedClientsCount == originalClientsCount;
+                boolean adminsMatch = savedAdminsCount == originalAdminsCount;
+                
+                success = hostingsMatch && clientsMatch && adminsMatch;
+                
+                if (success) {
+                    logger.info("Todos los datos guardados y verificados exitosamente:");
+                    logger.info("Hostings: " + savedHostingsCount + "/" + originalHostingsCount);
+                    logger.info("Clientes: " + savedClientsCount + "/" + originalClientsCount);
+                    logger.info("Admins: " + savedAdminsCount + "/" + originalAdminsCount);
+                } else {
+                    logger.warning("Los archivos XML se crearon pero no contienen datos.");
+                    throw new IOException("Los archivos XML no contienen datos después de guardar");
+                }
             } catch (Exception e) {
                 retries++;
                 if (retries < MAX_RETRIES) {
@@ -133,14 +208,30 @@ public class XmlSerializationManager {
     }
     
     /**
-     * Carga todos los datos de la aplicación
+     * Limpia todos los datos existentes antes de cargar desde XML
      */
-    public void loadAllData() {
+    private void clearAllData() {
+        try {
+            MainController.getInstance().getHostingService().clearAll();
+            MainController.getInstance().getClientRepository().clearAll();
+            MainController.getInstance().getAdminRepository().clearAll();
+            MainController.getInstance().getBookingRepository().clearAll();
+            MainController.getInstance().getCityService().clearAll();
+            logger.info("Datos existentes limpiados correctamente");
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Error al limpiar datos existentes: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Carga todos los datos de la aplicación
+     */    public void loadAllData() {
         boolean success = false;
         int retries = 0;
         
         while (!success && retries < MAX_RETRIES) {
             try {
+                // No limpiamos los datos existentes para evitar pérdida de información
                 loadCities(); // Primero ciudades, ya que otros objetos dependen de ellas
                 loadHostings();
                 loadClients();
@@ -370,19 +461,30 @@ public class XmlSerializationManager {
     /**
      * Verifica si existen archivos de datos XML guardados
      * @return true si al menos existe un archivo de datos XML
-     */
-    public boolean hasStoredData() {
+     */    public boolean hasStoredData() {
         try {
-            Path hostingsFile = Paths.get(DATA_DIR, HOSTINGS_FILE);
-            Path clientsFile = Paths.get(DATA_DIR, CLIENTS_FILE);
-            Path adminsFile = Paths.get(DATA_DIR, ADMINS_FILE);
+            // Verificar que los archivos existan y tengan contenido válido
+            boolean hasHostings = false;
+            boolean hasClients = false;
+            boolean hasAdmins = false;
+
+            List<?> hostings = (List<?>) loadObjectFromXml(HOSTINGS_FILE);
+            List<?> clients = (List<?>) loadObjectFromXml(CLIENTS_FILE);
+            List<?> admins = (List<?>) loadObjectFromXml(ADMINS_FILE);
             
-            boolean hasHostings = Files.exists(hostingsFile) && Files.size(hostingsFile) > 100;
-            boolean hasClients = Files.exists(clientsFile) && Files.size(clientsFile) > 100;
-            boolean hasAdmins = Files.exists(adminsFile) && Files.size(adminsFile) > 100;
+            hasHostings = hostings != null && !hostings.isEmpty();
+            hasClients = clients != null && !clients.isEmpty();
+            hasAdmins = admins != null && !admins.isEmpty();
+            
+            logger.info("Verificación de datos XML: Hostings=" + hasHostings + 
+                       " (" + (hostings != null ? hostings.size() : 0) + " elementos), " +
+                       "Clients=" + hasClients + 
+                       " (" + (clients != null ? clients.size() : 0) + " elementos), " +
+                       "Admins=" + hasAdmins + 
+                       " (" + (admins != null ? admins.size() : 0) + " elementos)");
             
             return hasHostings || hasClients || hasAdmins;
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.log(Level.WARNING, "Error verificando datos almacenados: " + e.getMessage());
             return false;
         }
