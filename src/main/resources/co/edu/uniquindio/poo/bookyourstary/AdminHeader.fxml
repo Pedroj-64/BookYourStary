@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="193.0" spacing="15" stylesheets="@css/userHeader.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.UserHeaderViewController">
+<HBox alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="193.0" spacing="15" stylesheets="@css/userHeader.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.AdminHeaderViewController">
 
     <!-- VBox para agrupar nombre y saldo -->
     <VBox spacing="3">
@@ -16,7 +16,7 @@
     </VBox>
 
     <!-- Botón de configuración -->
-    <Button fx:id="btn_Carrito" onAction="#abrirMenuAdmin" styleClass="header-boton">
+    <Button fx:id="btn_CreationHosting" onAction="#OpenCreationHosting" styleClass="header-boton">
         <graphic>
             <ImageView fx:id="img_Carrito" fitHeight="28.0" fitWidth="28.0">
                 <image>

@@ -42,9 +42,7 @@ public class CreationAndEditingFormController {
 
     public List<City> getAvailableCities() {
         return UtilInterfaces.getColombianCities();
-    }
-
-    public void setFormFieldsFromHosting(
+    }    public void setFormFieldsFromHosting(
             List<TextField> textFields,
             TextArea txtDescripcion,
             ComboBox<City> cbCiudad,
@@ -56,11 +54,25 @@ public class CreationAndEditingFormController {
             CheckBox chkPiscina,
             CheckBox chkDesayuno,
             ImageView imgFoto) {
+        // Inicializar los ComboBox siempre, independientemente de si estamos editando o creando
+        cbPais.getItems().setAll("Colombia");
+        cbPais.setValue("Colombia");
+        
+        // Cargar las ciudades disponibles
+        cbCiudad.getItems().setAll(getAvailableCities());
+        
+        // Cargar los tipos de alojamiento disponibles
+        if (cbTipoAlojamiento != null && cbTipoAlojamiento.getItems().isEmpty()) {
+            cbTipoAlojamiento.getItems().setAll(getHostingTypes());
+        }
+        
         if (hostingToEdit == null) {
-            cbPais.getItems().setAll("Colombia");
-            cbPais.setValue("Colombia");
+            // Si estamos creando un nuevo alojamiento, no hay más datos que cargar
+            System.out.println("Inicializando formulario para un nuevo alojamiento");
             return;
         }
+        
+        System.out.println("Inicializando formulario para editar: " + hostingToEdit.getName());
         textFields.get(0).setText(hostingToEdit.getName());
         txtDescripcion.setText(hostingToEdit.getDescription());
         textFields.get(1).setText(String.valueOf(hostingToEdit.getPricePerNight()));
@@ -108,9 +120,7 @@ public class CreationAndEditingFormController {
             return imagePath;
         }
         return null;
-    }
-
-    public void saveHosting(
+    }    public boolean saveHosting(
             List<TextField> textFields, // 0: name, 1: price, 2: guests
             TextArea txtDescripcion,
             ComboBox<City> cbCiudad,
@@ -139,11 +149,11 @@ public class CreationAndEditingFormController {
         // Basic Validations
         if (name.isEmpty() || description.isEmpty() || tipoAlojamiento == null || city == null || availableFrom == null || availableTo == null) {
             MainController.showAlert("Error de Validación", "Todos los campos marcados con * son obligatorios.", Alert.AlertType.ERROR);
-            return;
+            return false;
         }
         if (availableFrom.isAfter(availableTo)) {
             MainController.showAlert("Error de Validación", "La fecha de inicio no puede ser posterior a la fecha final.", Alert.AlertType.ERROR);
-            return;
+            return false;
         }
 
         try {
@@ -151,11 +161,11 @@ public class CreationAndEditingFormController {
             maxGuests = Integer.parseInt(textFields.get(2).getText());
             if (pricePerNight <= 0 || maxGuests <= 0) {
                  MainController.showAlert("Error de Validación", "Precio por noche y capacidad de huéspedes deben ser positivos.", Alert.AlertType.ERROR);
-                return;
+                return false;
             }
         } catch (NumberFormatException e) {
             MainController.showAlert("Error de Formato", "Precio por noche y/o número de huéspedes deben ser números válidos.", Alert.AlertType.ERROR);
-            return;
+            return false;
         }
         
         String finalImageUrl = selectedImagePath;
@@ -184,10 +194,13 @@ public class CreationAndEditingFormController {
                 
                 hostingService.updateHosting(hostingToEdit);
                 MainController.showAlert("Éxito", "Alojamiento '" + name + "' actualizado correctamente.", Alert.AlertType.INFORMATION);
+                return true;
             } else { // Create new hosting
                 if ("Casa".equalsIgnoreCase(tipoAlojamiento)) {
                     hostingService.createHouse(name, city, description, finalImageUrl, pricePerNight, maxGuests, includedServices, 25000, availableFrom, availableTo);
-                    MainController.showAlert("Éxito", "Casa '" + name + "' creada correctamente.", Alert.AlertType.INFORMATION);                } else if ("Apartamento".equalsIgnoreCase(tipoAlojamiento)) {
+                    MainController.showAlert("Éxito", "Casa '" + name + "' creada correctamente.", Alert.AlertType.INFORMATION);
+                    return true;
+                } else if ("Apartamento".equalsIgnoreCase(tipoAlojamiento)) {
                     // Usar el constructor directo del apartamento en lugar del método problemático
                     try {
                         var apartamento = new co.edu.uniquindio.poo.bookyourstary.model.Apartament(
@@ -197,23 +210,27 @@ public class CreationAndEditingFormController {
                         );
                         hostingService.getApartamentRepository().save(apartamento);
                         MainController.showAlert("Éxito", "Apartamento '" + name + "' creado correctamente.", Alert.AlertType.INFORMATION);
+                        return true;
                     } catch (Exception e) {
                         MainController.showAlert("Error", "No se pudo crear el apartamento: " + e.getMessage(), Alert.AlertType.ERROR);
-                        return;
+                        return false;
                     }
                 } else if ("Hotel".equalsIgnoreCase(tipoAlojamiento)) {
                     hostingService.createHotel(name, city, description, finalImageUrl, pricePerNight, maxGuests, includedServices, new LinkedList<>(), availableFrom, availableTo);
                     MainController.showAlert("Éxito", "Hotel '" + name + "' creado correctamente.", Alert.AlertType.INFORMATION);
+                    return true;
                 } else {
                     MainController.showAlert("Error de Tipo", "Tipo de alojamiento desconocido: " + tipoAlojamiento, Alert.AlertType.ERROR);
-                    return; 
+                    return false; 
                 }
             }
         } catch (IllegalArgumentException e) {
             MainController.showAlert("Error de Validación", e.getMessage(), Alert.AlertType.ERROR);
+            return false;
         } catch (Exception e) {
             MainController.showAlert("Error Inesperado", "No se pudo guardar el alojamiento: " + e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace(); // For debugging
+            return false;
         }
     }
 

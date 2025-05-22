@@ -61,19 +61,32 @@ public class MenuAdminController {
         for (int i = 0; i < count; i++) {
             editButtons.get(i).setUserData(hostings.get(i));
         }
-    }
-
-    /**
+    }    /**
      * Abre la ventana de edición de alojamiento en un nuevo Stage modal y le pasa el objeto Hosting a editar.
-     */    public void openEditHostingWindow(Hosting hosting) {
+     */    
+    public void openEditHostingWindow(Hosting hosting) {
         try {
-            System.out.println("Abriendo ventana de edición para alojamiento: " + (hosting != null ? hosting.getName() : "null"));
+            if (hosting == null) {
+                MainController.showAlert(
+                    "Error", "No se puede editar un alojamiento nulo", javafx.scene.control.Alert.AlertType.ERROR);
+                return;
+            }
             
-            FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/CreationAndEditingForm.fxml"));
-            Parent root = loader.load();
+            System.out.println("Abriendo ventana de edición para alojamiento: " + hosting.getName());
+            
+            // Usar MainController.loadFXML para cargar la vista
+            Parent root = MainController.loadFXML("CreationAndEditingForm");
+            if (root == null) {
+                throw new Exception("No se pudo cargar la vista CreationAndEditingForm");
+            }
             
             // Obtener el controlador y establecer el hosting a editar
             CreationAndEditingFormController controller = MainController.getInstance().getCreationAndEditingFormController();
+            if (controller == null) {
+                throw new Exception("No se pudo obtener el controlador del formulario");
+            }
+            
+            // Establecer el alojamiento a editar
             controller.setHostingToEdit(hosting);
             
             // Configurar y mostrar la ventana
@@ -81,11 +94,72 @@ public class MenuAdminController {
             stage.setTitle("Editar alojamiento: " + hosting.getName());
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setOnHidden(e -> {
+                // Actualizar datos después de cerrar el formulario
+                System.out.println("Ventana de edición cerrada, actualizando datos...");
+                // Refrescar la vista actual después de editar un alojamiento
+                try {
+                    MainController.getInstance().refreshCurrentView();
+                    System.out.println("Vista actualizada después de editar alojamiento");
+                } catch (Exception ex) {
+                    System.err.println("Error al actualizar vista después de editar alojamiento: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            });
             stage.showAndWait();
         } catch (Exception e) {
             MainController.showAlert(
                 "Error", "No se pudo abrir la ventana de edición: " + e.getMessage(), javafx.scene.control.Alert.AlertType.ERROR);
             e.printStackTrace();
         }
+    }/**
+     * Abre la ventana de creación de alojamiento en un nuevo Stage modal.
+     */
+    public void openCreationWindow() {
+        try {
+            System.out.println("Abriendo ventana de creación de alojamiento");
+            
+            // Usar MainController.loadFXML para cargar la vista
+            Parent root = MainController.loadFXML("CreationAndEditingForm");
+            if (root == null) {
+                throw new Exception("No se pudo cargar la vista CreationAndEditingForm");
+            }
+            
+            // No necesitamos establecer un alojamiento para editar aquí,
+            // porque estamos creando un nuevo alojamiento
+            
+            // Configurar y mostrar la ventana
+            Stage stage = new Stage();
+            stage.setTitle("Crear nuevo alojamiento");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setOnHidden(e -> {
+                // Actualizar datos después de cerrar el formulario
+                System.out.println("Ventana de creación cerrada, actualizando datos...");
+                // Refrescar la vista actual después de crear un alojamiento
+                try {
+                    MainController.getInstance().refreshCurrentView();
+                    System.out.println("Vista actualizada después de crear alojamiento");
+                } catch (Exception ex) {
+                    System.err.println("Error al actualizar vista después de crear alojamiento: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            });
+            stage.showAndWait();
+        } catch (Exception e) {
+            MainController.showAlert(
+                "Error", "No se pudo abrir la ventana de creación: " + e.getMessage(), javafx.scene.control.Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Obtiene la lista completa de alojamientos desde el servicio.
+     */
+    public List<Hosting> getAllHostings() {
+        // Obtener directamente todos los alojamientos del servicio
+        List<Hosting> allHostings = MainController.getInstance().getHostingService().findAllHostings();
+        System.out.println("getAllHostings encontró: " + allHostings.size() + " alojamientos");
+        return allHostings;
     }
 }
