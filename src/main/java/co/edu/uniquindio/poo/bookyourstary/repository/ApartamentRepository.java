@@ -51,4 +51,7 @@ public class ApartamentRepository {
         throw new IllegalArgumentException("No se encontró el apartamento a actualizar: " + apartament.getName());
     }
 
+    public void clearAll() {
+        apartaments.clear();
+    }
 }

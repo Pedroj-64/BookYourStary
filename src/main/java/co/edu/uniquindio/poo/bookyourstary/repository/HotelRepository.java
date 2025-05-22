@@ -51,4 +51,7 @@ public class HotelRepository {
         throw new IllegalArgumentException("No se encontró el hotel a actualizar: " + hotel.getName());
     }
 
+    public void clearAll() {
+        hotels.clear();
+    }
 }

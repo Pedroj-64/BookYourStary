@@ -1,17 +1,17 @@
 package co.edu.uniquindio.poo.bookyourstary.repository;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Admin;
 
 public class AdminRepository {
-
-    private Admin admin;
+    private final List<Admin> admins;
     private static AdminRepository instance;
 
     private AdminRepository() {
-
+        this.admins = new LinkedList<>();
     }
 
     public static AdminRepository getInstance() {
@@ -22,19 +22,23 @@ public class AdminRepository {
     }
 
     public void saveAdmin(Admin admin) {
-        this.admin = admin;
+        if (findByEmail(admin.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Admin with email " + admin.getEmail() + " already exists.");
+        }
+        admins.add(admin);
+    }
+
+    public Optional<Admin> findByEmail(String email) {
+        return admins.stream()
+            .filter(admin -> admin.getEmail().equalsIgnoreCase(email))
+            .findFirst();
     }
 
     public List<Admin> getAdmin() {
-        return admin != null ? List.of(admin) : List.of();
+        return new LinkedList<>(admins);
     }
-
-    public void deleteAdmin() {
-        this.admin = null;
+    
+    public void clearAll() {
+        admins.clear();
     }
-
-    public boolean isAdminRegistered() {
-        return admin != null;
-    }
-
 }

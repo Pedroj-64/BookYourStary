@@ -10,6 +10,7 @@ import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.model.enums.BookingState;
 import co.edu.uniquindio.poo.bookyourstary.repository.BookingRepository;
+import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 
 public class BookingService {
 
@@ -148,4 +149,11 @@ public class BookingService {
         return startDate.until(endDate).getDays(); 
     }
     
+    /**
+     * Elimina todas las reservas del sistema.
+     */
+    public void clearAll() {
+        bookingRepository.clearAll();
+        XmlSerializationManager.getInstance().saveAllData();
+    }
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="21.0.4" class="java.beans.XMLDecoder">
+ <object class="java.util.ArrayList">
+  <void method="add">
+   <object class="co.edu.uniquindio.poo.bookyourstary.model.Client" id="Client0">
+    <void property="active">
+     <boolean>true</boolean>
+    </void>
+    <void property="email">
+     <string>usuario@prueba.com</string>
+    </void>
+    <void property="id">
+     <string>10</string>
+    </void>
+    <void property="name">
+     <string>TestUser</string>
+    </void>
+    <void property="password">
+     <string>05d49692b755f99c4504b510418efeeeebfd466892540f27acf9a31a326d6504</string>
+    </void>
+    <void property="phoneNumber">
+     <string>3001234567</string>
+    </void>
+    <void property="virtualWallet">
+     <object class="co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet">
+      <void property="idWallet">
+       <string>1373f448-c3d9-4ca0-9c6e-1cd898f7d117</string>
+      </void>
+      <void property="propertyClient">
+       <object idref="Client0"/>
+      </void>
+     </object>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

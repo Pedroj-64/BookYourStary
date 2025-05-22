@@ -397,4 +397,17 @@ public class HostingService {
             throw new IllegalArgumentException("La fecha desde no puede ser posterior a la fecha hasta");
         }
     }
+
+    /**
+     * Elimina todos los alojamientos del sistema.
+     * Este método elimina todos los registros de alojamientos en todos los repositorios
+     * y limpia también el repositorio general de hostings.
+     */
+    public void clearAll() {
+        hostingRepository.clearAll();
+        houseRepository.clearAll();
+        apartamentRepository.clearAll();
+        hotelRepository.clearAll();
+        XmlSerializationManager.getInstance().saveAllData();
+    }
 }

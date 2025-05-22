@@ -46,5 +46,8 @@ public class ClientRepository {
     public void delete(String clientId) {
         clients.removeIf(client -> client.getId().equals(clientId));
     }
-
+    
+    public void clearAll() {
+        clients.clear();
+    }
 }
