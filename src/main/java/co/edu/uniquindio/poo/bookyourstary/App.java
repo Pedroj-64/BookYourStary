@@ -15,7 +15,7 @@ import java.io.InputStream;
 
 public class App extends Application {
 
-    @Override
+    @Override   
     public void stop() {
         // Guardar todos los datos al cerrar la aplicación
         try {

@@ -131,90 +131,29 @@ public class WalletTopUpViewController {
     @FXML
     void recargarSaldo(ActionEvent event) {
         try {
-            // Validar que haya una billetera actual
-            if (currentWallet == null) {
-                MainController.showAlert(
-                    "Error", 
-                    "No hay una billetera disponible para recargar.",
-                    AlertType.ERROR
-                );
-                return;
-            }
-            
-            // Validar que se haya seleccionado un método de pago
-            if (combo_metodoPago.getValue() == null || combo_metodoPago.getValue().isEmpty()) {
-                MainController.showAlert(
-                    "Advertencia", 
-                    "Por favor seleccione un método de pago.",
-                    AlertType.WARNING
-                );
-                return;
-            }
-            
-            // Validar y obtener el monto
-            String montoTexto = txt_monto.getText().trim().replace(",", ".");
-            if (montoTexto.isEmpty()) {
-                MainController.showAlert(
-                    "Advertencia", 
-                    "Por favor ingrese un monto para recargar.",
-                    AlertType.WARNING
-                );
-                return;
-            }
-            
-            double monto;
-            try {
-                monto = Double.parseDouble(montoTexto);
-            } catch (NumberFormatException e) {
-                MainController.showAlert(
-                    "Error", 
-                    "El monto ingresado no es válido. Por favor ingrese un número.",
-                    AlertType.ERROR
-                );
-                return;
-            }
-            
-            // Validar que el monto sea positivo
+            double monto = Double.parseDouble(txt_monto.getText().replace(",", "."));
             if (monto <= 0) {
-                MainController.showAlert(
-                    "Advertencia", 
-                    "El monto a recargar debe ser mayor a cero.",
-                    AlertType.WARNING
-                );
+                lbl_saldoActual.setText("Monto inválido");
                 return;
             }
-            
-            // Realizar la recarga
-            walletService.topUpWallet(currentWallet.getIdWallet(), monto);
-            
-            // Actualizar UI
-            actualizarSaldoMostrado();
-            
-            // Mostrar mensaje de éxito
-            MainController.showAlert(
-                "Éxito", 
-                "Se ha recargado " + currencyFormat.format(monto) + " a su billetera.",
-                AlertType.INFORMATION
-            );
-            
-            // Limpiar campo de monto
+            // Aquí deberías llamar a tu servicio/modelo para recargar la billetera
+            // Simulación:
+            double saldoActual = Double.parseDouble(lbl_saldoActual.getText().replace("$", "").replace(",", "").replace(" ", ""));
+            saldoActual += monto;
+            lbl_saldoActual.setText(String.format("$%.2f", saldoActual));
             txt_monto.clear();
-            
         } catch (Exception e) {
-            MainController.showAlert(
-                "Error", 
-                "Ha ocurrido un error al recargar la billetera: " + e.getMessage(),
-                AlertType.ERROR
-            );
+            lbl_saldoActual.setText("Error en recarga");
         }
     }
-    
+
     /**
      * Cancela la operación y regresa a la pantalla principal.
      * @param event Evento de acción.
      */
     @FXML
     void cancelar(ActionEvent event) {
-        MainController.loadScene("home", 900, 600);
+        // Cerrar ventana o volver atrás
+        ((javafx.stage.Stage) btn_cancelar.getScene().getWindow()).close();
     }
 }

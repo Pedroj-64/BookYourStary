@@ -22,6 +22,9 @@ public class UserHeaderViewController {
     @FXML
     private Label lbl_Saldo;
 
+    @FXML
+    private Button btn_RecargarBilletera;
+
     UserHeaderController controller = new UserHeaderController();
 
     @FXML
@@ -57,6 +60,17 @@ public class UserHeaderViewController {
                 "No se pudo abrir el menú de administrador: " + e.getMessage(),
                 javafx.scene.control.Alert.AlertType.ERROR
             );
+        }
+    }
+
+    @FXML
+    void abrirRecargarBilletera(ActionEvent event) {
+        try {
+            co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("walletTopUp", 600, 400);
+        } catch (Exception e) {
+            e.printStackTrace();
+            co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.showAlert(
+                "Error", "No se pudo abrir la ventana de recarga de billetera.", AlertType.ERROR);
         }
     }
 }

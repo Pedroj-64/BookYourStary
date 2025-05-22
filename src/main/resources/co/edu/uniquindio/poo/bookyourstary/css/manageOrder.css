@@ -1,0 +1,165 @@
+/* General font and background */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #f8f8f8;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+/* Main button */
+.button {
+    -fx-background-color: #ff6f00; /* Vibrant orange */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 20px;
+}
+
+.button:hover {
+    -fx-background-color: #e65100; /* Darker orange on hover */
+}
+
+/* DatePicker styling */
+.date-picker {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* TextField styling */
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-padding: 6 10;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.08), 2, 0, 0, 1);
+    -fx-prompt-text-fill: #999999;
+}
+
+.text-field:focused {
+    -fx-border-color: #ff6600;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(one-pass-box, rgba(255,102,0,0.3), 4, 0.2, 0, 2);
+}
+
+.text-field:disabled {
+    -fx-opacity: 0.6;
+}
+
+/* TableView styling - especially important for ManageOrder */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 5px;
+}
+
+/* Table headers */
+.table-view .column-header-background {
+    -fx-background-color: #eeeeee;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-border-color: #cccccc;
+    -fx-padding: 8px;
+    -fx-font-weight: bold;
+}
+
+/* Row styling */
+.table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+/* Row selection */
+.table-view .table-row-cell:filled:selected {
+    -fx-background-color: #ffe0b2; /* Light orange for selected row */
+}
+
+/* Layout padding and spacing */
+.hbox, .vbox {
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+}
+
+/* Order status indicators */
+.status-pending {
+    -fx-background-color: #fff3e0;
+    -fx-text-fill: #e65100;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 4px;
+}
+
+.status-confirmed {
+    -fx-background-color: #e8f5e9;
+    -fx-text-fill: #2e7d32;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 4px;
+}
+
+.status-canceled {
+    -fx-background-color: #ffebee;
+    -fx-text-fill: #c62828;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 4px;
+}
+
+/* Special styling for action buttons in orders */
+.action-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #ff6f00;
+    -fx-border-radius: 4px;
+    -fx-text-fill: #ff6f00;
+    -fx-font-weight: normal;
+    -fx-padding: 5px 10px;
+}
+
+.action-button:hover {
+    -fx-background-color: #fff3e0;
+}
+
+/* Section headers */
+.section-header {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 0;
+    -fx-border-color: transparent transparent #ff6f00 transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+
+/* Pagination styling */
+.pagination {
+    -fx-page-information-visible: false;
+}
+
+.pagination .page {
+    -fx-background-color: white;
+}
+
+.pagination .pagination-control .button {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-text-fill: #333333;
+    -fx-padding: 5px 8px;
+}
+
+.pagination .pagination-control .button:hover {
+    -fx-background-color: #f0f0f0;
+}
