@@ -2,5 +2,4 @@
 
 <?import javafx.scene.control.Button?>
 
-
-<Button fx:id="btn_CerrarSesion" onAction="#cerrarSesion" styleClass="boton" stylesheets="@css/button.css" text="Cerrar Sesion" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" />
+<Button fx:id="btn_CerrarSesion" onAction="#cerrarSesion" styleClass="general-button" stylesheets="@css/general.css" text="Cerrar Sesión" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"/>

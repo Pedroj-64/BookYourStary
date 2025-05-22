@@ -73,27 +73,19 @@ public class BillService {
         sendQrEmail(bill);
 
         return bill;
-    }
-
-    private void sendQrEmail(Bill bill) {
+    }    private void sendQrEmail(Bill bill) {
         Client client = bill.getClient();
         Booking booking = bill.getBooking();
 
-        String contenidoQR = "Reserva confirmada\nID Reserva: " + booking.getBookingId()
-                + "\nID Factura: " + bill.getBillId()
-                + "\nTotal: $" + bill.getTotal();
+        // Simplificar contenido del QR para que solo muestre "Pagaste" y el monto
+        String contenidoQR = String.format("Pagaste $%.2f", bill.getTotal());
 
         String qrCodeBase64 = QrUtil.generateBase64Qr(contenidoQR, 300, 300);
 
-        String emailContent = emailTemplateService.buildReservationConfirmationEmail(
-                client.getName(),
-                booking.getHosting().getName(),
-                booking.getStartDate().toString(),
-                booking.getEndDate().toString(),
-                (int) bookingService.calculateNumberOfNights(booking.getStartDate(), booking.getEndDate()),
+        // Usar la plantilla de factura actualizada
+        String emailContent = emailTemplateService.buildInvoiceEmail(bill, qrCodeBase64);
 
-                qrCodeBase64);
-
+        // Enviar correo electrónico
         emailNotifier.update(emailContent, client.getEmail());
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import co.edu.uniquindio.poo.bookyourstary.model.Bill;
 import co.edu.uniquindio.poo.bookyourstary.model.Booking;
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
@@ -41,13 +42,18 @@ public class BookingService {
     
 
     public Booking createBooking(Client client, Hosting hosting, LocalDate startDate, LocalDate endDate, int numberOfGuests) {
-
         validateDates(startDate, endDate);
         validateGuestCapacity(hosting, numberOfGuests);
 
+        // Calcular precio base
         double costPerNight = hosting.getPricePerNight();
         long nights = startDate.until(endDate).getDays();
-        double totalPrice = costPerNight * nights;
+        double basePrice = costPerNight * nights;
+        
+        // Aplicar ofertas disponibles al precio
+        double totalPrice = co.edu.uniquindio.poo.bookyourstary.internalControllers.OfferController
+                .getInstance()
+                .applyApplicableOffers(basePrice, (int)nights, startDate);
 
         String bookingId = UUID.randomUUID().toString();
 
@@ -63,6 +69,7 @@ public class BookingService {
         );
 
         bookingRepository.save(booking);
+        XmlSerializationManager.getInstance().saveAllData(); // Guardar cambios en XML
         return booking;
     }
 
@@ -99,9 +106,14 @@ public class BookingService {
         walletTransactionService.registerTransaction("RESERVA", totalPrice, "Pago por reserva: " + bookingId);
     
         updateBookingState(bookingId, BookingState.CONFIRMED);
-    
-        BillService.getInstance().generateBill(booking); // Get BillService instance dynamically
-    
+        
+        // Generar factura
+        Bill bill = BillService.getInstance().generateBill(booking);
+        
+        // Guardar todos los cambios en XML
+        XmlSerializationManager.getInstance().saveAllData();
+        
+        System.out.println("Reserva confirmada exitosamente. Factura generada: " + bill.getBillId());
     }
 
     public void cancelBooking(String bookingId) {
