@@ -1,31 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-<java version="21.0.4" class="java.beans.XMLDecoder">
- <object class="java.util.ArrayList">
-  <void method="add">
-   <object class="co.edu.uniquindio.poo.bookyourstary.model.Admin">
-    <void property="active">
-     <boolean>true</boolean>
-    </void>
-    <void property="email">
-     <string>pepito@gmail.com</string>
-    </void>
-    <void property="id">
-     <string>1</string>
-    </void>
-    <void property="name">
-     <string>admin</string>
-    </void>
-    <void property="password">
-     <string>adminpass</string>
-    </void>
-    <void property="phoneNumber">
-     <string>1234567890</string>
-    </void>
-   </object>
-  </void>
- </object>
-=======
 <java version="21.0.2" class="java.beans.XMLDecoder">
->>>>>>> b800d0d35d2d449061a9cd4717a17ffc1e8a5f02
 </java>
