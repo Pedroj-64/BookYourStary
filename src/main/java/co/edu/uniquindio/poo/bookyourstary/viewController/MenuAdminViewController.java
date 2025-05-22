@@ -1,19 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.viewController;
 
-import java.io.IOException;
 import java.util.List;
 
 import co.edu.uniquindio.poo.bookyourstary.controller.MenuAdminController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
-import co.edu.uniquindio.poo.bookyourstary.service.AuthService;
 import co.edu.uniquindio.poo.bookyourstary.util.FilterData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -364,7 +359,6 @@ public class MenuAdminViewController {
                     "No se pudo inicializar el panel de administración: " + e.getMessage(),
                     AlertType.ERROR);
         }
-
     }
 
     private void loadAndDisplayHostings() {
@@ -648,32 +642,6 @@ public class MenuAdminViewController {
             System.err.println("Error al inicializar listas de componentes: " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException("Error al inicializar componentes", e);
-        }
-    }
-
-    @FXML
-    private Button btnManageRooms;
-
-    public void openManageRooms() {
-        if (AuthService.isAdmin()) {
-            try {
-                // Cargar el archivo FXML de gestionar habitaciones
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/ManageRooms.fxml"));
-                Parent root = loader.load();
-
-                // Crear una nueva ventana (Stage) para la gestión de habitaciones
-                Stage stage = new Stage();
-                stage.setTitle("Gestión de Habitaciones");
-                stage.setScene(new Scene(root));
-                stage.show();
-
-                System.out.println("Vista de gestión de habitaciones abierta con éxito.");
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Error al cargar el archivo ManageRooms.fxml: " + e.getMessage());
-            }
-        } else {
-            System.out.println("Acceso denegado: solo los administradores pueden gestionar habitaciones.");
         }
     }
 }
