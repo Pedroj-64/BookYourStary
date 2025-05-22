@@ -37,6 +37,7 @@
                      <children>
                         <Button fx:id="btn_CerrarSesion" onAction="#CerrarSesion" styleClass="encabezado-boton" text="Cerrar Sesion" />
                         <Button fx:id="btn_Ayuda" onAction="#ayudaBtn" styleClass="encabezado-boton" text="Ayuda" />
+                        <Button fx:id="btnManageRooms" text="Gestionar Habitaciones" onAction="#openManageRooms" />
                      </children>
                   </HBox>
                   <AnchorPane fx:id="UserHeader0" styleClass="encabezado-anchorpane" HBox.hgrow="ALWAYS">
