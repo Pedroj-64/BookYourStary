@@ -6,6 +6,7 @@ import java.util.Optional;
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet;
 import co.edu.uniquindio.poo.bookyourstary.repository.VirtualWalletRepository;
+import javafx.beans.value.ObservableBooleanValue;
 
 public class VirtualWalletService {
 
@@ -26,7 +27,7 @@ public class VirtualWalletService {
         this.walletTransactionService = walletTransactionService;
     }
 
-    public VirtualWallet createWalletForClient(Client client) {
+    public ObservableBooleanValue createWalletForClient(Client client) {
         if (client == null) {
             throw new IllegalArgumentException("El cliente no puede ser nulo");
         }
@@ -72,7 +73,7 @@ public class VirtualWalletService {
         walletTransactionService.registerTransaction("PAGO", amount, "Descuento de saldo de la billetera");
     }
 
-    public double getBalance(String walletId) {
+    public ObservableBooleanValue getBalance(String walletId) {
         return getWalletByIdOrThrow(walletId).getBalance();
     }
 

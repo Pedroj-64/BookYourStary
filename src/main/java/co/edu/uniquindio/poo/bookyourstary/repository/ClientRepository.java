@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
+import javafx.beans.value.ObservableBooleanValue;
 
 public class ClientRepository {
 
@@ -31,7 +32,7 @@ public class ClientRepository {
         }
     }
 
-    public Optional<Client> findById(String clientId) {
+    public ObservableBooleanValue findById(String clientId) {
         return clients.stream().filter(client -> client.getId().equals(clientId)).findFirst();
     }
 
