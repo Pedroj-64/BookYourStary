@@ -520,50 +520,6 @@ public class MenuAdminViewController {
             } catch (Exception e) {
                 System.err.println("Error durante el refresh: " + e.getMessage());
                 e.printStackTrace();
-<<<<<<< HEAD
-=======
-                MainController.showAlert("Error", 
-                    "No se pudo actualizar la lista de alojamientos: " + e.getMessage(),
-                    javafx.scene.control.Alert.AlertType.ERROR);
-            }
-        });
-    }    /**
-     * Método público para recargar los alojamientos desde fuera de la clase.
-     * Puede ser llamado por otras clases que necesiten actualizar la vista de alojamientos.
-     */    public void reloadHostings() {
-        System.out.println("Recargando alojamientos por solicitud externa");
-        
-        // Asegurarse de que se ejecute en el hilo de JavaFX
-        javafx.application.Platform.runLater(() -> {
-            try {
-                // Forzar una actualización completa
-                refresh(new javafx.event.ActionEvent());
-                
-                // Forzar también una actualización visual
-                if (contenedorPrincipal != null) {
-                    contenedorPrincipal.requestLayout();
-                }
-                
-                // Asegurarse de que la ventana está activa y visible
-                if (contenedorPrincipal != null && contenedorPrincipal.getScene() != null &&
-                        contenedorPrincipal.getScene().getWindow() != null) {
-                    javafx.stage.Window window = contenedorPrincipal.getScene().getWindow();
-                    if (window instanceof javafx.stage.Stage) {
-                        javafx.stage.Stage stage = (javafx.stage.Stage) window;
-                        if (!stage.isShowing()) {
-                            stage.show();
-                        }
-                        stage.requestFocus();
-                    } else {
-                        window.requestFocus();
-                    }
-                }
-                
-                System.out.println("Vista de alojamientos recargada completamente");
-            } catch (Exception e) {
-                System.err.println("Error al recargar alojamientos: " + e.getMessage());
-                e.printStackTrace();
->>>>>>> 328e8654f5f6df3ac49672634d24cb3c720194d4
                 MainController.showAlert("Error",
                     "No se pudo actualizar la lista de alojamientos: " + e.getMessage(),
                     AlertType.ERROR);
