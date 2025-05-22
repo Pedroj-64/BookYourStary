@@ -9,9 +9,6 @@ import javafx.stage.Stage;
 import co.edu.uniquindio.poo.bookyourstary.config.mapping.DataMapping;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
-import co.edu.uniquindio.poo.bookyourstary.util.ApartmentCreator;
-
-import java.io.InputStream;
 
 public class App extends Application {
 
