@@ -26,15 +26,16 @@ public class EmailTemplateService {
         Map<String, String> values = new HashMap<>();
         values.put("code", activation.getCode().toString());
         values.put("date", activation.getCreationDate().toString());
-        // Pass only the filename, TemplateLoader handles the full path
-        return TemplateLoader.loadTemplate("activateAccount.html", values);
+        // Ahora usamos la ruta completa:
+        return TemplateLoader.loadTemplate("co/edu/uniquindio/poo/bookyourstary/emailTemplates/activateAccount.html", values);
     }
 
     public String buildRecoveryEmail(CodeRecovery recovery, String tempPassword) {
         Map<String, String> values = new HashMap<>();
         values.put("password", tempPassword);
         values.put("date", recovery.getCreationDate().toString());
-        return TemplateLoader.loadTemplate("passwordRecovery.html", values);
+        // ruta correcta para el template de recuperación:
+        return TemplateLoader.loadTemplate("co/edu/uniquindio/poo/bookyourstary/emailTemplates/passwordRecovery.html", values);
     }
 
     public String buildReservationConfirmationEmail(
@@ -52,7 +53,7 @@ public class EmailTemplateService {
         values.put("numeroNoches", String.valueOf(numeroNoches));
         values.put("qrCodeUrl", qrCodeUrl);
 
-        return TemplateLoader.loadTemplate("ConfirmBooking.html", values);
+        // Ajusta la ruta si tienes este template en una subcarpeta
+        return TemplateLoader.loadTemplate("co/edu/uniquindio/poo/bookyourstary/emailTemplates/ConfirmBooking.html", values);
     }
-
 }

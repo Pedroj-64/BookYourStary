@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.internalControllers;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import co.edu.uniquindio.poo.bookyourstary.service.ClientService;
+import co.edu.uniquindio.poo.bookyourstary.service.CodeActivationService;
 
 /**
  * Utilidad para crear un cliente completamente funcional con todos los servicios y repositorios necesarios.
@@ -24,6 +25,12 @@ public class CreateClient {
         // Crear y registrar el cliente (sin activar ni lógica de email)
         Client client = new Client(id, name, phoneNumber, email, password);
         clientService.registerClient(client, password);
+        // Enviar código de activación por correo
+        try {
+            CodeActivationService.getInstance().generateActivationCode(email);
+        } catch (Exception e) {
+            System.err.println("Error enviando correo de activación: " + e.getMessage());
+        }
         return client;
     }
 }
