@@ -225,21 +225,61 @@ public class HomeViewController {
 
     private FilterData collectFilterData() {
         return getFilterData(combo_Ciudad, combo_tipoAlojamiento, txt_minPrecio, txt_maxPrecio, txt_numHuespedes, check_wifi, check_piscina, check_desayuno, date_inicio, date_fin);
-    }
-
-    @NotNull
+    }    @NotNull
     static FilterData getFilterData(ComboBox<City> comboCiudad, ComboBox<String> comboTipoAlojamiento, TextField txtMinPrecio, TextField txtMaxPrecio, TextField txtNumHuespedes, CheckBox checkWifi, CheckBox checkPiscina, CheckBox checkDesayuno, DatePicker dateInicio, DatePicker dateFin) {
-        String ciudad = comboCiudad.getValue().getName() != null ? comboCiudad.getValue().toString() : null;
-        String tipo = comboTipoAlojamiento.getValue() != null ? comboTipoAlojamiento.getValue().toString() : null;
-        Double minPrecio = txtMinPrecio.getText().isEmpty() ? null : Double.valueOf(txtMinPrecio.getText());
-        Double maxPrecio = txtMaxPrecio.getText().isEmpty() ? null : Double.valueOf(txtMaxPrecio.getText());
-        Integer numHuespedes = txtNumHuespedes.getText().isEmpty() ? null
-                : Integer.valueOf(txtNumHuespedes.getText());
-        Boolean wifi = checkWifi.isSelected() ? true : null;
-        Boolean piscina = checkPiscina.isSelected() ? true : null;
-        Boolean desayuno = checkDesayuno.isSelected() ? true : null;
-        LocalDate fechaInicio = dateInicio.getValue();
-        LocalDate fechaFin = dateFin.getValue();
+        // Manejo seguro de valores nulos
+        String ciudad = null;
+        if (comboCiudad != null && comboCiudad.getValue() != null) {
+            try {
+                // Obtener el nombre de la ciudad directamente del objeto City
+                ciudad = comboCiudad.getValue().getName();
+                System.out.println("Ciudad seleccionada para filtro: " + ciudad);
+            } catch (Exception e) {
+                System.err.println("Error al obtener el nombre de la ciudad: " + e.getMessage());
+                // Intentar obtener la representación en cadena como respaldo
+                ciudad = comboCiudad.getValue().toString();
+            }
+        }
+        
+        String tipo = null;
+        if (comboTipoAlojamiento != null && comboTipoAlojamiento.getValue() != null) {
+            tipo = comboTipoAlojamiento.getValue().toString();
+        }
+        
+        Double minPrecio = null;
+        if (txtMinPrecio != null && !txtMinPrecio.getText().isEmpty()) {
+            try {
+                minPrecio = Double.valueOf(txtMinPrecio.getText());
+            } catch (NumberFormatException e) {
+                System.err.println("Error al convertir precio mínimo: " + e.getMessage());
+            }
+        }
+        
+        Double maxPrecio = null;
+        if (txtMaxPrecio != null && !txtMaxPrecio.getText().isEmpty()) {
+            try {
+                maxPrecio = Double.valueOf(txtMaxPrecio.getText());
+            } catch (NumberFormatException e) {
+                System.err.println("Error al convertir precio máximo: " + e.getMessage());
+            }
+        }
+        
+        Integer numHuespedes = null;
+        if (txtNumHuespedes != null && !txtNumHuespedes.getText().isEmpty()) {
+            try {
+                numHuespedes = Integer.valueOf(txtNumHuespedes.getText());
+            } catch (NumberFormatException e) {
+                System.err.println("Error al convertir número de huéspedes: " + e.getMessage());
+            }
+        }
+        
+        Boolean wifi = checkWifi != null && checkWifi.isSelected() ? true : null;
+        Boolean piscina = checkPiscina != null && checkPiscina.isSelected() ? true : null;
+        Boolean desayuno = checkDesayuno != null && checkDesayuno.isSelected() ? true : null;
+        
+        LocalDate fechaInicio = dateInicio != null ? dateInicio.getValue() : null;
+        LocalDate fechaFin = dateFin != null ? dateFin.getValue() : null;
+        
         return new FilterData(ciudad, tipo, minPrecio, maxPrecio, numHuespedes, wifi, piscina, desayuno, fechaInicio,
                 fechaFin);
     }
@@ -264,19 +304,24 @@ public class HomeViewController {
                 "Ayuda",
                 "Si tienes problemas, contacta con el equipo de margaDevSociety.",
                 AlertType.INFORMATION);
-    }
-
-    @FXML
+    }    @FXML
     void filtrar(ActionEvent event) {
-
         FilterData data = collectFilterData();
+        
+        // Eliminar duplicación de parámetros fecha
         List<Hosting> filtrados = homeController.filterHostings(
-                data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, data.fechaInicio, data.fechaFin,
-                data.numHuespedes, data.wifi,
-                data.piscina, data.desayuno, data.fechaInicio, data.fechaFin);
+                data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, null, null,
+                data.numHuespedes, data.wifi, data.piscina, data.desayuno, 
+                data.fechaInicio, data.fechaFin);
+                
+        System.out.println("Filtrado completado. Resultados encontrados: " + filtrados.size());
+        
+        // Actualizar la visualización con los resultados filtrados
         homeController.updateHostingDisplay(filtrados, imageViews, titleLabels, descLabels, priceLabels, cityLabels,
                 serviceLabels);
-
+                
+        // Actualizar también los botones de reserva para que apunten a los alojamientos filtrados
+        homeController.assignHostingsToReserveButtons(reserveButtons, filtrados);
     }
 
     @FXML
