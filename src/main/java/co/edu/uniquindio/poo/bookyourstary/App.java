@@ -32,27 +32,24 @@ public class App extends Application {
         TemplateLoader.listAvailableResources();
         // Ensure MainController singleton is initialized, though getInstance() calls
         // should handle it.
-        MainController.getInstance();
-
-        // Always create test data first to ensure app has basic data to work with
-        System.out.println("Creando datos de prueba iniciales...");
-        DataMapping.createTestAdmin();
-        DataMapping.createAllHostings(); // This now also handles city creation and persistence
-        ApartmentCreator.createApartments(); // Crear apartamentos usando nuestra utilidad independiente
-        DataMapping.createTestClient();
-
-        // Then try to load data from XML, which might override the test data
+        MainController.getInstance();        // First try to load XML data if it exists
         try {
             XmlSerializationManager xmlManager = XmlSerializationManager.getInstance();
 
-            // Only try to load if data files already exist
             if (xmlManager.hasStoredData()) {
                 xmlManager.loadAllData();
                 System.out.println("Datos cargados correctamente desde XML.");
             } else {
-                System.out.println("No se encontraron archivos XML previos, se usarán los datos de prueba.");
-                // Save initial data to XML
+                // If no XML data exists, create and save test data
+                System.out.println("No se encontraron archivos XML previos, creando datos de prueba...");
+                DataMapping.createTestAdmin();
+                DataMapping.createAllHostings(); // This also handles city creation
+                ApartmentCreator.createApartments();
+                DataMapping.createTestClient();
+                
+                // Save the initial test data
                 xmlManager.saveAllData();
+                System.out.println("Datos de prueba creados y guardados en XML.");
             }
         } catch (Exception e) {
             System.err.println("Error al cargar datos desde XML: " + e.getMessage());

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>co.edu.uniquindio.poo.bookyourstary.model</OriginalElement>
+  <nodes>
+    <node x="-954.0" y="1165.0">co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded</node>
+    <node x="-254.5" y="1990.0">co.edu.uniquindio.poo.bookyourstary.model.Booking</node>
+    <node x="-269.5" y="891.0">co.edu.uniquindio.poo.bookyourstary.model.Client</node>
+    <node x="-1174.0" y="376.0">co.edu.uniquindio.poo.bookyourstary.model.User</node>
+    <node x="-613.0" y="1931.0">co.edu.uniquindio.poo.bookyourstary.model.Apartament</node>
+    <node x="-1180.0" y="1224.0">co.edu.uniquindio.poo.bookyourstary.model.Admin</node>
+    <node x="-1173.0" y="1919.5">co.edu.uniquindio.poo.bookyourstary.model.Hotel</node>
+    <node x="-493.0" y="1120.5">co.edu.uniquindio.poo.bookyourstary.model.Hosting</node>
+    <node x="-234.0" y="445.0">co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet</node>
+    <node x="-362.5" y="2556.0">co.edu.uniquindio.poo.bookyourstary.model.Bill</node>
+    <node x="-1090.5" y="776.0">co.edu.uniquindio.poo.bookyourstary.model.Room</node>
+    <node x="-853.0" y="1490.0">co.edu.uniquindio.poo.bookyourstary.model.House</node>
+    <node x="-629.0" y="832.0">co.edu.uniquindio.poo.bookyourstary.model.City</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Admin" target="co.edu.uniquindio.poo.bookyourstary.model.User" relationship="GENERALIZATION">
+      <point x="0.0" y="-27.0" />
+      <point x="-1106.0" y="751.0" />
+      <point x="-1086.0" y="751.0" />
+      <point x="0.0" y="155.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Hotel" target="co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded" relationship="TO_MANY">
+      <point x="-73.5" y="-271.5" />
+      <point x="-1099.5" y="1891.0" />
+      <point x="-986.0" y="1891.0" />
+      <point x="-986.0" y="1351.0" />
+      <point x="-866.0" y="1351.0" />
+      <point x="0.0" y="86.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Hotel" target="co.edu.uniquindio.poo.bookyourstary.model.City" relationship="TO_ONE">
+      <point x="-73.5" y="-271.5" />
+      <point x="-1099.5" y="1891.0" />
+      <point x="-986.0" y="1891.0" />
+      <point x="-986.0" y="1371.0" />
+      <point x="-546.0" y="1371.0" />
+      <point x="0.0" y="99.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Bill" target="co.edu.uniquindio.poo.bookyourstary.model.Client" relationship="TO_ONE">
+      <point x="0.0" y="-155.0" />
+      <point x="-286.0" y="2531.0" />
+      <point x="-6.0" y="2531.0" />
+      <point x="-6.0" y="1971.0" />
+      <point x="-26.0" y="1971.0" />
+      <point x="-26.0" y="871.0" />
+      <point x="-114.25" y="871.0" />
+      <point x="51.75" y="-40.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.House" target="co.edu.uniquindio.poo.bookyourstary.model.City" relationship="TO_ONE">
+      <point x="-73.5" y="-201.0" />
+      <point x="-779.5" y="1451.0" />
+      <point x="-866.0" y="1451.0" />
+      <point x="-866.0" y="1391.0" />
+      <point x="-546.0" y="1391.0" />
+      <point x="0.0" y="99.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Booking" target="co.edu.uniquindio.poo.bookyourstary.model.Client" relationship="TO_ONE">
+      <point x="0.0" y="-201.0" />
+      <point x="-146.0" y="1911.0" />
+      <point x="-26.0" y="1911.0" />
+      <point x="-26.0" y="871.0" />
+      <point x="-114.25" y="871.0" />
+      <point x="51.75" y="-40.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Apartament" target="co.edu.uniquindio.poo.bookyourstary.model.City" relationship="TO_ONE">
+      <point x="-73.5" y="-260.0" />
+      <point x="-539.5" y="1411.0" />
+      <point x="-546.0" y="1411.0" />
+      <point x="0.0" y="99.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Booking" target="co.edu.uniquindio.poo.bookyourstary.model.Hosting" relationship="TO_ONE">
+      <point x="0.0" y="-201.0" />
+      <point x="-146.0" y="1931.0" />
+      <point x="-272.5" y="1931.0" />
+      <point x="73.5" y="130.5" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet" target="co.edu.uniquindio.poo.bookyourstary.model.Client" relationship="TO_ONE">
+      <point x="0.0" y="86.0" />
+      <point x="-146.0" y="851.0" />
+      <point x="-114.25" y="851.0" />
+      <point x="51.75" y="-40.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Client" target="co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet" relationship="TO_ONE">
+      <point x="51.75" y="-40.0" />
+      <point x="-114.25" y="831.0" />
+      <point x="-146.0" y="831.0" />
+      <point x="0.0" y="86.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.House" target="co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded" relationship="TO_MANY">
+      <point x="-73.5" y="-201.0" />
+      <point x="-779.5" y="1451.0" />
+      <point x="-866.0" y="1451.0" />
+      <point x="0.0" y="86.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Hotel" target="co.edu.uniquindio.poo.bookyourstary.model.Hosting" relationship="REALIZATION">
+      <point x="73.5" y="-271.5" />
+      <point x="-952.5" y="1431.0" />
+      <point x="-426.0" y="1431.0" />
+      <point x="-426.0" y="1411.0" />
+      <point x="-419.5" y="1411.0" />
+      <point x="-73.5" y="130.5" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Apartament" target="co.edu.uniquindio.poo.bookyourstary.model.Hosting" relationship="REALIZATION">
+      <point x="73.5" y="-260.0" />
+      <point x="-392.5" y="1431.0" />
+      <point x="-426.0" y="1431.0" />
+      <point x="-426.0" y="1411.0" />
+      <point x="-419.5" y="1411.0" />
+      <point x="-73.5" y="130.5" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Hotel" target="co.edu.uniquindio.poo.bookyourstary.model.Room" relationship="TO_MANY">
+      <point x="-73.5" y="-271.5" />
+      <point x="-1099.5" y="1891.0" />
+      <point x="-986.0" y="1891.0" />
+      <point x="0.0" y="155.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.House" target="co.edu.uniquindio.poo.bookyourstary.model.Hosting" relationship="REALIZATION">
+      <point x="73.5" y="-201.0" />
+      <point x="-632.5" y="1431.0" />
+      <point x="-426.0" y="1431.0" />
+      <point x="-426.0" y="1411.0" />
+      <point x="-419.5" y="1411.0" />
+      <point x="-73.5" y="130.5" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Client" target="co.edu.uniquindio.poo.bookyourstary.model.User" relationship="GENERALIZATION">
+      <point x="-51.75" y="-40.0" />
+      <point x="-217.75" y="751.0" />
+      <point x="-1086.0" y="751.0" />
+      <point x="0.0" y="155.0" />
+    </edge>
+    <edge source="co.edu.uniquindio.poo.bookyourstary.model.Bill" target="co.edu.uniquindio.poo.bookyourstary.model.Booking" relationship="TO_ONE">
+      <point x="0.0" y="-155.0" />
+      <point x="-286.0" y="1951.0" />
+      <point x="-146.0" y="1951.0" />
+      <point x="0.0" y="-201.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.20876494023904382" showDependencies="true" x="-582.9999999999998" y="1631.0" />
+  <SelectedNodes>
+    <node>co.edu.uniquindio.poo.bookyourstary.model.Admin</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>packageLocal</VISIBILITY>
+</Diagram>
+
