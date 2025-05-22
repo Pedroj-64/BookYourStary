@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.service;
 
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.repository.CityRepository;
+import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,5 +33,13 @@ public class CityService {
         City city = findCityById(cityName)
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró la ciudad con ese nombre"));
         cityRepository.delete(cityName);
+    }
+
+    /**
+     * Elimina todas las ciudades del sistema.
+     */
+    public void clearAll() {
+        cityRepository.clearAll();
+        XmlSerializationManager.getInstance().saveAllData();
     }
 }

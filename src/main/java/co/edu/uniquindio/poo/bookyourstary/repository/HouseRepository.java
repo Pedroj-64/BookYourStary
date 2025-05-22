@@ -51,4 +51,7 @@ public class HouseRepository {
         throw new IllegalArgumentException("No se encontró la casa a actualizar: " + house.getName());
     }
 
+    public void clearAll() {
+        houses.clear();
+    }
 }

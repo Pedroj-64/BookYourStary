@@ -3,6 +3,7 @@ package co.edu.uniquindio.poo.bookyourstary.service;
 import co.edu.uniquindio.poo.bookyourstary.model.*;
 import co.edu.uniquindio.poo.bookyourstary.repository.ClientRepository;
 import co.edu.uniquindio.poo.bookyourstary.util.PasswordUtil;
+import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -148,5 +149,13 @@ public class ClientService {
 
     public double getAverageScoreForHosting(String hostingId) {
         return reviewService.getAverageScore(hostingId);
+    }
+
+    /**
+     * Elimina todos los clientes del sistema.
+     */
+    public void clearAll() {
+        clientRepository.clearAll();
+        XmlSerializationManager.getInstance().saveAllData();
     }
 }

@@ -23,11 +23,16 @@ public class CityRepository {
     }
 
     public void save(City city) {
+        if (findById(city.getName()).isPresent()) {
+            throw new IllegalArgumentException("City with name " + city.getName() + " already exists.");
+        }
         cities.add(city);
     }
 
     public Optional<City> findById(String cityName) {
-        return cities.stream().filter(city -> city.getName().equalsIgnoreCase(cityName)).findFirst();
+        return cities.stream()
+            .filter(city -> city.getName().equals(cityName))
+            .findFirst();
     }
 
     public List<City> findAll() {
@@ -35,6 +40,10 @@ public class CityRepository {
     }
 
     public void delete(String cityName) {
-        cities.removeIf(city -> city.getName().equalsIgnoreCase(cityName));
+        cities.removeIf(city -> city.getName().equals(cityName));
+    }
+    
+    public void clearAll() {
+        cities.clear();
     }
 }

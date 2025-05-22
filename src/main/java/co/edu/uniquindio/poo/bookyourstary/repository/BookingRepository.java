@@ -58,4 +58,8 @@ public class BookingRepository {
         return result;
     }
 
+    public void clearAll() {
+        bookings.clear();
+    }
+
 }

@@ -36,4 +36,8 @@ public class HostingRepository {
             save(hosting);
         }
     }
+    
+    public void clearAll() {
+        hostings.clear();
+    }
 }

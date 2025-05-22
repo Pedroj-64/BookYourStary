@@ -147,243 +147,6 @@
    </object>
   </void>
   <void method="add">
-   <object class="co.edu.uniquindio.poo.bookyourstary.model.House" id="House2">
-    <void property="city">
-     <object class="co.edu.uniquindio.poo.bookyourstary.model.City" id="City2">
-      <void property="country">
-       <string>Colombia</string>
-      </void>
-      <void property="departament">
-       <string>Cundinamarca</string>
-      </void>
-      <void property="name">
-       <string>Bogotá</string>
-      </void>
-     </object>
-    </void>
-    <void property="cleaningFee">
-     <double>25000.0</double>
-    </void>
-    <void property="description">
-     <string>Casa céntrica</string>
-    </void>
-    <void property="imageUrl">
-     <string>FotoHotelRelleno.png</string>
-    </void>
-    <void id="LinkedList2" property="includedServices">
-     <void method="add">
-      <object idref="ServiceIncluded0"/>
-     </void>
-     <void method="add">
-      <object idref="ServiceIncluded1"/>
-     </void>
-    </void>
-    <void property="includedServices">
-     <object idref="LinkedList2"/>
-    </void>
-    <void property="maxGuests">
-     <int>6</int>
-    </void>
-    <void property="name">
-     <string>Casa Roja</string>
-    </void>
-    <void property="pricePerNight">
-     <double>180000.0</double>
-    </void>
-   </object>
-  </void>
-  <void method="add">
-   <object class="co.edu.uniquindio.poo.bookyourstary.model.Apartament" id="Apartament0">
-    <void property="city">
-     <object class="co.edu.uniquindio.poo.bookyourstary.model.City">
-      <void property="country">
-       <string>Colombia</string>
-      </void>
-      <void property="departament">
-       <string>Quindio</string>
-      </void>
-      <void property="name">
-       <string>Armenia</string>
-      </void>
-     </object>
-    </void>
-    <void property="description">
-     <string>Apto en el centro</string>
-    </void>
-    <void property="imageUrl">
-     <string>FotoHotelRelleno.png</string>
-    </void>
-    <void id="LinkedList3" property="includedServices">
-     <void method="add">
-      <object class="co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded" id="ServiceIncluded5">
-       <void property="description">
-        <string>Internet inalámbrico disponible</string>
-       </void>
-       <void property="id">
-        <string>04c1ccf5-c901-413f-8906-4202fa565711</string>
-       </void>
-       <void property="name">
-        <string>Wifi</string>
-       </void>
-      </object>
-     </void>
-     <void method="add">
-      <object class="co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded" id="ServiceIncluded6">
-       <void property="description">
-        <string>Televisión por cable incluida</string>
-       </void>
-       <void property="id">
-        <string>ac784c6c-49db-43fa-b830-ea1a90a2bc78</string>
-       </void>
-       <void property="name">
-        <string>TV</string>
-       </void>
-      </object>
-     </void>
-    </void>
-    <void property="includedServices">
-     <object idref="LinkedList3"/>
-    </void>
-    <void property="maxGuests">
-     <int>2</int>
-    </void>
-    <void property="name">
-     <string>Apto Centro</string>
-    </void>
-    <void property="priceForCleaning">
-     <double>15000.0</double>
-    </void>
-    <void property="pricePerNight">
-     <double>90000.0</double>
-    </void>
-   </object>
-  </void>
-  <void method="add">
-   <object class="co.edu.uniquindio.poo.bookyourstary.model.Apartament" id="Apartament1">
-    <void property="city">
-     <object class="co.edu.uniquindio.poo.bookyourstary.model.City">
-      <void property="country">
-       <string>Colombia</string>
-      </void>
-      <void property="departament">
-       <string>Valle</string>
-      </void>
-      <void property="name">
-       <string>Cali</string>
-      </void>
-     </object>
-    </void>
-    <void property="description">
-     <string>Apto moderno</string>
-    </void>
-    <void property="imageUrl">
-     <string>FotoHotelRelleno.png</string>
-    </void>
-    <void id="LinkedList4" property="includedServices">
-     <void method="add">
-      <object class="co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded">
-       <void property="description">
-        <string>Internet inalámbrico disponible</string>
-       </void>
-       <void property="id">
-        <string>4ab40811-6b20-4483-afea-e989793088b0</string>
-       </void>
-       <void property="name">
-        <string>Wifi</string>
-       </void>
-      </object>
-     </void>
-     <void method="add">
-      <object class="co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded">
-       <void property="description">
-        <string>Televisión por cable incluida</string>
-       </void>
-       <void property="id">
-        <string>1f86e76d-1bea-472a-8567-617ef3b444da</string>
-       </void>
-       <void property="name">
-        <string>TV</string>
-       </void>
-      </object>
-     </void>
-     <void method="add">
-      <object class="co.edu.uniquindio.poo.bookyourstary.model.ServiceIncluded">
-       <void property="description">
-        <string>Desayuno incluido todas las mañanas</string>
-       </void>
-       <void property="id">
-        <string>6ebf5b88-1961-4ea5-ac33-ca859690f2d9</string>
-       </void>
-       <void property="name">
-        <string>Desayuno</string>
-       </void>
-      </object>
-     </void>
-    </void>
-    <void property="includedServices">
-     <object idref="LinkedList4"/>
-    </void>
-    <void property="maxGuests">
-     <int>3</int>
-    </void>
-    <void property="name">
-     <string>Apto Norte</string>
-    </void>
-    <void property="priceForCleaning">
-     <double>18000.0</double>
-    </void>
-    <void property="pricePerNight">
-     <double>110000.0</double>
-    </void>
-   </object>
-  </void>
-  <void method="add">
-   <object class="co.edu.uniquindio.poo.bookyourstary.model.Apartament" id="Apartament2">
-    <void property="city">
-     <object class="co.edu.uniquindio.poo.bookyourstary.model.City">
-      <void property="country">
-       <string>Colombia</string>
-      </void>
-      <void property="departament">
-       <string>Cundinamarca</string>
-      </void>
-      <void property="name">
-       <string>Bogotá</string>
-      </void>
-     </object>
-    </void>
-    <void property="description">
-     <string>Apto económico</string>
-    </void>
-    <void property="imageUrl">
-     <string>FotoHotelRelleno.png</string>
-    </void>
-    <void id="LinkedList5" property="includedServices">
-     <void method="add">
-      <object idref="ServiceIncluded5"/>
-     </void>
-     <void method="add">
-      <object idref="ServiceIncluded6"/>
-     </void>
-    </void>
-    <void property="includedServices">
-     <object idref="LinkedList5"/>
-    </void>
-    <void property="maxGuests">
-     <int>1</int>
-    </void>
-    <void property="name">
-     <string>Apto Sur</string>
-    </void>
-    <void property="priceForCleaning">
-     <double>12000.0</double>
-    </void>
-    <void property="pricePerNight">
-     <double>80000.0</double>
-    </void>
-   </object>
-  </void>
-  <void method="add">
    <object class="co.edu.uniquindio.poo.bookyourstary.model.Hotel" id="Hotel0">
     <void property="basePrice">
      <double>120000.0</double>
@@ -397,7 +160,7 @@
     <void property="imageUrl">
      <string>sol.jpg</string>
     </void>
-    <void id="LinkedList6" property="includedServices">
+    <void id="LinkedList2" property="includedServices">
      <void method="add">
       <object idref="ServiceIncluded2"/>
      </void>
@@ -409,7 +172,7 @@
      </void>
     </void>
     <void property="includedServices">
-     <object idref="LinkedList6"/>
+     <object idref="LinkedList2"/>
     </void>
     <void property="maxGuests">
      <int>5</int>
@@ -420,7 +183,7 @@
     <void property="pricePerNight">
      <double>120000.0</double>
     </void>
-    <void id="LinkedList7" property="rooms">
+    <void id="LinkedList3" property="rooms">
      <void method="add">
       <object class="co.edu.uniquindio.poo.bookyourstary.model.Room">
        <void property="description">
@@ -461,7 +224,7 @@
      </void>
     </void>
     <void property="rooms">
-     <object idref="LinkedList7"/>
+     <object idref="LinkedList3"/>
     </void>
    </object>
   </void>
@@ -479,7 +242,7 @@
     <void property="imageUrl">
      <string>FotoHotelRelleno.png</string>
     </void>
-    <void id="LinkedList8" property="includedServices">
+    <void id="LinkedList4" property="includedServices">
      <void method="add">
       <object idref="ServiceIncluded0"/>
      </void>
@@ -488,7 +251,7 @@
      </void>
     </void>
     <void property="includedServices">
-     <object idref="LinkedList8"/>
+     <object idref="LinkedList4"/>
     </void>
     <void property="maxGuests">
      <int>4</int>
@@ -499,7 +262,7 @@
     <void property="pricePerNight">
      <double>100000.0</double>
     </void>
-    <void id="LinkedList9" property="rooms">
+    <void id="LinkedList5" property="rooms">
      <void method="add">
       <object class="co.edu.uniquindio.poo.bookyourstary.model.Room">
        <void property="description">
@@ -540,7 +303,7 @@
      </void>
     </void>
     <void property="rooms">
-     <object idref="LinkedList9"/>
+     <object idref="LinkedList5"/>
     </void>
    </object>
   </void>
@@ -550,7 +313,17 @@
      <double>110000.0</double>
     </void>
     <void property="city">
-     <object idref="City2"/>
+     <object class="co.edu.uniquindio.poo.bookyourstary.model.City">
+      <void property="country">
+       <string>Colombia</string>
+      </void>
+      <void property="departament">
+       <string>Cundinamarca</string>
+      </void>
+      <void property="name">
+       <string>Bogotá</string>
+      </void>
+     </object>
     </void>
     <void property="description">
      <string>Hotel en Bogotá</string>
@@ -558,7 +331,7 @@
     <void property="imageUrl">
      <string>FotoHotelRelleno.png</string>
     </void>
-    <void id="LinkedList10" property="includedServices">
+    <void id="LinkedList6" property="includedServices">
      <void method="add">
       <object idref="ServiceIncluded2"/>
      </void>
@@ -570,7 +343,7 @@
      </void>
     </void>
     <void property="includedServices">
-     <object idref="LinkedList10"/>
+     <object idref="LinkedList6"/>
     </void>
     <void property="maxGuests">
      <int>6</int>
@@ -581,7 +354,7 @@
     <void property="pricePerNight">
      <double>110000.0</double>
     </void>
-    <void id="LinkedList11" property="rooms">
+    <void id="LinkedList7" property="rooms">
      <void method="add">
       <object class="co.edu.uniquindio.poo.bookyourstary.model.Room">
        <void property="description">
@@ -622,7 +395,7 @@
      </void>
     </void>
     <void property="rooms">
-     <object idref="LinkedList11"/>
+     <object idref="LinkedList7"/>
     </void>
    </object>
   </void>
