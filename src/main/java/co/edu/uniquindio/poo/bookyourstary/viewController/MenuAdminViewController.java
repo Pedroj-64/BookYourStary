@@ -516,13 +516,18 @@ public class MenuAdminViewController {
                 }
                 
                 // Asegurarse de que la ventana está activa y visible
-                if (contenedorPrincipal != null && contenedorPrincipal.getScene() != null && 
-                    contenedorPrincipal.getScene().getWindow() != null) {
+                if (contenedorPrincipal != null && contenedorPrincipal.getScene() != null &&
+                        contenedorPrincipal.getScene().getWindow() != null) {
                     javafx.stage.Window window = contenedorPrincipal.getScene().getWindow();
-                    if (!window.isShowing()) {
-                        window.show();
+                    if (window instanceof javafx.stage.Stage) {
+                        javafx.stage.Stage stage = (javafx.stage.Stage) window;
+                        if (!stage.isShowing()) {
+                            stage.show();
+                        }
+                        stage.requestFocus();
+                    } else {
+                        window.requestFocus();
                     }
-                    window.requestFocus();
                 }
                 
                 System.out.println("Vista de alojamientos recargada completamente");
