@@ -14,7 +14,7 @@ import co.edu.uniquindio.poo.bookyourstary.util.ApartmentCreator;
 import java.io.InputStream;
 
 public class App extends Application {
-    
+
     @Override
     public void stop() {
         // Guardar todos los datos al cerrar la aplicación
@@ -26,23 +26,25 @@ public class App extends Application {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void init() {
-        // Ensure MainController singleton is initialized, though getInstance() calls should handle it.
-        MainController.getInstance(); 
-        
+        TemplateLoader.listAvailableResources();
+        // Ensure MainController singleton is initialized, though getInstance() calls
+        // should handle it.
+        MainController.getInstance();
+
         // Always create test data first to ensure app has basic data to work with
         System.out.println("Creando datos de prueba iniciales...");
         DataMapping.createTestAdmin();
         DataMapping.createAllHostings(); // This now also handles city creation and persistence
         ApartmentCreator.createApartments(); // Crear apartamentos usando nuestra utilidad independiente
         DataMapping.createTestClient();
-        
+
         // Then try to load data from XML, which might override the test data
         try {
             XmlSerializationManager xmlManager = XmlSerializationManager.getInstance();
-            
+
             // Only try to load if data files already exist
             if (xmlManager.hasStoredData()) {
                 xmlManager.loadAllData();
@@ -71,13 +73,12 @@ public class App extends Application {
             MainController.showAlert(
                     "Error crítico",
                     "No se pudo iniciar la aplicación: " + e.getMessage(),
-                   AlertType.ERROR);
+                    AlertType.ERROR);
             if (stage != null) {
                 stage.close();
             }
         }
     }
-
 
     public static void main(String[] args) {
         launch(args);
