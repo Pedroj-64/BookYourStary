@@ -3,7 +3,9 @@ package co.edu.uniquindio.poo.bookyourstary.controller;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
+import co.edu.uniquindio.poo.bookyourstary.service.AuthService;
 import co.edu.uniquindio.poo.bookyourstary.util.UtilInterfaces;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -171,4 +174,8 @@ public class MenuAdminController {
             return new java.util.ArrayList<>();
         }
     }
+
+    @FXML
+    private Button btnManageRooms;
+
 }

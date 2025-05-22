@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <java version="21.0.4" class="java.beans.XMLDecoder">
+=======
+<java version="21.0.2" class="java.beans.XMLDecoder">
+>>>>>>> b800d0d35d2d449061a9cd4717a17ffc1e8a5f02
  <object class="java.util.ArrayList"/>
 </java>

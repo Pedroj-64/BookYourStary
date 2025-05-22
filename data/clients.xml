@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <java version="21.0.4" class="java.beans.XMLDecoder">
  <object class="java.util.ArrayList">
+=======
+<java version="21.0.2" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedList">
+>>>>>>> b800d0d35d2d449061a9cd4717a17ffc1e8a5f02
   <void method="add">
    <object class="co.edu.uniquindio.poo.bookyourstary.model.Client" id="Client0">
     <void property="active">
@@ -23,6 +28,12 @@
     </void>
     <void property="virtualWallet">
      <object class="co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet">
+<<<<<<< HEAD
+=======
+      <void property="balance">
+       <double>2055001.0</double>
+      </void>
+>>>>>>> b800d0d35d2d449061a9cd4717a17ffc1e8a5f02
       <void property="idWallet">
        <string>1373f448-c3d9-4ca0-9c6e-1cd898f7d117</string>
       </void>
