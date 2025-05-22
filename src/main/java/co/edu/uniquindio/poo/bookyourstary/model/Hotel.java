@@ -65,7 +65,6 @@ public class Hotel implements Hosting {
 
     @Override
     public void setPricePerNight(double pricePerNight) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setPricePerNight'");
+        this.basePrice = pricePerNight;
     }
 }
