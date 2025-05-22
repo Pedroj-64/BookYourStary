@@ -51,6 +51,7 @@ public class SingUpController {
             throw new IllegalStateException("No se encontró información de registro para este código de activación. Puede que haya expirado o ya fue utilizado.");
         }
 
+        client.setActive(true);
         // Now client.getPassword() already returns the hashed password.
         // We need a method in ClientService that accepts a Client object
         // with an already hashed password.

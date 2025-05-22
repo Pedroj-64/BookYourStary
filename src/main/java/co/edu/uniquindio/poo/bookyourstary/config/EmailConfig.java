@@ -17,7 +17,7 @@ public class EmailConfig {
     public static EmailConfig getInstance() {
         if (instance == null) {
             // Puedes parametrizar estos valores según tu entorno
-            instance = new EmailConfig("tucarrouq@gmail.com", "tuPassword");
+            instance = new EmailConfig("tucarrouq@gmail.com", "fxcx rvac wwuj xtdo");
         }
         return instance;
     }
