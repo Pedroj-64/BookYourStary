@@ -36,3 +36,14 @@ build/
 
 ### Mac OS ###
 .DS_Store
+*.xml
+*.xml
+data/clients.xml
+/data
+*.xml
+/data
+*.xml
+data/admins.xml
+data/hostings.xml
+data/bookings.xml
+*.xml

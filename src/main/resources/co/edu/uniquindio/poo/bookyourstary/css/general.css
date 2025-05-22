@@ -1,0 +1,34 @@
+/* Estilo general para botones */
+.general-button {
+    -fx-background-color: #D67D3E; /* Fondo con color naranja */
+    -fx-text-fill: white; /* Texto en color blanco */
+    -fx-font-size: 14px; /* Tamaño de fuente */
+    -fx-font-family: "Arial", sans-serif; /* Familia de fuente */
+    -fx-background-radius: 6px; /* Bordes redondeados */
+    -fx-padding: 8px 14px; /* Espaciado interno */
+    -fx-cursor: hand; /* Cambiar cursor al pasar el mouse */
+    -fx-border-color: #BF5F29; /* Borde con un tono más oscuro */
+    -fx-border-width: 2px; /* Grosor del borde */
+    -fx-border-radius: 6px; /* Bordes redondeados del borde */
+}
+
+/* Efecto hover (al pasar el mouse por encima del botón) */
+.general-button:hover {
+    -fx-background-color: #BF5F29; /* Fondo más oscuro */
+    -fx-border-color: #A64E20; /* Cambiar el color del borde */
+}
+
+/* Efecto cuando el botón está presionado */
+.general-button:pressed {
+    -fx-background-color: #A64E20; /* Fondo aún más oscuro */
+    -fx-border-color: #8C3E19; /* Borde más oscuro */
+    -fx-padding: 9px 15px; /* Reducir paddings para simular presionado */
+}
+
+/* Estilo para botones deshabilitados */
+.general-button:disabled {
+    -fx-background-color: #E0E0E0; /* Fondo gris claro */
+    -fx-text-fill: #A1A1A1; /* Texto gris */
+    -fx-border-color: #D6D6D6; /* Borde gris claro */
+    -fx-cursor: default; /* Cursor predeterminado */
+}

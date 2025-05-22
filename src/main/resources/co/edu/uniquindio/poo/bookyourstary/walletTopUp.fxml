@@ -4,11 +4,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="171.0" prefWidth="239.0" spacing="15.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.WalletTopUpViewController">
+<VBox alignment="CENTER" prefHeight="171.0" prefWidth="239.0" spacing="15.0"
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.WalletTopUpViewController"
+      stylesheets="@css/general.css">
    <children>
-      <Label text="Monto a recargar" />
-      <TextField fx:id="txt_monto" promptText="Ingrese el monto" />
-      <Button onAction="#recargarSaldo" text="Recargar" />
+      <Label text="Monto a recargar" styleClass="form-label" />
+      <TextField fx:id="txt_monto" promptText="Ingrese el monto" styleClass="form-field" />
+      <Button onAction="#recargarSaldo" text="Recargar" styleClass="general-button" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

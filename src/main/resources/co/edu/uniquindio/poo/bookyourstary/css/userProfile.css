@@ -1,0 +1,63 @@
+/* Estilos adicionales para el perfil de usuario */
+
+.form-section {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+}
+
+.section-title {
+    -fx-font-size: 20px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+}
+
+.danger-button {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 20px;
+}
+
+.danger-button:hover {
+    -fx-background-color: #c82333;
+}
+
+.secondary-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 20px;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #5a6268;
+}
+
+/* Estilos para la tabla de reservas */
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 10px;
+    -fx-border-color: transparent transparent #dee2e6 transparent;
+}
+
+.table-view .table-row-cell {
+    -fx-border-color: transparent transparent #dee2e6 transparent;
+    -fx-padding: 5px;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #007bff20;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #f8f9fa;
+}

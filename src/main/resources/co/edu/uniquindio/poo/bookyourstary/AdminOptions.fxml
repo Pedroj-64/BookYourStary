@@ -7,10 +7,10 @@
 <?import java.net.URL?>
 <?import java.lang.String?>
 
-<VBox alignment="CENTER" spacing="20" styleClass="content-panel" 
-      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+<VBox alignment="CENTER" spacing="20" styleClass="content-panel"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.AdminOptionsViewController">
-    
+
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
@@ -22,21 +22,21 @@
 
     <Text styleClass="title-text" text="Panel de Administración"/>
 
-    <Button fx:id="btnCreacion" 
+    <Button fx:id="btnCreacion"
             styleClass="action-button"
-            onAction="#creacionHosting" 
+            onAction="#creacionHosting"
             text="Crear Alojamiento"
             prefWidth="200"/>
 
-    <Button fx:id="btnEstadisticas" 
+    <Button fx:id="btnEstadisticas"
             styleClass="action-button"
-            onAction="#openStatistics" 
+            onAction="#openStatistics"
             text="Ver Estadísticas"
             prefWidth="200"/>
 
-    <Button fx:id="btnHabitaciones" 
+    <Button fx:id="btnHabitaciones"
             styleClass="action-button"
-            onAction="#manageRooms" 
+            onAction="#manageRooms"
             text="Gestionar Habitaciones"
             prefWidth="200"/>
 </VBox>

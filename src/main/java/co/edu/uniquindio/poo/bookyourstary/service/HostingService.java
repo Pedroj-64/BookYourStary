@@ -206,30 +206,31 @@ public class HostingService {
 
     public List<Hosting> findAllHostings() {
         try {
-            List<Hosting> hostings = new LinkedList<>();
+            // Usamos un Set para evitar duplicados
+            java.util.Set<Hosting> uniqueHostings = new java.util.HashSet<>();
             
             // Agregamos primero los alojamientos de los repositorios específicos
             List<House> houses = houseRepository.findAll();
             List<Apartament> apartaments = apartamentRepository.findAll();
             List<Hotel> hotels = hotelRepository.findAll();
             
-            System.out.println("Encontrados: " + houses.size() + " casas, " + 
-                               apartaments.size() + " apartamentos, " + 
-                               hotels.size() + " hoteles");
+            System.out.println("Encontrados en repositorios específicos: " + 
+                             houses.size() + " casas, " + 
+                             apartaments.size() + " apartamentos, " + 
+                             hotels.size() + " hoteles");
             
-            hostings.addAll(houses);
-            hostings.addAll(apartaments);
-            hostings.addAll(hotels);
+            uniqueHostings.addAll(houses);
+            uniqueHostings.addAll(apartaments);
+            uniqueHostings.addAll(hotels);
             
             // Verificamos si hay otros tipos de Hosting en el repositorio general
             for (Hosting h : hostingRepository.findAll()) {
-                if (!(h instanceof House || h instanceof Apartament || h instanceof Hotel)) {
-                    hostings.add(h);
-                }
+                uniqueHostings.add(h);
             }
             
-            System.out.println("Total de hostings encontrados: " + hostings.size());
-            return hostings;
+            List<Hosting> result = new LinkedList<>(uniqueHostings);
+            System.out.println("Total de hostings únicos encontrados: " + result.size());
+            return result;
         } catch (Exception e) {
             System.err.println("Error al buscar todos los hostings: " + e.getMessage());
             e.printStackTrace();

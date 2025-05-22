@@ -1,31 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" prefHeight="170.0" prefWidth="400" vgap="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.ProfileViewController">
+<VBox spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.ProfileViewController"
+      stylesheets="@css/manageOrder.css">
+    
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
 
-    <Label styleClass="title" text="Editar Perfil" GridPane.columnSpan="2" />
+    <!-- Sección de Perfil -->
+    <VBox styleClass="form-section" spacing="15">
+        <Label styleClass="section-title" text="Editar Perfil" />
+        
+        <GridPane hgap="10" vgap="10">
+            <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-    <Label text="Nombre:" GridPane.rowIndex="1" />
-    <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-    <Label text="Teléfono:" GridPane.rowIndex="2" />
-    <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="emailField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-    <Label text="Email:" GridPane.rowIndex="3" />
-    <TextField fx:id="emailField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button onAction="#handleSave" text="Guardar Cambios" styleClass="primary-button"
+                    GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.halignment="RIGHT" />
+        </GridPane>
+    </VBox>
 
-    <Button onAction="#handleSave" text="Guardar Cambios" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-   <columnConstraints>
-      <ColumnConstraints />
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
-</GridPane>
+    <!-- Sección de Reservas -->
+    <VBox styleClass="form-section" spacing="15">
+        <Label styleClass="section-title" text="Mis Reservas" />
+        
+        <TableView fx:id="reservationsTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="typeColumn" text="Tipo Alojamiento" />
+                <TableColumn fx:id="nameColumn" text="Nombre" />
+                <TableColumn fx:id="checkInColumn" text="Fecha Entrada" />
+                <TableColumn fx:id="checkOutColumn" text="Fecha Salida" />
+                <TableColumn fx:id="guestsColumn" text="Huéspedes" />
+                <TableColumn fx:id="statusColumn" text="Estado" />
+                <TableColumn fx:id="priceColumn" text="Precio" />
+            </columns>
+        </TableView>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button fx:id="viewDetailsButton" text="Ver Detalles" styleClass="secondary-button" onAction="#handleViewDetails" />
+            <Button fx:id="cancelReservationButton" text="Cancelar Reserva" styleClass="danger-button" onAction="#handleCancelReservation" />
+        </HBox>
+    </VBox>
+
+</VBox>
