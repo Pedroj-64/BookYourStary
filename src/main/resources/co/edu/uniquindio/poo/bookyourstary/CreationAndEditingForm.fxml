@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.ColumnConstraints?>
 <VBox spacing="15" stylesheets="@css/accommodation-form.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.CreationAndEditingFormViewController">
     <padding>
         <Insets bottom="15" left="20" right="20" top="15" />
@@ -24,9 +25,9 @@
 
     <GridPane hgap="15" vgap="12">
         <columnConstraints>
-            <ColumnConstraint prefWidth="150" />
-            <ColumnConstraint prefWidth="300" />
-            <ColumnConstraint prefWidth="200" />
+            <ColumnConstraints prefWidth="150" />
+            <ColumnConstraints prefWidth="300" />
+            <ColumnConstraints prefWidth="200" />
         </columnConstraints>
 
 

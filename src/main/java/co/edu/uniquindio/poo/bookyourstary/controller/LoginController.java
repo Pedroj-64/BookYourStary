@@ -32,7 +32,7 @@ public class LoginController {    public void handleLogin(String id, String pass
                 } else if (usuario instanceof Admin) {
                     System.out.println("Administrador autenticado exitosamente: " + ((Admin)usuario).getName());
                     MainController.showAlert("Inicio de sesión", "Bienvenido administrador", Alert.AlertType.INFORMATION);
-                    MainController.loadScene("menuAdmin", 900, 600); 
+                    MainController.loadScene("MenuAdmin", 900, 600);
                 }
             } else {
                 System.err.println("Error de autenticación: credenciales inválidas");
