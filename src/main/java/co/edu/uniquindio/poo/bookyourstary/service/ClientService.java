@@ -26,7 +26,7 @@ public class ClientService {
         return instance;
     }
 
-    public ClientService(ClientRepository clientRepository,
+    private ClientService(ClientRepository clientRepository,
                          VirtualWalletService virtualWalletService,
                          BookingService bookingService,
                          ReviewService reviewService) {
