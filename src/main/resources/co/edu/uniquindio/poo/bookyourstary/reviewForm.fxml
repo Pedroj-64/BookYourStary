@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="center" prefHeight="144.0" prefWidth="478.0" spacing="10" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.ReviewViewController">
+<VBox alignment="CENTER" prefHeight="235.0" prefWidth="258.0" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.controller.ReviewController">
+    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Dejar Reseña" />
 
-    <Label styleClass="title" text="Dejar Reseña" />
+    <Label text="Calificación (1 - 5):" />
+    <Spinner fx:id="ratingSpinner" initialValue="3" max="5" min="1" />
 
-    <RatingBar fx:id="ratingBar" max="5" />
-
-    <TextArea fx:id="commentField" prefHeight="44.0" prefRowCount="3" prefWidth="478.0" promptText="Escribe tu experiencia..." wrapText="true" />
+    <Label text="Comentario:" />
+    <TextArea fx:id="commentField" promptText="Escribe tu experiencia..." wrapText="true" />
 
     <Button onAction="#handleSubmitReview" text="Enviar Reseña" />
 </VBox>

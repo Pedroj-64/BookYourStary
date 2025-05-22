@@ -163,3 +163,22 @@
 .pagination .pagination-control .button:hover {
     -fx-background-color: #f0f0f0;
 }
+
+/* Reviews window */
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.primary-button {
+    -fx-border-color: transparent transparent #ff6f00 transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+}
+
+.primary-button:hover {
+    -fx-background-color: #388E3C;
+}

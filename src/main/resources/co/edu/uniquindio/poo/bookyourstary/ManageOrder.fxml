@@ -59,5 +59,6 @@
     <HBox alignment="CENTER_RIGHT" spacing="20" stylesheets="@css/manageOrder.css" GridPane.columnSpan="2" GridPane.rowIndex="1">
         <Button fx:id="btn_Regresar" onAction="#RegresarHome" styleClass="secondary-button" text="Regresar" />
         <Button fx:id="btn_Reservar" onAction="#reservar" styleClass="primary-button" text="Reservar" />
+        <Button fx:id="btn_Resena" onAction="#abrirFormularioResena" styleClass="primary-button" text="Reseña" />
     </HBox>
 </GridPane>

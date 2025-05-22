@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="21.0.4" class="java.beans.XMLDecoder">
+<java version="21.0.2" class="java.beans.XMLDecoder">
  <object class="java.util.LinkedList">
   <void method="add">
    <object class="co.edu.uniquindio.poo.bookyourstary.model.Client" id="Client0">
@@ -24,7 +24,7 @@
     <void property="virtualWallet">
      <object class="co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet">
       <void property="idWallet">
-       <string>92f660da-eee6-44db-be3d-6bbf4f6893f4</string>
+       <string>8f1c9a55-0106-4853-be5c-0b79926c683d</string>
       </void>
       <void property="propertyClient">
        <object idref="Client0"/>

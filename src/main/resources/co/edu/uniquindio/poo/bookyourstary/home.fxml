@@ -163,6 +163,7 @@
                                     <AnchorPane prefHeight="141.0" prefWidth="192.0" styleClass="boton-container">
                                        <children>
                                           <Button fx:id="btn_reservar" layoutX="9.0" layoutY="35.0" onAction="#reservar" styleClass="boton-reservar" text="Reservar" />
+
                                        </children>
                                     </AnchorPane>
                </children>
