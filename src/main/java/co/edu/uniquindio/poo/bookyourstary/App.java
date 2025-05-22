@@ -30,9 +30,9 @@ public class App extends Application {
     @Override
     public void init() {
         TemplateLoader.listAvailableResources();
-        // Ensure MainController singleton is initialized, though getInstance() calls
-        // should handle it.
-        MainController.getInstance();        // First try to load XML data if it exists
+        // Ensure MainController singleton is initialized
+        MainController.getInstance();
+        
         try {
             XmlSerializationManager xmlManager = XmlSerializationManager.getInstance();
 
@@ -40,14 +40,11 @@ public class App extends Application {
                 xmlManager.loadAllData();
                 System.out.println("Datos cargados correctamente desde XML.");
             } else {
-                // If no XML data exists, create and save test data
                 System.out.println("No se encontraron archivos XML previos, creando datos de prueba...");
                 DataMapping.createTestAdmin();
-                DataMapping.createAllHostings(); // This also handles city creation
-                ApartmentCreator.createApartments();
+                DataMapping.createAllHostings(); // This handles all types of hostings
                 DataMapping.createTestClient();
                 
-                // Save the initial test data
                 xmlManager.saveAllData();
                 System.out.println("Datos de prueba creados y guardados en XML.");
             }
