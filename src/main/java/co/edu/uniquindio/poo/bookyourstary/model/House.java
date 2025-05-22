@@ -1,10 +1,8 @@
 package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
 
-import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

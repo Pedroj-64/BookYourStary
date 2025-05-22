@@ -1,0 +1,191 @@
+/* Estilos para la pantalla de recarga de billetera virtual */
+
+/* === General === */
+.root {
+    -fx-background-color: #f9f9f9;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* === Panel principal de la billetera === */
+.wallet-panel {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1px;
+    -fx-max-width: 700px;
+}
+
+/* === Título principal === */
+.wallet-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #D67D3E;
+    -fx-font-family: "Bookman Old Style";
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 2, 0.1, 0, 1);
+    -fx-padding: 10px 0px 20px 0px;
+}
+
+/* === Panel de información de la billetera === */
+.wallet-info-panel {
+    -fx-background-color: #f5f7fa;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-border-color: #e0e5eb;
+    -fx-border-width: 1px;
+    -fx-padding: 15px;
+    -fx-min-width: 500px;
+}
+
+.wallet-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555;
+}
+
+.wallet-balance {
+    -fx-font-size: 18px;
+    -fx-text-fill: #2a9d8f;
+    -fx-font-weight: bold;
+}
+
+.wallet-id {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+    -fx-font-family: "Consolas", monospace;
+}
+
+/* === Panel de recarga === */
+.top-up-panel {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 20px;
+    -fx-min-width: 500px;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #444;
+}
+
+/* === ComboBox de método de pago === */
+.combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+}
+
+.combo-box:hover {
+    -fx-border-color: #aaa;
+}
+
+.combo-box:focused {
+    -fx-border-color: #0077cc;
+}
+
+/* === Iconos de pago === */
+.payment-icons {
+    -fx-padding: 10px 0px 15px 0px;
+}
+
+/* === Campo de monto === */
+.currency-symbol {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 10px;
+    -fx-font-size: 16px;
+}
+
+.text-field:focused {
+    -fx-border-color: #0077cc;
+}
+
+/* === Botones de montos predefinidos === */
+.amount-buttons {
+    -fx-padding: 10px 0px;
+    -fx-spacing: 10px;
+}
+
+.amount-button {
+    -fx-background-color: #f1f1f1;
+    -fx-text-fill: #444;
+    -fx-font-size: 13px;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-cursor: hand;
+}
+
+.amount-button:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.amount-button:pressed {
+    -fx-background-color: #d0d0d0;
+}
+
+/* === Botones de acción === */
+.action-buttons {
+    -fx-padding: 15px 0px 10px 0px;
+}
+
+.wallet-action-button {
+    -fx-background-color: #D67D3E;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 25px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0, 0, 1);
+}
+
+.wallet-action-button:hover {
+    -fx-background-color: #c46c35;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+.wallet-cancel-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 25px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.wallet-cancel-button:hover {
+    -fx-background-color: #5a6268;
+}
+
+/* === Pie de página === */
+.wallet-footer {
+    -fx-background-color: #34495e;
+    -fx-padding: 15px;
+}
+
+.footer-text {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@css/wallet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.WalletTopUpViewController">
+   
+   <!-- Encabezado -->
+   <top>
+      <AnchorPane fx:id="UserHeader0" prefHeight="100.0" prefWidth="800.0" styleClass="encabezado" stylesheets="@css/home.css" BorderPane.alignment="CENTER">
+         <!-- Este AnchorPane se cargará dinámicamente con UserHeader.fxml -->
+      </AnchorPane>
+   </top>
+   
+   <!-- Contenido principal -->
+   <center>
+      <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="wallet-panel">
+         <children>
+            <!-- Título de la sección -->
+            <Label styleClass="wallet-title" text="Recarga tu Billetera" />
+            
+            <!-- Información de la billetera -->
+            <GridPane hgap="20.0" vgap="10.0" alignment="CENTER" styleClass="wallet-info-panel">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label styleClass="wallet-label" text="Saldo Actual:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                  <Label fx:id="lbl_saldoActual" styleClass="wallet-balance" text="$0.00" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                  <Label styleClass="wallet-label" text="ID de Billetera:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                  <Label fx:id="lbl_walletId" styleClass="wallet-id" text="No disponible" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </GridPane>
+
+            <!-- Panel de recarga -->
+            <VBox alignment="CENTER" spacing="15.0" styleClass="top-up-panel">
+               <children>
+                  <Label styleClass="section-title" text="Seleccione método de pago" />
+                  
+                  <ComboBox fx:id="combo_metodoPago" prefWidth="300.0" promptText="Seleccione método de pago" />
+                  
+                  <HBox alignment="CENTER" spacing="10.0" styleClass="payment-icons">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/visa.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/mastercard.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="40.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@image/paypal.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  
+                  <Label styleClass="section-title" text="Monto a recargar" />
+                  
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label styleClass="currency-symbol" text="$" />
+                        <TextField fx:id="txt_monto" alignment="CENTER_RIGHT" prefWidth="150.0" promptText="0.00" />
+                     </children>
+                  </HBox>
+                  
+                  <HBox alignment="CENTER" spacing="15.0" styleClass="amount-buttons">
+                     <children>
+                        <Button onAction="#seleccionarMonto" styleClass="amount-button" text="$10.000" userData="10000" />
+                        <Button onAction="#seleccionarMonto" styleClass="amount-button" text="$50.000" userData="50000" />
+                        <Button onAction="#seleccionarMonto" styleClass="amount-button" text="$100.000" userData="100000" />
+                        <Button onAction="#seleccionarMonto" styleClass="amount-button" text="$200.000" userData="200000" />
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  
+                  <HBox alignment="CENTER" spacing="20.0" styleClass="action-buttons">
+                     <children>
+                        <Button fx:id="btn_recargar" onAction="#recargarSaldo" styleClass="wallet-action-button" text="Recargar" />
+                        <Button fx:id="btn_cancelar" onAction="#cancelar" styleClass="wallet-cancel-button" text="Cancelar" />
+                     </children>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="60.0" spacing="10.0" styleClass="wallet-footer">
+         <children>
+            <Label styleClass="footer-text" text="© 2025 BookYourStary. Todos los derechos reservados." />
+         </children>
+      </HBox>
+   </bottom>
+   
+</BorderPane>
