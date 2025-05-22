@@ -3,21 +3,15 @@ package co.edu.uniquindio.poo.bookyourstary.viewController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet;
-import co.edu.uniquindio.poo.bookyourstary.service.VirtualWalletService;
 import co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.ViewLoader;
+import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-
-import java.text.NumberFormat;
-import java.util.Locale;
-import java.util.Optional;
 
 /**
  * Controlador para la vista de recarga de billetera virtual.
@@ -29,40 +23,18 @@ public class WalletTopUpViewController {
     private AnchorPane UserHeader0;
     
     @FXML
-    private Label lbl_saldoActual;
-    
-    @FXML
-    private Label lbl_walletId;
-    
-    @FXML
-    private ComboBox<String> combo_metodoPago;
-    
-    @FXML
     private TextField txt_monto;
-    
-    @FXML
-    private Button btn_recargar;
-    
-    @FXML
-    private Button btn_cancelar;
-    
-    private final VirtualWalletService walletService = VirtualWalletService.getInstance();
-    private VirtualWallet currentWallet;
-    private final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
-    
+
+    private UserHeaderViewController userHeaderController;
+
+    public void setUserHeaderController(UserHeaderViewController controller) {
+        this.userHeaderController = controller;
+    }
+
     @FXML
     void initialize() {
         // Cargar el encabezado de usuario
         ViewLoader.setContent(UserHeader0, "UserHeader");
-        
-        // Configurar opciones de método de pago
-        combo_metodoPago.getItems().addAll(
-            "Tarjeta de Crédito",
-            "Tarjeta de Débito",
-            "PayPal",
-            "Transferencia Bancaria"
-        );
-        combo_metodoPago.setValue("Tarjeta de Crédito");
         
         // Obtener cliente y billetera actual
         cargarDatosDeUsuario();
@@ -76,14 +48,9 @@ public class WalletTopUpViewController {
         
         if (usuarioActual instanceof Client) {
             Client cliente = (Client) usuarioActual;
-            currentWallet = cliente.getVirtualWallet();
+            VirtualWallet currentWallet = cliente.getVirtualWallet();
             
-            if (currentWallet != null) {
-                lbl_walletId.setText(currentWallet.getIdWallet());
-                actualizarSaldoMostrado();
-            } else {
-                lbl_walletId.setText("No disponible");
-                lbl_saldoActual.setText("$0.00");
+            if (currentWallet == null) {
                 MainController.showAlert(
                     "Error", 
                     "No se encontró una billetera asociada a su cuenta.",
@@ -91,22 +58,11 @@ public class WalletTopUpViewController {
                 );
             }
         } else {
-            lbl_walletId.setText("No disponible");
-            lbl_saldoActual.setText("$0.00");
             MainController.showAlert(
                 "Acceso no permitido", 
                 "Debe iniciar sesión como cliente para acceder a esta funcionalidad.",
                 AlertType.WARNING
             );
-        }
-    }
-    
-    /**
-     * Actualiza el saldo mostrado en la interfaz.
-     */
-    private void actualizarSaldoMostrado() {
-        if (currentWallet != null) {
-            lbl_saldoActual.setText(currencyFormat.format(currentWallet.getBalance()));
         }
     }
     
@@ -127,33 +83,51 @@ public class WalletTopUpViewController {
     /**
      * Realiza la recarga de saldo a la billetera.
      * @param event Evento de acción.
-     */
-    @FXML
+     */    @FXML
     void recargarSaldo(ActionEvent event) {
         try {
             double monto = Double.parseDouble(txt_monto.getText().replace(",", "."));
             if (monto <= 0) {
-                lbl_saldoActual.setText("Monto inválido");
+                // Notificar al usuario sobre el monto inválido
+                MainController.showAlert("Error", "Monto inválido", AlertType.ERROR);
                 return;
             }
-            // Aquí deberías llamar a tu servicio/modelo para recargar la billetera
-            // Simulación:
-            double saldoActual = Double.parseDouble(lbl_saldoActual.getText().replace("$", "").replace(",", "").replace(" ", ""));
-            saldoActual += monto;
-            lbl_saldoActual.setText(String.format("$%.2f", saldoActual));
-            txt_monto.clear();
-        } catch (Exception e) {
-            lbl_saldoActual.setText("Error en recarga");
+            
+            // Obtener el cliente actual
+            Object usuarioActual = MainController.getInstance().getSessionManager().getUsuarioActual();
+            if (!(usuarioActual instanceof Client)) {
+                MainController.showAlert("Error", "Debe iniciar sesión como cliente para realizar recargas", AlertType.ERROR);
+                return;
+            }
+            
+            Client cliente = (Client) usuarioActual;
+            VirtualWallet wallet = cliente.getVirtualWallet();
+            
+            if (wallet == null) {
+                // Si el cliente no tiene billetera, crearla
+                wallet = new VirtualWallet(cliente);
+                cliente.setVirtualWallet(wallet);
+            }
+            
+            // Actualizar el saldo en el modelo
+            wallet.setBalance(wallet.getBalance() + monto);
+            
+            // Actualizar la vista si el controlador de encabezado está disponible
+            if (userHeaderController != null) {
+                userHeaderController.actualizarSaldo(monto);
+            }
+            
+            // Guardar los cambios en el sistema usando XmlSerializationManager
+            XmlSerializationManager.getInstance().saveClients();
+            
+            // Mostrar mensaje de éxito
+            MainController.showAlert("Éxito", "Se ha recargado $" + String.format("%.2f", monto) + " a su billetera.", AlertType.INFORMATION);
+            
+            // Regresar a la pantalla de home
+            MainController.loadScene("home", 600, 400);
+            
+        } catch (NumberFormatException e) {
+            MainController.showAlert("Error", "Por favor ingrese un monto válido", AlertType.ERROR);
         }
-    }
-
-    /**
-     * Cancela la operación y regresa a la pantalla principal.
-     * @param event Evento de acción.
-     */
-    @FXML
-    void cancelar(ActionEvent event) {
-        // Cerrar ventana o volver atrás
-        ((javafx.stage.Stage) btn_cancelar.getScene().getWindow()).close();
     }
 }

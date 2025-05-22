@@ -73,4 +73,10 @@ public class UserHeaderViewController {
                 "Error", "No se pudo abrir la ventana de recarga de billetera.", AlertType.ERROR);
         }
     }
+
+    public void actualizarSaldo(double monto) {
+        double saldoActual = Double.parseDouble(lbl_Saldo.getText().replace("Saldo: $", "").replace(",", ""));
+        saldoActual += monto;
+        lbl_Saldo.setText("Saldo: $" + String.format("%.2f", saldoActual));
+    }
 }
