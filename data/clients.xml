@@ -24,7 +24,7 @@
     <void property="virtualWallet">
      <object class="co.edu.uniquindio.poo.bookyourstary.model.VirtualWallet">
       <void property="idWallet">
-       <string>3db336a4-82af-491d-832e-0d9b91ab7c59</string>
+       <string>422df47f-1008-448c-8a4d-823de7a91a72</string>
       </void>
       <void property="propertyClient">
        <object idref="Client0"/>

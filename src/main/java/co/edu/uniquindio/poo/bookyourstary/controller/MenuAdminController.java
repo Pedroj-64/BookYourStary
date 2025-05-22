@@ -151,15 +151,24 @@ public class MenuAdminController {
                 "Error", "No se pudo abrir la ventana de creación: " + e.getMessage(), javafx.scene.control.Alert.AlertType.ERROR);
             e.printStackTrace();
         }
-    }
-
-    /**
+    }    /**
      * Obtiene la lista completa de alojamientos desde el servicio.
      */
     public List<Hosting> getAllHostings() {
-        // Obtener directamente todos los alojamientos del servicio
-        List<Hosting> allHostings = MainController.getInstance().getHostingService().findAllHostings();
-        System.out.println("getAllHostings encontró: " + allHostings.size() + " alojamientos");
-        return allHostings;
+        try {
+            // Obtener directamente todos los alojamientos del servicio
+            var hostingService = MainController.getInstance().getHostingService();
+            List<Hosting> allHostings = hostingService.findAllHostings();
+            // Asegurar que la lista no sea nula
+            if (allHostings == null) {
+                allHostings = new java.util.ArrayList<>();
+            }
+            System.out.println("getAllHostings encontró: " + allHostings.size() + " alojamientos");
+            return allHostings;
+        } catch (Exception e) {
+            System.err.println("Error al obtener alojamientos: " + e.getMessage());
+            e.printStackTrace();
+            return new java.util.ArrayList<>();
+        }
     }
 }
