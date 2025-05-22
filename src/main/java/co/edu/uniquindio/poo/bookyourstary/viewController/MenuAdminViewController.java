@@ -21,6 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.ViewLoader;
 
 import static co.edu.uniquindio.poo.bookyourstary.viewController.HomeViewController.getFilterData;
@@ -234,12 +236,15 @@ public class MenuAdminViewController {
     private FilterData collectFilterData() {
         return getFilterData(combo_Ciudad, combo_tipoAlojamiento, txt_minPrecio, txt_maxPrecio, txt_numHuespedes,
                 check_wifi, check_piscina, check_desayuno, date_inicio, date_fin);
-    }    @FXML
+    }
+
+    @FXML
     void CerrarSesion(ActionEvent event) {
         menuAdminController.logout();
     }
-    
-    // El método abrirMenuAdmin ha sido eliminado ya que su funcionalidad ahora está en AdminHeaderViewController
+
+    // El método abrirMenuAdmin ha sido eliminado ya que su funcionalidad ahora está
+    // en AdminHeaderViewController
 
     @FXML
     void ayudaBtn(ActionEvent event) {
@@ -284,27 +289,20 @@ public class MenuAdminViewController {
     private void setupComboBox() {
         combo_tipoAlojamiento.getItems().setAll(MenuAdminController.getHostingTypes());
         combo_Ciudad.getItems().setAll(menuAdminController.getAvailableCities());
-    }    @FXML
+    }
+
+    @FXML
     void initialize() {
         try {
             // Inicializar listas después de que los campos FXML han sido inyectados
-            imageViews = List.of(img_Alojamiento, img_Alojamiento1, img_Alojamiento2, img_Alojamiento3,
-                    img_Alojamiento4);
-            titleLabels = List.of(lbl_tituloAlojamiento, lbl_tituloAlojamiento1, lbl_tituloAlojamiento2,
-                    lbl_tituloAlojamiento3, lbl_tituloAlojamiento4);
-            descLabels = List.of(lbl_descripcion, lbl_descripcion1, lbl_descripcion2, lbl_descripcion3,
-                    lbl_descripcion4);
-            priceLabels = List.of(lbl_Price, lbl_Price1, lbl_Price2, lbl_Price3, lbl_Price4);
-            cityLabels = List.of(lbl_Cuidad, lbl_Cuidad1, lbl_Cuidad2, lbl_Cuidad3, lbl_Cuidad4);
-            serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1, lbl_serviciosAdicionales2,
-                    lbl_serviciosAdicionales3, lbl_serviciosAdicionales4);
-            editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4);
+            creationList();
 
             System.out.println("Inicializando MenuAdminViewController...");
-            
-            // Registrarse para actualizaciones externas (importante para refrescar la vista cuando se crean/editan alojamientos)
+
+            // Registrarse para actualizaciones externas (importante para refrescar la vista
+            // cuando se crean/editan alojamientos)
             registerWithMainController();
-            
+
             // Setup combobox first
             setupComboBox();
 
@@ -428,39 +426,73 @@ public class MenuAdminViewController {
             System.err.println("Error al cargar y mostrar los alojamientos: " + e.getMessage());
             e.printStackTrace();
         }
-    }    @FXML
+    }
+
+    @FXML
     void filtrar(ActionEvent event) {
         System.out.println("Iniciando filtrado de alojamientos...");
         FilterData data = collectFilterData();
-        
-        // Eliminar duplicación de parámetros fecha
-        currentHostings = menuAdminController.filterHostings(
-                data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, null, null,
-                data.numHuespedes, data.wifi, data.piscina, data.desayuno, 
-                data.fechaInicio, data.fechaFin);
-                
-        System.out.println("Filtrado completado. Resultados encontrados: " + 
-            (currentHostings != null ? currentHostings.size() : 0));
-            
-        // Actualizar la visualización con los resultados filtrados
-        menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, descLabels, priceLabels,
-                cityLabels, serviceLabels);
-                
-        // Actualizar también los botones de edición para que apunten a los alojamientos filtrados
-        menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
-        
-        // Desplazar el scroll al inicio para ver los resultados
-        if (scrollAlojamientos != null) {
-            scrollAlojamientos.setVvalue(0);
+
+        try {
+            // Obtener alojamientos filtrados
+            currentHostings = menuAdminController.filterHostings(
+                    data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, null, null,
+                    data.numHuespedes, data.wifi, data.piscina, data.desayuno,
+                    data.fechaInicio, data.fechaFin);
+
+            System.out.println("Filtrado completado. Resultados encontrados: " +
+                    (currentHostings != null ? currentHostings.size() : 0));
+
+            // Actualizar la visualización con los resultados filtrados en el hilo de JavaFX
+            javafx.application.Platform.runLater(() -> {
+                try {
+                    // Actualizar la visualización de los alojamientos
+                    menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels,
+                            descLabels, priceLabels, cityLabels, serviceLabels);
+
+                    // Actualizar botones de edición
+                    menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
+
+                    // Desplazar el scroll al inicio
+                    if (scrollAlojamientos != null) {
+                        scrollAlojamientos.setHvalue(0);
+                        scrollAlojamientos.setVvalue(0);
+                    }
+
+                    // Forzar actualización visual
+                    if (contenedorPrincipal != null) {
+                        contenedorPrincipal.requestLayout();
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error al actualizar UI después del filtrado: " + e.getMessage());
+                    e.printStackTrace();
+                    MainController.showAlert("Error",
+                            "Error al mostrar los resultados del filtrado: " + e.getMessage(),
+                            AlertType.ERROR);
+                }
+            });
+
+        } catch (Exception e) {
+            System.err.println("Error durante el filtrado: " + e.getMessage());
+            e.printStackTrace();
+            MainController.showAlert("Error",
+                    "Error al filtrar alojamientos: " + e.getMessage(),
+                    AlertType.ERROR);
         }
     }    @FXML
-    public
-    void refresh(ActionEvent event) {
+    public void refresh(ActionEvent event) {
         System.out.println("Actualizando lista de alojamientos...");
-        
+
         // Asegurarse de que la actualización ocurra en el hilo de JavaFX
         javafx.application.Platform.runLater(() -> {
             try {
+                // Asegurarse de que las listas están inicializadas
+                if (imageViews == null || titleLabels == null || descLabels == null ||
+                    priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
+                    System.out.println("Reinicializando listas de componentes...");
+                    creationList();
+                }
+
                 // Resetear la posición del scroll
                 if (scrollAlojamientos != null) {
                     scrollAlojamientos.setHvalue(0);
@@ -469,97 +501,147 @@ public class MenuAdminViewController {
 
                 // Obtener alojamientos actualizados
                 currentHostings = menuAdminController.getAllHostings();
-                System.out.println("Se obtuvieron " + currentHostings.size() + " alojamientos");
-
-                // Verificar que tenemos todos los componentes necesarios
-                if (imageViews == null || titleLabels == null || descLabels == null || 
-                    priceLabels == null || cityLabels == null || serviceLabels == null) {
-                    System.err.println("Alguna de las listas de componentes es nula");
-                    return;
-                }
+                System.out.println("Se obtuvieron " + (currentHostings != null ? currentHostings.size() : 0) + " alojamientos");
 
                 // Actualizar la visualización de los alojamientos
-                menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels, 
+                menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels,
                     descLabels, priceLabels, cityLabels, serviceLabels);
 
                 // Asignar los alojamientos a los botones de edición
-                if (editButtons != null && !editButtons.isEmpty()) {
-                    menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
-                } else {
-                    System.err.println("Lista de botones de edición es nula o vacía");
-                }
+                menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
 
+                // Forzar actualización visual
+                if (contenedorPrincipal != null) {
+                    contenedorPrincipal.requestLayout();
+                    System.out.println("Layout actualizado");
+                }
+                
                 System.out.println("Lista de alojamientos actualizada exitosamente");
             } catch (Exception e) {
                 System.err.println("Error durante el refresh: " + e.getMessage());
                 e.printStackTrace();
-                MainController.showAlert("Error", 
-                    "No se pudo actualizar la lista de alojamientos: " + e.getMessage(),
-                    javafx.scene.control.Alert.AlertType.ERROR);
-            }
-        });
-    }    /**
-     * Método público para recargar los alojamientos desde fuera de la clase.
-     * Puede ser llamado por otras clases que necesiten actualizar la vista de alojamientos.
-     */    public void reloadHostings() {
-        System.out.println("Recargando alojamientos por solicitud externa");
-        
-        // Asegurarse de que se ejecute en el hilo de JavaFX
-        javafx.application.Platform.runLater(() -> {
-            try {
-                // Forzar una actualización completa
-                refresh(new javafx.event.ActionEvent());
-                
-                // Forzar también una actualización visual
-                if (contenedorPrincipal != null) {
-                    contenedorPrincipal.requestLayout();
-                }
-                
-                // Asegurarse de que la ventana está activa y visible
-                if (contenedorPrincipal != null && contenedorPrincipal.getScene() != null && 
-                    contenedorPrincipal.getScene().getWindow() != null) {
-                    javafx.stage.Window window = contenedorPrincipal.getScene().getWindow();
-                    if (!window.isShowing()) {
-                        window.show();
-                    }
-                    window.requestFocus();
-                }
-                
-                System.out.println("Vista de alojamientos recargada completamente");
-            } catch (Exception e) {
-                System.err.println("Error al recargar alojamientos: " + e.getMessage());
-                e.printStackTrace();
                 MainController.showAlert("Error",
-                    "No se pudo recargar la lista de alojamientos: " + e.getMessage(),
-                    javafx.scene.control.Alert.AlertType.ERROR);
+                    "No se pudo actualizar la lista de alojamientos: " + e.getMessage(),
+                    AlertType.ERROR);
             }
         });
     }
 
     /**
-     * Registra esta instancia con el MainController para permitir actualizaciones externas.
-     */    private void registerWithMainController() {
+     * Método público para recargar los alojamientos desde fuera de la clase.
+     * Puede ser llamado por otras clases que necesiten actualizar la vista de
+     * alojamientos.
+     */
+    public void reloadHostings() {
+        System.out.println("Recargando alojamientos por solicitud externa");
+
+        // Asegurarse de que se ejecute en el hilo de JavaFX
+        javafx.application.Platform.runLater(() -> {
+            try {
+                // Forzar una actualización completa
+                refresh(new javafx.event.ActionEvent());
+
+                // Forzar también una actualización visual
+                if (contenedorPrincipal != null) {
+                    contenedorPrincipal.requestLayout();
+                }
+
+                // Asegurarse de que la ventana está activa y visible
+                if (contenedorPrincipal != null && contenedorPrincipal.getScene() != null &&
+                        contenedorPrincipal.getScene().getWindow() != null) {
+                    Window window = contenedorPrincipal.getScene().getWindow();
+                    if (window instanceof Stage) {
+                        Stage stage = (Stage) window;
+                        if (!stage.isShowing()) {
+                            stage.show();
+                        }
+                    }
+                    window.requestFocus();
+                }
+
+                System.out.println("Vista de alojamientos recargada completamente");
+            } catch (Exception e) {
+                System.err.println("Error al recargar alojamientos: " + e.getMessage());
+                e.printStackTrace();
+                MainController.showAlert("Error",
+                        "No se pudo recargar la lista de alojamientos: " + e.getMessage(),
+                        javafx.scene.control.Alert.AlertType.ERROR);
+            }
+        });
+    }
+
+    /**
+     * Registra esta instancia con el MainController para permitir actualizaciones
+     * externas.
+     */
+    private void registerWithMainController() {
         try {
             // Registrar esta instancia con MainController
             MainController.registerActiveMenuAdminController(this);
             System.out.println("MenuAdminViewController registrado con MainController");
-            
+
             // Verificar que los componentes necesarios estén inicializados
-            if (imageViews == null || titleLabels == null || descLabels == null || 
-                priceLabels == null || cityLabels == null || serviceLabels == null) {
-                throw new IllegalStateException("Los componentes de la interfaz no están inicializados correctamente");
+            if (imageViews == null || titleLabels == null || descLabels == null ||
+                priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
+                System.out.println("Inicializando componentes faltantes...");
+                creationList();
             }
-            
-            // Realizar una carga inicial de datos
-            refresh(new javafx.event.ActionEvent());
-            
+
+            // Verificar que todos los componentes se inicializaron correctamente
+            if (imageViews == null || titleLabels == null || descLabels == null ||
+                priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
+                throw new IllegalStateException("Los componentes de la interfaz no están inicializados correctamente después de creationList()");
+            }
+
+            // Realizar una carga inicial de datos y forzar actualización visual
+            javafx.application.Platform.runLater(() -> {
+                try {
+                    refresh(new javafx.event.ActionEvent());
+                    if (contenedorPrincipal != null) {
+                        contenedorPrincipal.requestLayout();
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error en la carga inicial de datos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            });
+
             System.out.println("MenuAdminViewController inicializado y registrado correctamente");
         } catch (Exception e) {
             System.err.println("Error al registrarse con MainController: " + e.getMessage());
             e.printStackTrace();
             MainController.showAlert("Error de Inicialización",
-                "No se pudo inicializar correctamente la vista de administración: " + e.getMessage(),
-                javafx.scene.control.Alert.AlertType.ERROR);
+                    "No se pudo inicializar correctamente la vista de administración: " + e.getMessage(),
+                    javafx.scene.control.Alert.AlertType.ERROR);
+        }
+    }
+
+    private void creationList() {
+        try {
+            System.out.println("Inicializando listas de componentes...");
+            imageViews = List.of(img_Alojamiento, img_Alojamiento1, img_Alojamiento2, img_Alojamiento3,
+                    img_Alojamiento4);
+            titleLabels = List.of(lbl_tituloAlojamiento, lbl_tituloAlojamiento1, lbl_tituloAlojamiento2,
+                    lbl_tituloAlojamiento3, lbl_tituloAlojamiento4);
+            descLabels = List.of(lbl_descripcion, lbl_descripcion1, lbl_descripcion2, lbl_descripcion3,
+                    lbl_descripcion4);
+            priceLabels = List.of(lbl_Price, lbl_Price1, lbl_Price2, lbl_Price3, lbl_Price4);
+            cityLabels = List.of(lbl_Cuidad, lbl_Cuidad1, lbl_Cuidad2, lbl_Cuidad3, lbl_Cuidad4);
+            serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1, lbl_serviciosAdicionales2,
+                    lbl_serviciosAdicionales3, lbl_serviciosAdicionales4);
+            editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4);
+            
+            // Verificar que ninguna lista sea nula
+            if (imageViews == null || titleLabels == null || descLabels == null || 
+                priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
+                throw new IllegalStateException("Una o más listas son nulas después de la inicialización");
+            }
+            
+            System.out.println("Listas de componentes inicializadas correctamente");
+        } catch (Exception e) {
+            System.err.println("Error al inicializar listas de componentes: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Error al inicializar componentes", e);
         }
     }
 }

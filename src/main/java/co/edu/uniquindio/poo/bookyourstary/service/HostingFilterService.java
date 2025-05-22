@@ -15,11 +15,33 @@ public class HostingFilterService {
             instance = new HostingFilterService();
         }
         return instance;
-    }    public List<Hosting> filterHostings(String ciudad, String tipoDeAlojamiento, Double minPrice, Double maxPrice,
+    }
+    
+    /**
+     * Determina si un alojamiento coincide con el tipo especificado.
+     * Soporta múltiples variaciones del nombre para apartamentos.
+     */
+    private boolean matchesHostingType(Hosting h, String tipoDeAlojamiento) {
+        if (tipoDeAlojamiento == null) return true;
+        
+        String className = h.getClass().getSimpleName().toLowerCase();
+        String tipo = tipoDeAlojamiento.toLowerCase();
+        
+        // Para apartamentos, acepta múltiples variaciones
+        if (tipo.equals("apto") || tipo.equals("apartamento") || tipo.equals("apartament")) {
+            return className.equals("apartament");
+        }
+        
+        // Para otros tipos, comparación directa
+        return className.equals(tipo);
+    }
+    
+    public List<Hosting> filterHostings(String ciudad, String tipoDeAlojamiento, Double minPrice, Double maxPrice,
             LocalDate minDate, LocalDate maxDate, Integer numHuespedes,
             Boolean wifi, Boolean piscina, Boolean desayuno, LocalDate fechaInicio, LocalDate fechaFin) {
+       
         // Depuración: imprimir los criterios de filtrado
-        System.out.println("Filtrando con los siguientes criterios:");
+        System.out.println("\nFiltrando con los siguientes criterios:");
         System.out.println("- Ciudad: " + (ciudad != null ? ciudad : "No especificada"));
         System.out.println("- Tipo: " + (tipoDeAlojamiento != null ? tipoDeAlojamiento : "No especificado"));
         System.out.println("- Precio min: " + (minPrice != null ? minPrice : "No especificado"));
@@ -32,7 +54,14 @@ public class HostingFilterService {
         // Obtener todos los alojamientos antes de filtrar
         List<Hosting> allHostings = MainController.getInstance().getHostingService().findAllHostings();
         System.out.println("Total de alojamientos antes del filtrado: " + allHostings.size());
-          // Usar el método que obtiene todos los alojamientos de todos los repositorios
+        
+        // Registrar los tipos de alojamiento antes del filtrado
+        System.out.println("\nTipos de alojamiento encontrados:");
+        for (Hosting h : allHostings) {
+            System.out.println("- " + h.getName() + ": " + h.getClass().getSimpleName());
+        }
+        
+        // Aplicar los filtros
         List<Hosting> results = allHostings.stream()
                 .filter(h -> {
                     if (ciudad == null) return true;
@@ -47,18 +76,24 @@ public class HostingFilterService {
                         return false;
                     }
                 })
-
-                .filter(h -> tipoDeAlojamiento == null
-                        || h.getClass().getSimpleName().equalsIgnoreCase(tipoDeAlojamiento))
+                .filter(h -> {
+                    boolean matches = matchesHostingType(h, tipoDeAlojamiento);
+                    if (!matches && tipoDeAlojamiento != null) {
+                        System.out.println("No coincide tipo: " + h.getName() + " (" + h.getClass().getSimpleName() + 
+                                         ") con tipo buscado: " + tipoDeAlojamiento);
+                    }
+                    return matches;
+                })
                 .filter(h -> minPrice == null || h.getPricePerNight() >= minPrice)
                 .filter(h -> maxPrice == null || h.getPricePerNight() <= maxPrice)
                 .filter(h -> numHuespedes == null || h.getMaxGuests() >= numHuespedes)                
-                .filter(h -> wifi == null
-                        || (h.getIncludedServices() != null && h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("wifi"))))
-                .filter(h -> piscina == null
-                        || (h.getIncludedServices() != null && h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("piscina"))))
-                .filter(h -> desayuno == null
-                        || (h.getIncludedServices() != null && h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("desayuno"))))                .filter(h -> {
+                .filter(h -> wifi == null || (h.getIncludedServices() != null && 
+                        h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("wifi"))))
+                .filter(h -> piscina == null || (h.getIncludedServices() != null && 
+                        h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("piscina"))))
+                .filter(h -> desayuno == null || (h.getIncludedServices() != null && 
+                        h.getIncludedServices().stream().anyMatch(s -> s.getName().equalsIgnoreCase("desayuno"))))
+                .filter(h -> {
                     if (fechaInicio == null || fechaFin == null)
                         return true;
                     
@@ -67,18 +102,16 @@ public class HostingFilterService {
                         return true;
                         
                     // Comprobar si hay superposición de periodos de tiempo
-                    // El alojamiento está disponible si su periodo se superpone con el periodo solicitado
                     return !fechaInicio.isAfter(h.getAvailableTo()) && 
                            !fechaFin.isBefore(h.getAvailableFrom());
                 })
                 .collect(Collectors.toList());
                 
-        // Llamar al método de registro y devolver los resultados
         return logFilterResults(results);
     }
     
     private List<Hosting> logFilterResults(List<Hosting> results) {
-        System.out.println("Total de alojamientos después del filtrado: " + results.size());
+        System.out.println("\nTotal de alojamientos después del filtrado: " + results.size());
         
         if (results.isEmpty()) {
             System.out.println("No se encontraron alojamientos con los criterios especificados");

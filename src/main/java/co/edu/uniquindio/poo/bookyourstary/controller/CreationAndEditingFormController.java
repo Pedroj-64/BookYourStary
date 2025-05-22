@@ -97,9 +97,7 @@ public class CreationAndEditingFormController {
         } else {
              imgFoto.setImage(new Image("file:src/main/resources/co/edu/uniquindio/poo/bookyourstary/image/FotoHotelRelleno.png"));
         }
-    }
-
-    public String selectImage(Window parentWindow, ImageView imgFoto) {
+    }    public String selectImage(Window parentWindow, ImageView imgFoto) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar imagen");
         fileChooser.getExtensionFilters().addAll(
@@ -107,20 +105,19 @@ public class CreationAndEditingFormController {
         File selectedFile = fileChooser.showOpenDialog(parentWindow);
         if (selectedFile != null) {
             String imagePath = selectedFile.getAbsolutePath();
-            if (imgFoto != null) {
-                 try {
-                    imgFoto.setImage(new Image("file:" + imagePath));
-                } catch (Exception e) {
-                    imgFoto.setImage(new Image("file:src/main/resources/co/edu/uniquindio/poo/bookyourstary/image/FotoHotelRelleno.png"));
-                    MainController.showAlert("Error", "No se pudo cargar la imagen seleccionada.", Alert.AlertType.ERROR);
-                    return null;
+            // Copiar la imagen al directorio del proyecto
+            String projectImagePath = co.edu.uniquindio.poo.bookyourstary.util.ImageHandler.copyImageToProject(imagePath);
+            if (projectImagePath != null && imgFoto != null) {
+                Image image = co.edu.uniquindio.poo.bookyourstary.util.ImageHandler.loadImage(projectImagePath);
+                if (image != null) {
+                    imgFoto.setImage(image);
+                    return projectImagePath;
                 }
             }
-            // Do not set hostingToEdit.setImageUrl here directly, let saveHosting handle it.
-            return imagePath;
+            MainController.showAlert("Error", "No se pudo cargar la imagen seleccionada.", Alert.AlertType.ERROR);
         }
         return null;
-    }    public boolean saveHosting(
+    }public boolean saveHosting(
             List<TextField> textFields, // 0: name, 1: price, 2: guests
             TextArea txtDescripcion,
             ComboBox<City> cbCiudad,
@@ -199,8 +196,7 @@ public class CreationAndEditingFormController {
                 if ("Casa".equalsIgnoreCase(tipoAlojamiento)) {
                     hostingService.createHouse(name, city, description, finalImageUrl, pricePerNight, maxGuests, includedServices, 25000, availableFrom, availableTo);
                     MainController.showAlert("Éxito", "Casa '" + name + "' creada correctamente.", Alert.AlertType.INFORMATION);
-                    return true;
-                } else if ("Apartamento".equalsIgnoreCase(tipoAlojamiento)) {
+                    return true;                } else if ("Apto".equalsIgnoreCase(tipoAlojamiento) || "Apartamento".equalsIgnoreCase(tipoAlojamiento)) {
                     // Usar el constructor directo del apartamento en lugar del método problemático
                     try {
                         var apartamento = new co.edu.uniquindio.poo.bookyourstary.model.Apartament(
