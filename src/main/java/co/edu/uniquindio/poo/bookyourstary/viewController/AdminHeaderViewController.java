@@ -51,14 +51,14 @@ public class AdminHeaderViewController {
      */
     @FXML
     void OpenCreationHosting(ActionEvent event) {
-        System.out.println("Vista: Solicitando apertura de formulario de creación");
-        
-        boolean success = adminHeaderController.openCreationForm();
-        
-        if (!success) {
+        try {
+            System.out.println("Vista: Abriendo menú de opciones de administrador");
+            MainController.loadScene("AdminOptions", 300, 200);
+        } catch (Exception e) {
+            System.err.println("Error al abrir menú de opciones: " + e.getMessage());
             MainController.showAlert(
                 "Error",
-                "No se pudo abrir el formulario de creación. Consulte los logs para más detalles.",
+                "No se pudo abrir el menú de opciones. Consulte los logs para más detalles.",
                 AlertType.ERROR);
         }
     }
