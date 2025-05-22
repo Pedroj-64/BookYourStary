@@ -1,9 +1,7 @@
 package co.edu.uniquindio.poo.bookyourstary.controller;
 
-import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.viewController.ManagerOrderViewController;
-import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 
 import java.time.LocalDate;

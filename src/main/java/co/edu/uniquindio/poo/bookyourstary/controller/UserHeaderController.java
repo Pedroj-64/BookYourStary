@@ -3,10 +3,7 @@ package co.edu.uniquindio.poo.bookyourstary.controller;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import co.edu.uniquindio.poo.bookyourstary.model.Admin;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class UserHeaderController {
 
