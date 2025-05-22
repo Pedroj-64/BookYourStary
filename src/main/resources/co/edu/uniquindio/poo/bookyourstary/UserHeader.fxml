@@ -26,4 +26,15 @@
         </graphic>
     </Button>
 
+    <!-- Botón para recargar billetera -->
+    <Button fx:id="btn_RecargarBilletera" onAction="#abrirRecargarBilletera" styleClass="header-boton">
+        <graphic>
+            <ImageView fitHeight="28.0" fitWidth="28.0">
+                <image>
+                    <Image url="@image/wallet.png" />
+                </image>
+            </ImageView>
+        </graphic>
+    </Button>
+
 </HBox>

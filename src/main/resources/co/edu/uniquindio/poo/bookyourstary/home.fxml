@@ -277,11 +277,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" spacing="10.0">
                                              <children>
-                                                <Label fx:id="lbl_Price4" text="Price:">
-                                                   <HBox.margin>
-                                                      <Insets />
-                                                   </HBox.margin>
-                                                </Label>
+                                                <Label fx:id="lbl_Price4" text="Ciudad:" />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" spacing="10.0">

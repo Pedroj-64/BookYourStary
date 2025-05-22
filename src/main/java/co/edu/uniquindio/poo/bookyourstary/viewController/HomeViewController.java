@@ -70,6 +70,9 @@ public class HomeViewController {
     private Button btn_reservar4;
 
     @FXML
+    private Button btn_walletTopUp; // Button for wallet top-up
+
+    @FXML
     private HBox central_btn;
 
     @FXML
@@ -370,4 +373,13 @@ public class HomeViewController {
 
     }
 
+    @FXML
+    void openWalletTopUp(ActionEvent event) {
+        try {
+            MainController.loadFXML("walletTopUp");
+        } catch (Exception e) {
+            e.printStackTrace();
+            MainController.showAlert("Error", "No se pudo abrir la ventana de recarga de billetera.", AlertType.ERROR);
+        }
+    }
 }
