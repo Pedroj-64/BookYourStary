@@ -210,10 +210,9 @@ public class CreationAndEditingFormController {
                     } catch (Exception e) {
                         MainController.showAlert("Error", "No se pudo crear el apartamento: " + e.getMessage(), Alert.AlertType.ERROR);
                         return false;
-                    }
-                } else if ("Hotel".equalsIgnoreCase(tipoAlojamiento)) {
+                    }                } else if ("Hotel".equalsIgnoreCase(tipoAlojamiento)) {
                     hostingService.createHotel(name, city, description, finalImageUrl, pricePerNight, maxGuests, includedServices, new LinkedList<>(), availableFrom, availableTo);
-                    MainController.showAlert("Éxito", "Hotel '" + name + "' creado correctamente.", Alert.AlertType.INFORMATION);
+                    MainController.showAlert("Éxito", "Hotel '" + name + "' creado correctamente.\n\nPara gestionar las habitaciones del hotel, diríjase a 'Manejo de Habitaciones' en el menú anterior.", Alert.AlertType.INFORMATION);
                     return true;
                 } else {
                     MainController.showAlert("Error de Tipo", "Tipo de alojamiento desconocido: " + tipoAlojamiento, Alert.AlertType.ERROR);

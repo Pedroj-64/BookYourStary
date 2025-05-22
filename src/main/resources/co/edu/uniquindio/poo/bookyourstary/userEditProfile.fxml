@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="center" spacing="15" styleClass="register-panel" stylesheets="@css/register.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.UserEditProfileViewController">
+
+    <Label styleClass="register-title" text="Editar Perfil" />
+    
+    <GridPane hgap="10" vgap="15">
+        <Label styleClass="form-label" text="Cédula:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <TextField fx:id="idField" styleClass="form-field" disable="true" 
+                 GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+        <Label styleClass="form-label" text="Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+        <TextField fx:id="nameField" styleClass="form-field"
+                 GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+        <Label styleClass="form-label" text="Teléfono:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+        <TextField fx:id="phoneField" styleClass="form-field"
+                 GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+        <Label styleClass="form-label" text="Email:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+        <TextField fx:id="emailField" styleClass="form-field" disable="true"
+                 GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+        <Label styleClass="form-label" text="Contraseña:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+        <PasswordField fx:id="passwordField" styleClass="form-field" promptText="Ingrese nueva contraseña"
+                     GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+        <Label styleClass="form-label" text="Billetera Virtual:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+        <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="5" GridPane.columnIndex="1">
+            <Label fx:id="walletBalance" styleClass="form-field" text="$0.00" />
+            <Button fx:id="btnRecargar" styleClass="action-button" text="Recargar" onAction="#handleTopUp" />
+        </HBox>
+
+        <Label styleClass="form-label" text="Estado:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+        <Label fx:id="statusLabel" styleClass="form-field" text="Activo"
+               GridPane.rowIndex="6" GridPane.columnIndex="1" />
+    </GridPane>
+
+    <HBox spacing="20" alignment="CENTER">
+        <Button styleClass="action-button" text="Guardar Cambios" onAction="#handleSave" />
+        <Button styleClass="action-button" text="Cancelar" onAction="#handleCancel" />
+    </HBox>
+
+    <stylesheets>
+        <URL value="@css/register.css" />
+    </stylesheets>
+
+</VBox>
