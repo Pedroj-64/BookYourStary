@@ -27,7 +27,9 @@ public class StadisticsMenuViewController {
     @FXML
     private BarChart<String, Number> popularityBarChart;
     @FXML
-    private Button btnExit;    @FXML
+    private Button btnExit;
+
+    @FXML
     public void initialize() {
         try {
             // Obtener el controlador a través de MainController
@@ -61,7 +63,9 @@ public class StadisticsMenuViewController {
                     "No se pudo inicializar la vista de estadísticas: " + e.getMessage(),
                     Alert.AlertType.ERROR);
         }
-    }    private void configureUIComponents() {
+    }
+
+    private void configureUIComponents() {
         try {
             // Configurar ComboBox
             cbType.setItems(controller.getOpciones());
@@ -78,10 +82,9 @@ public class StadisticsMenuViewController {
             System.err.println("Error al configurar componentes de UI: " + e.getMessage());
             e.printStackTrace();
             MainController.showAlert(
-                "Error de configuración",
-                "No se pudieron configurar los componentes de la interfaz: " + e.getMessage(),
-                Alert.AlertType.ERROR
-            );
+                    "Error de configuración",
+                    "No se pudieron configurar los componentes de la interfaz: " + e.getMessage(),
+                    Alert.AlertType.ERROR);
         }
     }
 
