@@ -3,9 +3,9 @@
 **BookYourStary** es una plataforma de reservas de alojamientos turísticos en diferentes ciudades de Colombia. Permite a los clientes buscar, reservar y calificar alojamientos, mientras que un administrador gestiona la plataforma, publica ofertas y analiza estadísticas.
 
 ## autores
-**PEDRO JOSE SOTO RIVERA**
-**BRANDON GIL**
-**SANTIAGO PADILLA RIOS**
+**PEDRO JOSE SOTO RIVERA**,
+**BRANDON GIL**,
+**SANTIAGO PADILLA RIOS**.
 
 ---
 
