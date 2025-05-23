@@ -17,6 +17,7 @@ import javafx.stage.Window;
 import java.io.File;
 import lombok.Getter;
 import lombok.Setter;
+import javafx.stage.Stage;
 
 @Setter
 @Getter
@@ -226,6 +227,58 @@ public class CreationAndEditingFormController {
             MainController.showAlert("Error Inesperado", "No se pudo guardar el alojamiento: " + e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace(); // For debugging
             return false;
+        }
+    }
+
+    /**
+     * Guarda el alojamiento y cierra la ventana si el guardado es exitoso
+     * @param stage La ventana a cerrar
+     * @return true si se guardó y cerró correctamente
+     */
+    public boolean saveHostingAndClose(
+            List<TextField> textFields,
+            TextArea txtDescripcion,
+            ComboBox<City> cbCiudad,
+            ComboBox<String> cbTipoAlojamiento,
+            ComboBox<String> cbPais,
+            DatePicker dateInicio,
+            DatePicker dateFinal,
+            CheckBox chkWifi,
+            CheckBox chkPiscina,
+            CheckBox chkDesayuno,
+            String selectedImagePath,
+            Stage stage) {
+        
+        boolean success = saveHosting(
+            textFields,
+            txtDescripcion,
+            cbCiudad,
+            cbTipoAlojamiento,
+            cbPais,
+            dateInicio,
+            dateFinal,
+            chkWifi,
+            chkPiscina,
+            chkDesayuno,
+            selectedImagePath
+        );
+        
+        if (success && stage != null) {
+            System.out.println("Guardado exitoso, cerrando ventana...");
+            stage.close();
+        }
+        
+        return success;
+    }
+
+    /**
+     * Limpia el estado y cierra la ventana
+     * @param stage La ventana a cerrar
+     */
+    public void closeWindow(Stage stage) {
+        setHostingToEdit(null);
+        if (stage != null) {
+            stage.hide();
         }
     }
 

@@ -4,31 +4,142 @@ import javafx.scene.control.Alert;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import co.edu.uniquindio.poo.bookyourstary.App;
 import co.edu.uniquindio.poo.bookyourstary.config.EmailConfig;
+import co.edu.uniquindio.poo.bookyourstary.config.mapping.DataMapping;
 import co.edu.uniquindio.poo.bookyourstary.controller.AdminHeaderController;
 import co.edu.uniquindio.poo.bookyourstary.controller.CreationAndEditingFormController;
 import co.edu.uniquindio.poo.bookyourstary.controller.MenuAdminController;
 import co.edu.uniquindio.poo.bookyourstary.repository.*;
 import co.edu.uniquindio.poo.bookyourstary.service.*;
 import co.edu.uniquindio.poo.bookyourstary.service.observer.EmailNotifier;
+import co.edu.uniquindio.poo.bookyourstary.util.TemplateLoader;
+import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 import co.edu.uniquindio.poo.bookyourstary.viewController.MenuAdminViewController;
-import lombok.Setter;
 
 public class MainController {
 
     private static MainController instance;
-    // @Setter // Temporarily commenting out to manually add the method
     private static Scene scene;
 
-    // Manually added static setter for the scene
+    // Constructor privado para Singleton
+    private MainController() {
+    }
+
+    // Setter para la escena actual
     public static void setScene(Scene newScene) {
         MainController.scene = newScene;
     }
 
-    private MainController() {
+    /**
+     * Maneja la detención de la aplicación
+     */
+    public void handleApplicationStop() {
+        try {
+            XmlSerializationManager.getInstance().saveAllData();
+            System.out.println("Datos guardados correctamente en XML.");
+        } catch (Exception e) {
+            System.err.println("Error al guardar datos en XML: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Maneja la inicialización de la aplicación
+     */
+    public void handleApplicationInit() {
+        try {
+            // Inicializar recursos y plantillas
+            TemplateLoader.listAvailableResources();
+            initializeData();
+        } catch (Exception e) {
+            System.err.println("Error al inicializar la aplicación: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Maneja el inicio de la aplicación y la interfaz gráfica
+     */
+    public void handleApplicationStart(Stage stage) {
+        try {
+            Parent root = loadFXML("home");
+            Scene scene = new Scene(root, 600, 400);
+            stage.setTitle("BookYourStary");
+            stage.setScene(scene);
+            stage.show();
+            setScene(scene);
+        } catch (Exception e) {
+            showAlert(
+                "Error crítico",
+                "No se pudo iniciar la aplicación: " + e.getMessage(),
+                Alert.AlertType.ERROR
+            );
+            if (stage != null) {
+                stage.close();
+            }
+        }
+    }
+
+    /**
+     * Inicializa los datos de la aplicación
+     */
+    private void initializeData() {
+        try {
+            XmlSerializationManager xmlManager = XmlSerializationManager.getInstance();
+            
+            if (xmlManager.hasStoredData()) {
+                try {
+                    xmlManager.loadAllData();
+                    System.out.println("Datos cargados correctamente desde XML.");
+                    
+                    // Verificar/actualizar datos esenciales
+                    DataMapping.createTestAdmin();
+                    DataMapping.createTestClient();
+                    
+                    xmlManager.saveAllData();
+                    System.out.println("Cuentas de prueba verificadas/actualizadas y guardadas en XML.");
+                } catch (Exception e) {
+                    System.err.println("Error cargando datos existentes, recreando datos de prueba: " + e.getMessage());
+                    recreateTestData();
+                }
+            } else {
+                System.out.println("No se encontraron archivos XML previos, creando datos de prueba...");
+                recreateTestData();
+            }
+        } catch (Exception e) {
+            System.err.println("Error al inicializar datos: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Recrea los datos de prueba
+     */
+    private void recreateTestData() {
+        try {
+            // Limpiar repositorios
+            getHostingService().clearAll();
+            getClientRepository().clearAll();
+            getAdminRepository().clearAll();
+            getBookingRepository().clearAll();
+            getCityService().clearAll();
+            
+            // Crear datos de prueba
+            DataMapping.createTestAdmin();
+            DataMapping.createAllHostings();
+            DataMapping.createTestClient();
+            
+            // Guardar los nuevos datos
+            XmlSerializationManager.getInstance().saveAllData();
+            System.out.println("Datos de prueba creados y guardados en XML.");
+        } catch (Exception e) {
+            System.err.println("Error al recrear datos de prueba: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static MainController getInstance() {

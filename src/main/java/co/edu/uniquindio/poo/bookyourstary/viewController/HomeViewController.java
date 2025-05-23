@@ -286,15 +286,8 @@ public class HomeViewController {
     private void setupComboBox() {
         combo_tipoAlojamiento.getItems().setAll(HomeController.getHostingTypes());
         combo_Ciudad.getItems().setAll(homeController.getAvailableCities());
-    }
-
-    private void checkUserAndUpdateHeader() {
-        Object user = MainController.getInstance().getSessionManager().getUsuarioActual();
-        if (user instanceof Client) {
-            ViewLoader.setContent(UserHeader0, "UserHeader");
-        } else if (user instanceof Admin) {
-            ViewLoader.setContent(UserHeader0, "AdminHeader");
-        }
+    }    private void checkUserAndUpdateHeader() {
+        homeController.handleUserHeaderUpdate(UserHeader0);
     }
 
     @FXML
@@ -321,61 +314,26 @@ public class HomeViewController {
                 
         // Actualizar también los botones de reserva para que apunten a los alojamientos filtrados
         homeController.assignHostingsToReserveButtons(reserveButtons, filtrados);
-    }
-
-    @FXML
+    }    @FXML
     void reservar(ActionEvent event) {
         Object currentUser = MainController.getInstance().getSessionManager().getUsuarioActual();
-        if (currentUser == null) {
-            MainController.showAlert(
-                    "Acción Requerida",
-                    "Por favor, inicie sesión o regístrese para poder reservar.",
-                    AlertType.INFORMATION);
-            // Optionally, redirect to login: MainController.loadScene("userLogin", 900, 600);
-            return;
-        }
-        // Ensure the user is a Client, though guests (null user) are handled above.
-        // If there are other user types that shouldn't reserve, add checks here.
-        if (!(currentUser instanceof Client)) {
-             MainController.showAlert(
-                    "Acción no permitida",
-                    "Solo los clientes pueden realizar reservas.",
-                    AlertType.WARNING);
-            return;
-        }
-
         Button sourceButton = (Button) event.getSource();
         Hosting hosting = (Hosting) sourceButton.getUserData();
-        if (hosting != null) {
-            boolean added = homeController.addHostingToPendingReservations(hosting); // Adds to CartManager
-            if (added) {
-                MainController.showAlert(
-                        "Alojamiento Añadido",
-                        "'" + hosting.getName() + "' ha sido añadido a sus reservas pendientes. Revise su carrito para confirmar.",
-                        AlertType.INFORMATION);
-            } else {
-                MainController.showAlert(
-                        "Información",
-                        "'" + hosting.getName() + "' ya se encuentra en sus reservas pendientes.",
-                        AlertType.INFORMATION);
-            }
-        } else {
-            MainController.showAlert(
-                    "Error",
-                    "No se pudo seleccionar el alojamiento para la reserva.",
-                    AlertType.ERROR);
-        }
-    }
 
-    @FXML
-    void iniciarSesion(ActionEvent event) { // Added/Re-added this method
-        MainController.loadScene("userLogin", 900, 600);
+        if (homeController.handleReservation(currentUser, hosting)) {
+            boolean added = homeController.addHostingToPendingReservations(hosting);
+            if (added) {
+                MainController.loadScene("reservationForm", 900, 600);
+            }
+        }
+    }    @FXML
+    void iniciarSesion(ActionEvent event) {
+        homeController.navigateToLogin();
     }
 
     @FXML
     void registrateYa(MouseEvent event) {
-        MainController.loadScene("userRegister", 900, 600);
-
+        homeController.navigateToRegister();
     }
 
     @FXML

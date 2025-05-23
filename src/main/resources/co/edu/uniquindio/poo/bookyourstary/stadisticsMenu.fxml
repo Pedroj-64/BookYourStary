@@ -20,7 +20,7 @@
             <!-- Pestaña 1: Ocupación -->
             <Tab text="Ocupación">
                 <VBox prefHeight="382.0" prefWidth="414.0" spacing="10" style="-fx-padding: 20;">
-               <ComboBox fx:id="cb_type" prefWidth="150.0" promptText="Tipo" />
+               <ComboBox fx:id="cbType" prefWidth="150.0" promptText="Tipo" />
                     <PieChart fx:id="occupancyPieChart" labelsVisible="true" legendVisible="true" prefHeight="287.0" prefWidth="374.0" title="Porcentaje de ocupación">
                         <title>
                             <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Ocupación por alojamiento" />

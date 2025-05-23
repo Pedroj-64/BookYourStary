@@ -27,13 +27,25 @@ public class StadisticsMenuViewController {
     @FXML
     private BarChart<String, Number> popularityBarChart;
     @FXML
-    private Button btnExit;
-
-    @FXML
+    private Button btnExit;    @FXML
     public void initialize() {
         try {
             // Obtener el controlador a través de MainController
             controller = new StadisticsMenuController();
+
+            // Verificar que los componentes FXML se hayan inyectado correctamente
+            if (cbType == null) {
+                throw new IllegalStateException("Error: cbType no se inicializó correctamente desde FXML");
+            }
+            if (occupancyPieChart == null) {
+                throw new IllegalStateException("Error: occupancyPieChart no se inicializó correctamente desde FXML");
+            }
+            if (earningsBarChart == null) {
+                throw new IllegalStateException("Error: earningsBarChart no se inicializó correctamente desde FXML");
+            }
+            if (popularityBarChart == null) {
+                throw new IllegalStateException("Error: popularityBarChart no se inicializó correctamente desde FXML");
+            }
 
             configureUIComponents();
             loadInitialData();
@@ -49,20 +61,28 @@ public class StadisticsMenuViewController {
                     "No se pudo inicializar la vista de estadísticas: " + e.getMessage(),
                     Alert.AlertType.ERROR);
         }
-    }
+    }    private void configureUIComponents() {
+        try {
+            // Configurar ComboBox
+            cbType.setItems(controller.getOpciones());
+            cbType.setPromptText("Seleccione un tipo");
 
-    private void configureUIComponents() {
-        // Configurar ComboBox
-        cbType.setItems(controller.getOpciones());
-        cbType.setPromptText("Seleccione un tipo");
+            // Configurar gráficos
+            configureOccupancyChart();
+            configureEarningsChart();
+            configurePopularityChart();
 
-        // Configurar gráficos
-        configureOccupancyChart();
-        configureEarningsChart();
-        configurePopularityChart();
-
-        // Seleccionar el primer elemento después de configurar todo
-        cbType.getSelectionModel().selectFirst();
+            // Seleccionar el primer elemento después de configurar todo
+            cbType.getSelectionModel().selectFirst();
+        } catch (Exception e) {
+            System.err.println("Error al configurar componentes de UI: " + e.getMessage());
+            e.printStackTrace();
+            MainController.showAlert(
+                "Error de configuración",
+                "No se pudieron configurar los componentes de la interfaz: " + e.getMessage(),
+                Alert.AlertType.ERROR
+            );
+        }
     }
 
     private void configureOccupancyChart() {
