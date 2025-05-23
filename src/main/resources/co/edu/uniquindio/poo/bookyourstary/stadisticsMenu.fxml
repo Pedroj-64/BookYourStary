@@ -60,7 +60,7 @@
         </TabPane>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="btnExit" mnemonicParsing="false" prefHeight="51.0" prefWidth="77.0" text="Salir" />
+            <Button fx:id="btnExit" mnemonicParsing="false" prefHeight="51.0" prefWidth="77.0" text="Salir" onAction="#salir" />
          </children>
          <opaqueInsets>
             <Insets />

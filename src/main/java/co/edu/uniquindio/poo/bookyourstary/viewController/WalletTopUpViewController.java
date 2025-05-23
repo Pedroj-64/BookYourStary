@@ -130,4 +130,13 @@ public class WalletTopUpViewController {
             MainController.showAlert("Error", "Por favor ingrese un monto válido", AlertType.ERROR);
         }
     }
+
+    /**
+     * Permite volver a la ventana anterior (home).
+     * @param event Evento de acción.
+     */
+    @FXML
+    void salir(ActionEvent event) {
+        MainController.loadScene("home", 600, 400);
+    }
 }
