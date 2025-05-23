@@ -77,8 +77,8 @@ public class BillService {
         Client client = bill.getClient();
         Booking booking = bill.getBooking();
 
-        // Generar el contenido del QR
-        String contenidoQR = String.format("Pagaste $%.2f", bill.getTotal());
+        // Generar el contenido del QR con el UUID de la factura
+        String contenidoQR = String.format("Factura: %s - Total: $%.2f", bill.getBillId(), bill.getTotal());
 
         String qrCodeBase64 = QrUtil.generateBase64Qr(contenidoQR, 300, 300);
 

@@ -40,11 +40,15 @@
 
 <body>
     <h1>¡Tu pago ha sido confirmado!</h1>
-    
-    <div class="info">
+      <div class="info">
         <p>Hola <strong>{{nombreUsuario}}</strong>, hemos recibido tu pago por tu reserva en <strong>{{nombreAlojamiento}}</strong>.</p>
         <p>Fechas de tu estadía: <strong>{{fechaInicio}}</strong> al <strong>{{fechaFin}}</strong> ({{numeroNoches}} noches)</p>
+        <p>Precio por noche: <strong>${{precioPorNoche}}</strong></p>
+        <p>Subtotal: <strong>${{subtotal}}</strong></p>
+        <p>Descuento: <strong>${{descuento}}</strong></p>
         <p class="total">Total pagado: ${{total}}</p>
+        <p>ID de Factura: <strong>{{billId}}</strong></p>
+        <p>Fecha de Factura: <strong>{{billDate}}</strong></p>
     </div>
 
     <p>Presenta este código QR como comprobante de pago:</p>
