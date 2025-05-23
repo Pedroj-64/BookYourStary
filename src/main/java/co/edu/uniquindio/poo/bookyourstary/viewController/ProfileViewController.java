@@ -132,12 +132,20 @@ public class ProfileViewController {
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    private boolean showConfirmation(String title, String message) {
+    }    private boolean showConfirmation(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setContentText(message);
         return alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
+    }
+    
+    @FXML
+    private void handleViewDetails() {
+        Booking selectedBooking = bookingsTable.getSelectionModel().getSelectedItem();
+        if (selectedBooking != null) {
+            bookingDetailsArea.setText(profileController.buildBookingDetails(selectedBooking));
+        } else {
+            showInfo("Selección", "Por favor seleccione una reserva para ver los detalles.");
+        }
     }
 }

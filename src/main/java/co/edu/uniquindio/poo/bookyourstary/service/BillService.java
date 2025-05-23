@@ -77,12 +77,12 @@ public class BillService {
         Client client = bill.getClient();
         Booking booking = bill.getBooking();
 
-        // Simplificar contenido del QR para que solo muestre "Pagaste" y el monto
+        // Generar el contenido del QR
         String contenidoQR = String.format("Pagaste $%.2f", bill.getTotal());
 
         String qrCodeBase64 = QrUtil.generateBase64Qr(contenidoQR, 300, 300);
 
-        // Usar la plantilla de factura actualizada
+        
         String emailContent = emailTemplateService.buildInvoiceEmail(bill, qrCodeBase64);
 
         // Enviar correo electrónico

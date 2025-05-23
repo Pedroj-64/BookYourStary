@@ -22,11 +22,11 @@
 
             <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
+            
             <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
             <TextField fx:id="emailField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-            <Button onAction="#handleSave" text="Guardar Cambios" styleClass="primary-button"
+            <Button fx:id="updateProfileButton" onAction="#handleUpdateProfile" text="Guardar Cambios" styleClass="primary-button"
                     GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.halignment="RIGHT" />
         </GridPane>
     </VBox>
@@ -35,21 +35,19 @@
     <VBox styleClass="form-section" spacing="15">
         <Label styleClass="section-title" text="Mis Reservas" />
         
-        <TableView fx:id="reservationsTable" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="typeColumn" text="Tipo Alojamiento" />
-                <TableColumn fx:id="nameColumn" text="Nombre" />
-                <TableColumn fx:id="checkInColumn" text="Fecha Entrada" />
-                <TableColumn fx:id="checkOutColumn" text="Fecha Salida" />
-                <TableColumn fx:id="guestsColumn" text="Huéspedes" />
-                <TableColumn fx:id="statusColumn" text="Estado" />
-                <TableColumn fx:id="priceColumn" text="Precio" />
+        <TableView fx:id="bookingsTable" VBox.vgrow="ALWAYS">
+            <columns>                <TableColumn fx:id="idColumn" text="ID" />
+                <TableColumn fx:id="hostingColumn" text="Alojamiento" />
+                <TableColumn fx:id="dateColumn" text="Fecha" />
+                <TableColumn fx:id="stateColumn" text="Estado" />
             </columns>
         </TableView>
-
+        
+        <TextArea fx:id="bookingDetailsArea" editable="false" prefHeight="100" promptText="Seleccione una reserva para ver los detalles" wrapText="true" />
+        
         <HBox spacing="10" alignment="CENTER_RIGHT">
             <Button fx:id="viewDetailsButton" text="Ver Detalles" styleClass="secondary-button" onAction="#handleViewDetails" />
-            <Button fx:id="cancelReservationButton" text="Cancelar Reserva" styleClass="danger-button" onAction="#handleCancelReservation" />
+            <Button fx:id="cancelBookingButton" text="Cancelar Reserva" styleClass="danger-button" onAction="#handleCancelBooking" />
         </HBox>
     </VBox>
 

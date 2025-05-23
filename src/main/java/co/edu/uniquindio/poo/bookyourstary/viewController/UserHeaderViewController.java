@@ -72,11 +72,20 @@ public class UserHeaderViewController {
             co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.showAlert(
                 "Error", "No se pudo abrir la ventana de recarga de billetera.", AlertType.ERROR);
         }
-    }
-
-    public void actualizarSaldo(double monto) {
+    }    public void actualizarSaldo(double monto) {
         double saldoActual = Double.parseDouble(lbl_Saldo.getText().replace("Saldo: $", "").replace(",", ""));
         saldoActual += monto;
         lbl_Saldo.setText("Saldo: $" + String.format("%.2f", saldoActual));
+    }
+    
+    @FXML
+    void abrirEditarPerfil(ActionEvent event) {
+        try {
+            co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("userProfileEdit", 900, 600);
+        } catch (Exception e) {
+            e.printStackTrace();
+            co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.showAlert(
+                "Error", "No se pudo abrir la ventana de edición de perfil.", AlertType.ERROR);
+        }
     }
 }

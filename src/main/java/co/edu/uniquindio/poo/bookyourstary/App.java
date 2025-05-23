@@ -27,15 +27,21 @@ public class App extends Application {
     @Override
     public void init() {
         TemplateLoader.listAvailableResources();
-        // Ensure MainController singleton is initialized
+        // Cargar el controlador principal
         MainController.getInstance();
         
         try {
-            XmlSerializationManager xmlManager = XmlSerializationManager.getInstance();
-
-            if (xmlManager.hasStoredData()) {
+            XmlSerializationManager xmlManager = XmlSerializationManager.getInstance();            if (xmlManager.hasStoredData()) {
                 xmlManager.loadAllData();
                 System.out.println("Datos cargados correctamente desde XML.");
+                
+                
+                DataMapping.createTestAdmin();
+                DataMapping.createTestClient();
+                
+
+                xmlManager.saveAllData();
+                System.out.println("Cuentas de prueba verificadas/actualizadas y guardadas en XML.");
             } else {
                 System.out.println("No se encontraron archivos XML previos, creando datos de prueba...");
                 DataMapping.createTestAdmin();

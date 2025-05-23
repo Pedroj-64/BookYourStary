@@ -14,7 +14,7 @@ public class EmailTemplateService {
     private static EmailTemplateService instance;
 
     private EmailTemplateService() {
-        // Constructor privado para singleton
+       
     }
 
     public static EmailTemplateService getInstance() {
@@ -28,7 +28,7 @@ public class EmailTemplateService {
         Map<String, String> values = new HashMap<>();
         values.put("code", activation.getCode().toString());
         values.put("date", activation.getCreationDate().toString());
-        // Ahora usamos la ruta completa:
+       
         return TemplateLoader.loadTemplate("co/edu/uniquindio/poo/bookyourstary/emailTemplates/activateAccount.html", values);
     }
 
@@ -36,7 +36,7 @@ public class EmailTemplateService {
         Map<String, String> values = new HashMap<>();
         values.put("password", tempPassword);
         values.put("date", recovery.getCreationDate().toString());
-        // ruta correcta para el template de recuperación:
+       
         return TemplateLoader.loadTemplate("co/edu/uniquindio/poo/bookyourstary/emailTemplates/passwordRecovery.html", values);
     }
 
@@ -55,7 +55,7 @@ public class EmailTemplateService {
         values.put("numeroNoches", String.valueOf(numeroNoches));
         values.put("qrCodeUrl", qrCodeUrl);
 
-        // Ajusta la ruta si tienes este template en una subcarpeta
+        
         return TemplateLoader.loadTemplate("co/edu/uniquindio/poo/bookyourstary/emailTemplates/ConfirmBooking.html", values);
     }
     

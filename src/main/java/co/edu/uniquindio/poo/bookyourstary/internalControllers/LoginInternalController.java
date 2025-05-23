@@ -55,30 +55,39 @@ public class LoginInternalController {
             SessionManager session = MainController.getInstance().getSessionManager();
             session.setUsuarioActual(admin);
             return session;
-        }
-
-        // Client login: check email, password, and activation status
+        }        // Client login: check email, password, and activation status
         Client client = null;
         try {
             client = clientService.getClientByEmail(email);
+            System.out.println("Cliente encontrado: " + client.getName() + " (" + client.getEmail() + "), activo: " + client.isActive());
         } catch (IllegalArgumentException e) {
-            // Client not found by email, handled by the null check below
+            // Client not found by email
+            System.out.println("Cliente no encontrado con email: " + email + " - " + e.getMessage());
         }
         
-        if (client != null && clientService.verifyPassword(client, password)) {
-            if (client.isActive()) {
-                SessionManager session = MainController.getInstance().getSessionManager();
-                session.setUsuarioActual(client);
-                return session;
-            } else {
-                // Client exists, password is correct, but account is not active
-                MainController.showAlert("Inicio de sesión fallido",
-                        "Su cuenta aún no ha sido activada. Por favor, revise su correo electrónico para el código de activación o active su cuenta.",
-                        Alert.AlertType.WARNING);
-                return null; // Indicate login failure due to inactive account
+        if (client != null) {
+            // Check password verification
+            boolean passwordCorrect = clientService.verifyPassword(client, password);
+            System.out.println("Verificación de contraseña para " + email + ": " + (passwordCorrect ? "correcta" : "incorrecta"));
+            
+            if (passwordCorrect) {
+                if (client.isActive()) {
+                    SessionManager session = MainController.getInstance().getSessionManager();
+                    session.setUsuarioActual(client);
+                    System.out.println("Inicio de sesión exitoso para cliente: " + client.getName());
+                    return session;
+                } else {
+                    // Client exists, password is correct, but account is not active
+                    System.out.println("Cliente existe pero no está activo: " + client.getName());
+                    MainController.showAlert("Inicio de sesión fallido",
+                            "Su cuenta aún no ha sido activada. Por favor, revise su correo electrónico para el código de activación o active su cuenta.",
+                            Alert.AlertType.WARNING);
+                    return null; // Indicate login failure due to inactive account
+                }
             }
         }
         // If neither admin nor client login was successful (or client was inactive)
+        System.out.println("Inicio de sesión fallido para: " + email);
         return null;
     }
 }

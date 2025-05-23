@@ -21,13 +21,18 @@ public class ClientRepository {
 
     private ClientRepository() {
         this.clients = new LinkedList<>();
-    }
-
-    public void save(Client client) {
-        if (findById(client.getId()).isPresent()) {
-            throw new IllegalArgumentException("Client with ID " + client.getId() + " already exists.");
+    }    public void save(Client client) {
+        // First check if client already exists by ID
+        Optional<Client> existingClient = findById(client.getId());
+        if (existingClient.isPresent()) {
+            // Update existing client instead of throwing exception
+            clients.remove(existingClient.get());
+            clients.add(client);
+            System.out.println("Cliente actualizado: " + client.getName() + " (" + client.getEmail() + ")");
         } else {
-            clients.add(client); 
+            // Add new client
+            clients.add(client);
+            System.out.println("Cliente nuevo añadido: " + client.getName() + " (" + client.getEmail() + ")");
         }
     }
 
