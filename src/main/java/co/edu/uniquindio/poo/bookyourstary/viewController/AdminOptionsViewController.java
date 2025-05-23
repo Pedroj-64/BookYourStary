@@ -26,11 +26,11 @@ public class AdminOptionsViewController {
 
     @FXML
     void openStatistics(ActionEvent event) {
-        MainController.loadScene("StatisticsMenu", 800, 600);
+        MainController.loadScene("stadisticsMenu", 800, 600);
     }
 
     @FXML
     void manageRooms(ActionEvent event) {
-        MainController.loadScene("RoomManager", 800, 600);
+        MainController.loadScene("ManageRooms", 800, 600);
     }
 }

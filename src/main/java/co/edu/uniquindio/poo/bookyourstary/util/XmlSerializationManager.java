@@ -26,8 +26,8 @@ import co.edu.uniquindio.poo.bookyourstary.service.CityService;
  */
 public class XmlSerializationManager {
     private static volatile XmlSerializationManager instance;
-    private static final String DATA_DIR = "data";
-    private static final String BACKUP_DIR = "data/backup";
+    private static final String DATA_DIR = "src/main/resources/data";
+    private static final String BACKUP_DIR = "src/main/resources/data/backup";
     private static final Logger logger = Logger.getLogger(XmlSerializationManager.class.getName());
     private static final int MAX_RETRIES = 3;
     private static final long RETRY_DELAY_MS = 1000;
@@ -65,193 +65,38 @@ public class XmlSerializationManager {
      */
     private void initializeDataDirectories() {
         try {
+            // Asegurar que los directorios existan
             Files.createDirectories(Paths.get(DATA_DIR));
             Files.createDirectories(Paths.get(BACKUP_DIR));
+            
+            // Copiar archivos de recursos si no existen
+            copyResourceIfNotExists(HOSTINGS_FILE);
+            copyResourceIfNotExists(CLIENTS_FILE);
+            copyResourceIfNotExists(ADMINS_FILE);
+            copyResourceIfNotExists(BOOKINGS_FILE);
+            copyResourceIfNotExists(CITIES_FILE);
+            
             logger.info("Directorios de datos inicializados correctamente");
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error al crear los directorios de datos", e);
         }
-    }    private void deleteDirectory(Path directory) {
-        try {
-            Files.walk(directory)
-                .sorted(Comparator.reverseOrder())
-                .forEach(path -> {
-                    try {
-                        Files.delete(path);
-                    } catch (IOException e) {
-                        logger.log(Level.WARNING, "Error al eliminar archivo/directorio: " + path, e);
-                    }
-                });
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Error al eliminar directorio de backup: " + directory, e);
-        }
-    }
-    
-    private void createBackup() {
-        try {
-            Path backupPath = Paths.get(BACKUP_DIR);
-            if (!Files.exists(backupPath)) {
-                Files.createDirectories(backupPath);
-            }
-
-            // Crear nombre único para el backup con milisegundos para evitar colisiones
-            String timestamp = LocalDateTime.now().format(
-                DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSS"));
-            Path backupFolder = backupPath.resolve(timestamp);
-            
-            // Si ya existe un backup reciente (menos de 1 segundo), no crear otro
-            try (Stream<Path> backups = Files.list(backupPath)) {
-                boolean recentBackupExists = backups
-                    .filter(Files::isDirectory)
-                    .map(p -> p.getFileName().toString())
-                    .anyMatch(name -> name.substring(0, 15).equals(timestamp.substring(0, 15)));
-                    
-                if (recentBackupExists) {
-                    logger.info("Backup reciente encontrado, saltando creación");
-                    return;
-                }
-            }
-
-            Files.createDirectories(backupFolder);
-
-            // Copiar todos los archivos XML al directorio de backup
-            List<String> xmlFiles = Arrays.asList(HOSTINGS_FILE, CLIENTS_FILE, ADMINS_FILE, BOOKINGS_FILE, CITIES_FILE);
-            for (String file : xmlFiles) {
-                Path dataDir = Paths.get(DATA_DIR);
-                Path source = dataDir.resolve(file);
-                if (Files.exists(source)) {
-                    Files.copy(source, backupFolder.resolve(file), StandardCopyOption.REPLACE_EXISTING);
-                }
-            }
-
-            // Limpiar backups antiguos
-            cleanOldBackups();
-
-            logger.info("Backup creado en: " + backupFolder);
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "No se pudo crear el backup", e);
-        }
-    }
-
-    private void cleanOldBackups() {
-        try {
-            Path backupPath = Paths.get(BACKUP_DIR);
-            if (!Files.exists(backupPath)) {
-                return;
-            }
-
-            // Obtener todos los backups ordenados por fecha
-            List<Path> backups = Files.list(backupPath)
-                .filter(Files::isDirectory)
-                .sorted((a, b) -> b.getFileName().toString().compareTo(a.getFileName().toString()))
-                .collect(Collectors.toList());
-
-            // Eliminar backups antiguos si hay más que MAX_BACKUPS
-            if (backups.size() > MAX_BACKUPS) {
-                for (int i = MAX_BACKUPS; i < backups.size(); i++) {
-                    deleteDirectory(backups.get(i));
-                }
-            }
-        } catch (IOException e) {
-            logger.log(Level.WARNING, "Error al limpiar backups antiguos", e);
-        }
     }
 
     /**
-     * Maneja la conversión de colecciones inmutables
+     * Copia un archivo de recursos al directorio de datos si no existe
      */
-    private Object convertImmutableCollections(Object obj) {
-        if (obj instanceof List) {
-            return new ArrayList<>((List<?>) obj);
-        } else if (obj instanceof Set) {
-            return new HashSet<>((Set<?>) obj);
-        } else if (obj instanceof Map) {
-            return new HashMap<>((Map<?, ?>) obj);
-        }
-        return obj;
-    }
-    
-    /**
-     * Guarda los datos de la aplicación completa
-     */    public void saveAllData() {
-        try {
-            createBackup();
-            
-            // Obtener datos actuales
-            List<Hosting> hostings = MainController.getInstance().getHostingService().findAllHostings();
-            List<Client> clients = MainController.getInstance().getClientRepository().findAll();
-            List<Admin> admins = MainController.getInstance().getAdminRepository().getAdmin();
-            
-            // Guardar datos
-            saveObjectToXml(new ArrayList<>(hostings), HOSTINGS_FILE);
-            saveObjectToXml(new ArrayList<>(clients), CLIENTS_FILE);
-            saveObjectToXml(new ArrayList<>(admins), ADMINS_FILE);
-            saveBookings();
-            saveCities();
-            
-            logger.info("Datos guardados exitosamente - Hostings: " + hostings.size() + 
-                       ", Clients: " + clients.size() + 
-                       ", Admins: " + admins.size());
-                   
-        } catch (Exception e) {
-            logger.severe("Error al guardar datos: " + e.getMessage());
-            throw new RuntimeException("Error al guardar datos", e);
-        }
-    }
-    
-    /**
-     * Limpia todos los datos existentes antes de cargar desde XML
-     */
-    private void clearAllData() {
-        try {
-            MainController.getInstance().getHostingService().clearAll();
-            MainController.getInstance().getClientRepository().clearAll();
-            MainController.getInstance().getAdminRepository().clearAll();
-            MainController.getInstance().getBookingRepository().clearAll();
-            MainController.getInstance().getCityService().clearAll();
-            logger.info("Datos existentes limpiados correctamente");
-        } catch (Exception e) {
-            logger.log(Level.WARNING, "Error al limpiar datos existentes: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Carga todos los datos de la aplicación
-     */    public void loadAllData() {
-        boolean success = false;
-        int retries = 0;
-        
-        while (!success && retries < MAX_RETRIES) {
-            try {
-                // Primero limpiamos los datos existentes para evitar duplicados
-                clearAllData();
-                
-                // Cargar datos en orden de dependencia
-                loadCities(); // Primero ciudades, ya que otros objetos dependen de ellas
-                loadHostings();
-                loadClients();
-                loadAdmins();
-                loadBookings();
-                success = true;
-                logger.info("Todos los datos cargados exitosamente desde XML");
-            } catch (Exception e) {
-                retries++;
-                if (retries < MAX_RETRIES) {
-                    logger.warning("Intento " + retries + " de " + MAX_RETRIES + " falló. Reintentando...");
-                    try {
-                        Thread.sleep(RETRY_DELAY_MS);
-                    } catch (InterruptedException ie) {
-                        Thread.currentThread().interrupt();
-                        break;
-                    }
-                } else {
-                    logger.severe("Error al cargar datos después de " + MAX_RETRIES + " intentos: " + e.getMessage());
-                }
+    private void copyResourceIfNotExists(String fileName) throws IOException {
+        Path destPath = Paths.get(DATA_DIR, fileName);
+        if (!Files.exists(destPath)) {
+            // Intentar cargar desde recursos
+            InputStream resourceStream = getClass().getClassLoader().getResourceAsStream("data/" + fileName);
+            if (resourceStream != null) {
+                Files.copy(resourceStream, destPath);
+                resourceStream.close();
+            } else {
+                // Si el recurso no existe, crear un archivo vacío
+                saveObjectToXml(new ArrayList<>(), fileName);
             }
-        }
-        
-        if (!success) {
-            logger.severe("No se pudieron cargar todos los datos después de " + MAX_RETRIES + " intentos");
         }
     }
 
@@ -296,14 +141,20 @@ public class XmlSerializationManager {
         if (!Files.exists(file)) {
             logger.info("El archivo XML " + filePath + " no existe. Se creará uno nuevo.");
             try {
-                saveObjectToXml(new ArrayList<>(), fileName);
+                copyResourceIfNotExists(fileName);
+                if (!Files.exists(file)) {
+                    saveObjectToXml(new ArrayList<>(), fileName);
+                }
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "Error al crear archivo XML nuevo", e);
                 return null;
             }
         }
         
-        try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filePath)))) {
+        try (XMLDecoder decoder = new XMLDecoder(
+                new BufferedInputStream(
+                    new FileInputStream(filePath)))) {
+            
             decoder.setExceptionListener(new ExceptionListener() {
                 @Override
                 public void exceptionThrown(Exception e) {
@@ -314,6 +165,7 @@ public class XmlSerializationManager {
             Object obj = decoder.readObject();
             logger.info("Datos XML cargados desde: " + filePath);
             return obj;
+            
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error al cargar datos XML desde " + filePath, e);
             
@@ -324,9 +176,6 @@ public class XmlSerializationManager {
                 return recoveredData;
             }
             
-            return null;
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error inesperado al cargar XML: " + e.getMessage(), e);
             return null;
         }
     }
@@ -394,22 +243,19 @@ public class XmlSerializationManager {
     public void saveClients() {
         List<Client> clients = MainController.getInstance().getClientRepository().findAll();
         saveObjectToXml(new ArrayList<>(clients), CLIENTS_FILE);
-    }
-
-    @SuppressWarnings("unchecked")
+    }    @SuppressWarnings("unchecked")
     public void loadClients() {
         List<Client> clients = (List<Client>) loadObjectFromXml(CLIENTS_FILE);
         if (clients != null) {
             for (Client client : clients) {
-                try {
-                    checkForDuplicates("client", client);
+                if (MainController.getInstance().getClientRepository().findById(client.getId()) == null) {
                     MainController.getInstance().getClientRepository().save(client);
-                } catch (IllegalStateException e) {
-                    logger.warning("Saltando cliente duplicado: " + e.getMessage());
+                } else {
+                    logger.warning("Cliente con ID " + client.getId() + " ya existe, ignorando...");
                 }
             }
+            logger.info("Cargados " + clients.size() + " clientes");
         }
-        logger.info("Cargados " + clients.size() + " clientes");
     }
 
     public void saveAdmins() {
@@ -518,40 +364,106 @@ public class XmlSerializationManager {
         }
     }
 
-    private void checkForDuplicates(String type, Object item) throws IllegalStateException {
+    /**
+     * Maneja la conversión de colecciones inmutables a mutables
+     */
+    private Object convertImmutableCollections(Object obj) {
+        if (obj instanceof List) {
+            return new ArrayList<>((List<?>) obj);
+        } else if (obj instanceof Set) {
+            return new HashSet<>((Set<?>) obj);
+        } else if (obj instanceof Map) {
+            return new HashMap<>((Map<?, ?>) obj);
+        }
+        return obj;
+    }
+
+    /**
+     * Crea un backup de los datos antes de guardar
+     */
+    private void createBackup() {
         try {
-            switch (type) {
-                case "city":
-                    City city = (City) item;
-                    // Las ciudades se buscan por nombre
-                    if (MainController.getInstance().getCityService().findCityById(city.getName()) != null) {
-                        throw new IllegalStateException("Ya existe una ciudad con el nombre: " + city.getName());
-                    }
-                    break;
-                case "client":
-                    Client client = (Client) item;
-                    if (MainController.getInstance().getClientRepository().findById(client.getId()) != null) {
-                        throw new IllegalStateException("Ya existe un cliente con ID: " + client.getId());
-                    }
-                    break;
-                case "hosting":
-                    Hosting hosting = (Hosting) item;
-                    // Los alojamientos se buscan por nombre que es su identificador único
-                    if (MainController.getInstance().getHostingService().findByName(hosting.getName()) != null) {
-                        throw new IllegalStateException("Ya existe un alojamiento con nombre: " + hosting.getName());
-                    }
-                    break;
-                case "admin":
-                    Admin admin = (Admin) item;
-                    // Los administradores se buscan por correo
-                    if (MainController.getInstance().getAdminRepository().findByEmail(admin.getEmail()) != null) {
-                        throw new IllegalStateException("Ya existe un administrador con email: " + admin.getEmail());
-                    }
-                    break;
+            Path backupPath = Paths.get(BACKUP_DIR);
+            if (!Files.exists(backupPath)) {
+                Files.createDirectories(backupPath);
             }
-        } catch (ClassCastException e) {
-            logger.severe("Error al verificar duplicados: Tipo de objeto incorrecto para " + type);
-            throw new IllegalStateException("Error al verificar duplicados: " + e.getMessage());
+
+            // Crear nombre único para el backup con milisegundos para evitar colisiones
+            String timestamp = LocalDateTime.now().format(
+                DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSS"));
+            Path backupFolder = backupPath.resolve(timestamp);
+            
+            // Si ya existe un backup reciente (menos de 1 segundo), no crear otro
+            try (Stream<Path> backups = Files.list(backupPath)) {
+                boolean recentBackupExists = backups
+                    .filter(Files::isDirectory)
+                    .map(p -> p.getFileName().toString())
+                    .anyMatch(name -> name.substring(0, 15).equals(timestamp.substring(0, 15)));
+                    
+                if (recentBackupExists) {
+                    logger.info("Backup reciente encontrado, saltando creación");
+                    return;
+                }
+            }
+
+            Files.createDirectories(backupFolder);
+
+            // Copiar todos los archivos XML al directorio de backup
+            List<String> xmlFiles = Arrays.asList(HOSTINGS_FILE, CLIENTS_FILE, ADMINS_FILE, BOOKINGS_FILE, CITIES_FILE);
+            for (String file : xmlFiles) {
+                Path dataDir = Paths.get(DATA_DIR);
+                Path source = dataDir.resolve(file);
+                if (Files.exists(source)) {
+                    Files.copy(source, backupFolder.resolve(file), StandardCopyOption.REPLACE_EXISTING);
+                }
+            }
+
+            // Limpiar backups antiguos
+            cleanOldBackups();
+
+            logger.info("Backup creado en: " + backupFolder);
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "No se pudo crear el backup", e);
+        }
+    }
+
+    private void cleanOldBackups() {
+        try {
+            Path backupPath = Paths.get(BACKUP_DIR);
+            if (!Files.exists(backupPath)) {
+                return;
+            }
+
+            // Obtener todos los backups ordenados por fecha
+            List<Path> backups = Files.list(backupPath)
+                .filter(Files::isDirectory)
+                .sorted((a, b) -> b.getFileName().toString().compareTo(a.getFileName().toString()))
+                .collect(Collectors.toList());
+
+            // Eliminar backups antiguos si hay más que MAX_BACKUPS
+            if (backups.size() > MAX_BACKUPS) {
+                for (int i = MAX_BACKUPS; i < backups.size(); i++) {
+                    deleteDirectory(backups.get(i));
+                }
+            }
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Error al limpiar backups antiguos", e);
+        }
+    }
+
+    private void deleteDirectory(Path directory) {
+        try {
+            Files.walk(directory)
+                .sorted(Comparator.reverseOrder())
+                .forEach(path -> {
+                    try {
+                        Files.delete(path);
+                    } catch (IOException e) {
+                        logger.log(Level.WARNING, "Error al eliminar archivo/directorio: " + path, e);
+                    }
+                });
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Error al eliminar directorio de backup: " + directory, e);
         }
     }
 
@@ -567,6 +479,69 @@ public class XmlSerializationManager {
                     new Object[] { date.getYear(), date.getMonthValue(), date.getDayOfMonth() });
             }
             return null;
+        }
+    }
+
+    /**
+     * Guarda todos los datos de la aplicación
+     */
+    public void saveAllData() {
+        try {
+            createBackup();
+            
+            // Guardar datos
+            saveHostings();
+            saveClients();
+            saveAdmins();
+            saveBookings();
+            saveCities();
+            
+            logger.info("Todos los datos guardados exitosamente en XML");
+        } catch (Exception e) {
+            logger.severe("Error al guardar datos: " + e.getMessage());
+            throw new RuntimeException("Error al guardar datos", e);
+        }
+    }
+
+    /**
+     * Carga todos los datos de la aplicación
+     */    
+    public void loadAllData() {
+        boolean success = false;
+        int retries = 0;
+        
+        while (!success && retries < MAX_RETRIES) {
+            try {
+                // Primero limpiamos los datos existentes para evitar duplicados
+                MainController.getInstance().getHostingService().clearAll();
+                MainController.getInstance().getClientRepository().clearAll();
+                MainController.getInstance().getAdminRepository().clearAll();
+                MainController.getInstance().getBookingRepository().clearAll();
+                MainController.getInstance().getCityService().clearAll();
+                
+                // Cargar datos en orden de dependencia
+                loadCities(); // Primero ciudades, ya que otros objetos dependen de ellas
+                loadHostings();
+                loadClients();
+                loadAdmins();
+                loadBookings();
+                success = true;
+                logger.info("Todos los datos cargados exitosamente desde XML");
+            } catch (Exception e) {
+                retries++;
+                if (retries < MAX_RETRIES) {
+                    logger.warning("Intento " + retries + " de " + MAX_RETRIES + " falló. Reintentando...");
+                    try {
+                        Thread.sleep(RETRY_DELAY_MS);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                } else {
+                    logger.severe("Error al cargar datos después de " + MAX_RETRIES + " intentos: " + e.getMessage());
+                    throw new RuntimeException("Error al cargar datos después de " + MAX_RETRIES + " intentos", e);
+                }
+            }
         }
     }
 }
