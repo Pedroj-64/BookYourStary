@@ -1,14 +1,8 @@
 package co.edu.uniquindio.poo.bookyourstary;
 
-import co.edu.uniquindio.poo.bookyourstary.util.TemplateLoader;
 import javafx.application.Application;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import co.edu.uniquindio.poo.bookyourstary.config.mapping.DataMapping;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
-import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 
 public class App extends Application {
 

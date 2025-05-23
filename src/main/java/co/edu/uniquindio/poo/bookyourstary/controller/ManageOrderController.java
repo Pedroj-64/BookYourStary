@@ -5,7 +5,9 @@ import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.service.BookingService;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.SessionManager;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -181,6 +183,50 @@ public class ManageOrderController {
                 AlertType.ERROR
             );
             return false;
+        }
+    }
+
+    /**
+     * Inicializa los valores por defecto para un nuevo formulario de reserva
+     * @param datePicker_inicio Selector de fecha inicial
+     * @param datePicker_fin Selector de fecha final
+     * @param txt_numHuespedes Campo de texto para número de huéspedes
+     */
+    public void initializeDefaultValues(DatePicker datePicker_inicio, DatePicker datePicker_fin, TextField txt_numHuespedes) {
+        datePicker_inicio.setValue(LocalDate.now());
+        datePicker_fin.setValue(LocalDate.now().plusDays(1));
+        txt_numHuespedes.setText("1");
+    }
+
+    /**
+     * Valida si los datos del formulario son válidos para realizar una reserva
+     */
+    public boolean validateBookingForm(LocalDate startDate, LocalDate endDate, String numGuestsText) {
+        boolean validDates = startDate != null && endDate != null && !startDate.isAfter(endDate);
+        
+        boolean validGuests = false;
+        try {
+            validGuests = !numGuestsText.isBlank() && Integer.parseInt(numGuestsText) > 0;
+        } catch (NumberFormatException e) {
+            validGuests = false;
+        }
+        
+        return validDates && validGuests;
+    }
+
+    /**
+     * Analiza y devuelve el número de huéspedes del texto ingresado
+     * @throws IllegalArgumentException si el número no es válido
+     */
+    public int parseNumGuests(String numGuestsText) throws IllegalArgumentException {
+        try {
+            int numGuests = Integer.parseInt(numGuestsText);
+            if (numGuests <= 0) {
+                throw new IllegalArgumentException("El número de huéspedes debe ser mayor que cero.");
+            }
+            return numGuests;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Por favor, ingrese un número válido de huéspedes.");
         }
     }
 }
