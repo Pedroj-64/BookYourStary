@@ -41,13 +41,11 @@
                         </yAxis>
                     </BarChart>
                 </VBox>
-            </Tab>
-
-            <!-- Pestaña 3: Popularidad -->
-            <Tab fx:id="popularityBarChart" text="Popularidad">
+            </Tab>            <!-- Pestaña 3: Popularidad -->
+            <Tab text="Popularidad">
                 <VBox prefHeight="336.0" prefWidth="414.0" spacing="10" style="-fx-padding: 20;">
                <children>
-                  <BarChart>
+                  <BarChart fx:id="popularityBarChart" prefHeight="550" prefWidth="1100" title="Popularidad por Ciudad">
                     <xAxis>
                       <CategoryAxis label="Ciudades" side="BOTTOM" />
                     </xAxis>
@@ -62,7 +60,7 @@
         </TabPane>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="77.0" text="Salir" />
+            <Button fx:id="btnExit" mnemonicParsing="false" prefHeight="51.0" prefWidth="77.0" text="Salir" />
          </children>
          <opaqueInsets>
             <Insets />
