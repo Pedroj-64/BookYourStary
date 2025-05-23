@@ -223,4 +223,9 @@ public class StadisticsMenuViewController {
                     Alert.AlertType.ERROR);
         }
     }
+
+    @FXML
+    public void salir() {
+        MainController.loadScene("MenuAdmin", 600, 900);
+    }
 }

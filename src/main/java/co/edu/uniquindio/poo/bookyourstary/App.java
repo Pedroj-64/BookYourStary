@@ -20,8 +20,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Delegar el inicio de la interfaz al controlador principal
-        MainController.getInstance().handleApplicationStart(stage);
+        // Delegar la carga del splash y la navegación a MainController para mantener App limpia
+        MainController.getInstance().showSplashAndThenHome(stage);
     }
 
     public static void main(String[] args) {

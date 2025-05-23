@@ -450,4 +450,22 @@ public class MainController {
     public AdminHeaderController getAdminHeaderController() {
         return AdminHeaderController.getInstance();
     }
+
+    /**
+     * Muestra el splash (intro) y luego navega automáticamente a la pantalla principal (home).
+     */
+    public void showSplashAndThenHome(Stage stage) {
+        try {
+            Parent splashRoot = FXMLLoader.load(getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/intro.fxml"));
+            Scene splashScene = new Scene(splashRoot);
+            stage.setScene(splashScene);
+            MainController.setScene(splashScene); // Registrar la escena para posteriores cargas
+            stage.show();
+            // El cambio a home lo hace el controlador IntroViewController
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Si falla, ir directo a home
+            handleApplicationStart(stage);
+        }
+    }
 }
