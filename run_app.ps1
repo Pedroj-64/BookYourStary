@@ -1,22 +1,19 @@
-# Ruta del proyecto
-$PROJECT_DIR = "c:\Users\Paula Moreno\Downloads\codigos (pedro)\JAVA\BookYourStary"
-
 Write-Host "==========================================="
-Write-Host "Compilando y ejecutando BookYourStary"
+Write-Host "Iniciando BookYourStary..."
 Write-Host "==========================================="
 
-# Cambiar al directorio del proyecto
-Set-Location -Path $PROJECT_DIR
+# Verificar si Maven está instalado
+$mvnCmd = if (Get-Command mvn -ErrorAction SilentlyContinue) {
+    "mvn"
+} else {
+    Write-Host "Maven no está instalado. Utilizando mvnw..." -ForegroundColor Yellow
+    ".\mvnw"
+}
 
-# Limpiar proyecto
+# Limpiar y compilar el proyecto
 Write-Host ""
-Write-Host "Limpiando proyecto..." -ForegroundColor Cyan
-mvn clean
-
-# Compilar proyecto
-Write-Host ""
-Write-Host "Compilando proyecto..." -ForegroundColor Cyan
-mvn compile
+Write-Host "Limpiando y compilando..." -ForegroundColor Cyan
+& $mvnCmd clean compile
 
 # Comprobar si la compilación fue exitosa
 if ($LASTEXITCODE -ne 0) {
