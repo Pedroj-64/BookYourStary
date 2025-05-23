@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="657.0" prefWidth="1006.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.HomeViewController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="657.0" prefWidth="1006.0" stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.bookyourstary.viewController.HomeViewController">
    <content>
       <VBox fx:id="contenedorPrincipal" prefHeight="385.0" prefWidth="597.0" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
@@ -156,7 +156,7 @@
                         <Label fx:id="lbl_tituloAlojamiento" prefHeight="17.0" prefWidth="271.0" styleClass="titulo-alojamiento" text="Título de alojamiento:" />
                         <Label fx:id="lbl_descripcion" prefHeight="17.0" prefWidth="297.0" text="Descripción:" wrapText="true" />
                         <Label fx:id="lbl_serviciosAdicionales" prefHeight="17.0" prefWidth="310.0" text="Servicios adicionales:" />
-                                          <Label fx:id="lbl_Price" prefHeight="17.0" prefWidth="354.0" text="Price" />
+                                          <Label fx:id="lbl_Price" prefHeight="17.0" prefWidth="354.0" text="Precio:" />
                                           <Label fx:id="lbl_Cuidad" prefHeight="17.0" prefWidth="363.0" text="Ciudad" />
                      </children>
                   </VBox>
@@ -182,7 +182,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" spacing="10.0">
                                              <children>
-                                                <Label fx:id="lbl_Price1" text="Price" />
+                                                <Label fx:id="lbl_Price1" text="Precio:" />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -213,7 +213,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" spacing="10.0">
                                              <children>
-                                                <Label fx:id="lbl_Price2" text="Price" />
+                                                <Label fx:id="lbl_Price2" text="Precio: " />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" spacing="10.0">
