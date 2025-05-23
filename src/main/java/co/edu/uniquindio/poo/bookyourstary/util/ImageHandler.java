@@ -4,14 +4,17 @@ import co.edu.uniquindio.poo.bookyourstary.App;
 import javafx.scene.image.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class ImageHandler {
-    private static final String IMAGE_FOLDER = "src/main/resources/co/edu/uniquindio/poo/bookyourstary/image/";
-    private static final String DEFAULT_IMAGE = "FotoHotelRelleno.png";    /**
+    private static final String IMAGE_PATH = "co/edu/uniquindio/poo/bookyourstary/image/";
+    private static final String DEFAULT_IMAGE = "FotoHotelRelleno.png";
+
+    /**
      * Copia una imagen al directorio de imágenes del proyecto y devuelve la ruta relativa.
      * La imagen copiada se guardará en el directorio de recursos del proyecto con un nombre único.
      * 
@@ -31,7 +34,7 @@ public class ImageHandler {
             }
 
             // Crear el directorio si no existe
-            Path targetDir = Paths.get(IMAGE_FOLDER);
+            Path targetDir = Paths.get(IMAGE_PATH);
             Files.createDirectories(targetDir);
 
             // Generar un nombre único para la imagen
@@ -43,12 +46,14 @@ public class ImageHandler {
             Files.copy(sourceFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("Imagen copiada exitosamente a: " + targetPath.toString());
 
-            return IMAGE_FOLDER + fileName;
+            return IMAGE_PATH + fileName;
         } catch (IOException e) {
             e.printStackTrace();
             return getDefaultImagePath();
         }
-    }    /**
+    }
+
+    /**
      * Carga una imagen para mostrar en la UI.
      * Si la imagen no existe o hay error, carga la imagen por defecto.
      * La ruta puede ser:
@@ -70,15 +75,22 @@ public class ImageHandler {
             // Si es una ruta absoluta con file:, usarla directamente
             if (imagePath.startsWith("file:")) {
                 return new Image(imagePath);
-            }            // Si es una ruta relativa del proyecto, convertirla a URL usando el ClassLoader
-            String resourcePath = imagePath;
-            if (imagePath.startsWith("src/main/resources/")) {
-                // Convertir src/main/resources/co/... a co/...
-                resourcePath = imagePath.substring("src/main/resources/".length());
+            }
+
+            // Primero intenta cargar la imagen desde el directorio de imágenes
+            URL resourceUrl = App.class.getResource("/co/edu/uniquindio/poo/bookyourstary/image/" + imagePath);
+            if (resourceUrl != null) {
+                return new Image(resourceUrl.toExternalForm());
             }
             
-            String url = App.class.getResource("/" + resourcePath).toExternalForm();
-            return new Image(url);
+            // Si no se encuentra en el directorio de imágenes, intenta la ruta proporcionada
+            resourceUrl = App.class.getResource("/" + imagePath);
+            if (resourceUrl != null) {
+                return new Image(resourceUrl.toExternalForm());
+            }
+            
+            System.err.println("No se pudo encontrar la imagen: " + imagePath);
+            return loadDefaultImage();
         } catch (Exception e) {
             System.err.println("Error cargando imagen '" + imagePath + "': " + e.getMessage());
             e.printStackTrace();
@@ -88,17 +100,19 @@ public class ImageHandler {
 
     private static Image loadDefaultImage() {
         try {
-            String defaultUrl = App.class.getResource("image/" + DEFAULT_IMAGE).toExternalForm();
-            return new Image(defaultUrl);
+            URL resourceUrl = App.class.getResource("/co/edu/uniquindio/poo/bookyourstary/image/" + DEFAULT_IMAGE);
+            if (resourceUrl != null) {
+                return new Image(resourceUrl.toExternalForm());
+            }
+            throw new IOException("No se pudo encontrar la imagen por defecto");
         } catch (Exception e) {
             e.printStackTrace();
-            // Devolver null si no se puede cargar la imagen por defecto
             return null;
         }
     }
 
     private static String getDefaultImagePath() {
-        return IMAGE_FOLDER + DEFAULT_IMAGE;
+        return IMAGE_PATH + DEFAULT_IMAGE;
     }
 
     private static String getFileExtension(String path) {
