@@ -191,6 +191,25 @@ public class HostingService {
         return apartament;
     }
 
+    public Hosting findByName(String name) {
+        Optional<House> house = houseRepository.findById(name);
+        if (house.isPresent()) {
+            return house.get();
+        }
+        
+        Optional<Apartament> apartament = apartamentRepository.findById(name);
+        if (apartament.isPresent()) {
+            return apartament.get();
+        }
+        
+        Optional<Hotel> hotel = hotelRepository.findById(name);
+        if (hotel.isPresent()) {
+            return hotel.get();
+        }
+        
+        return null;
+    }
+
     /**
      * Crea un nuevo apartamento con servicios predeterminados.
      * 
