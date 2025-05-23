@@ -87,4 +87,22 @@ public class AdminHeaderController {
             return "0";
         }
     }
+    
+    /**
+     * Navega al menú de opciones de administrador
+     * @return true si la navegación fue exitosa, false en caso contrario
+     */    public boolean navigateToAdminOptions() {
+        try {
+            System.out.println("Controller: Navegando al menú de opciones de administrador");
+            MainController.loadScene("AdminOptions", 400, 300);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Controller: Error al navegar al menú de opciones: " + e.getMessage());
+            MainController.showAlert(
+                "Error",
+                "No se pudo abrir el menú de opciones. Consulte los logs para más detalles.",
+                AlertType.ERROR);
+            return false;
+        }
+    }
 }

@@ -58,6 +58,11 @@ public class UserLoginViewController {
     }
 
     @FXML
+    void salir(ActionEvent event) {
+        MainController.loadScene("home", 600, 400);
+    }
+
+    @FXML
     void initialize() {
 
     }

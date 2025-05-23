@@ -107,4 +107,62 @@ public class HomeController {
     public static void clearPendingReservations() {
         MainController.getInstance().getCartManager().clear();
     }
+
+    /**
+     * Valida y procesa la reserva de un alojamiento
+     * @return true si la reserva puede proceder, false si hay algún problema
+     */
+    public boolean handleReservation(Object currentUser, Hosting hosting) {
+        if (currentUser == null) {
+            MainController.showAlert(
+                "Acción Requerida",
+                "Por favor, inicie sesión o regístrese para poder reservar.",
+                javafx.scene.control.Alert.AlertType.INFORMATION);
+            return false;
+        }
+
+        if (!(currentUser instanceof co.edu.uniquindio.poo.bookyourstary.model.Client)) {
+            MainController.showAlert(
+                "Acción no permitida",
+                "Solo los clientes pueden realizar reservas.",
+                javafx.scene.control.Alert.AlertType.WARNING);
+            return false;
+        }
+
+        if (hosting == null) {
+            MainController.showAlert(
+                "Error",
+                "No se encontró el alojamiento seleccionado.",
+                javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Verifica el estado del usuario y actualiza el header correspondiente
+     */
+    public void handleUserHeaderUpdate(javafx.scene.layout.AnchorPane header) {
+        Object user = MainController.getInstance().getSessionManager().getUsuarioActual();
+        if (user instanceof co.edu.uniquindio.poo.bookyourstary.model.Client) {
+            co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.ViewLoader.setContent(header, "UserHeader");
+        } else if (user instanceof co.edu.uniquindio.poo.bookyourstary.model.Admin) {
+            co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.ViewLoader.setContent(header, "AdminHeader");
+        }
+    }
+
+    /**
+     * Navega a la pantalla de inicio de sesión
+     */
+    public void navigateToLogin() {
+        MainController.loadScene("userLogin", 900, 600);
+    }
+
+    /**
+     * Navega a la pantalla de registro
+     */
+    public void navigateToRegister() {
+        MainController.loadScene("userRegister", 900, 600);
+    }
 }

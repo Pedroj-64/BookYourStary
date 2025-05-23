@@ -148,4 +148,9 @@ public class ProfileViewController {
             showInfo("Selección", "Por favor seleccione una reserva para ver los detalles.");
         }
     }
+    
+    @FXML
+    private void salir(javafx.event.ActionEvent event) {
+        co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("home", 600, 400);
+    }
 }

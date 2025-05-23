@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class BillServiceTest {
         client = new Client();
         client.setId(UUID.randomUUID().toString());
         client.setName("Cliente Prueba");
-        client.setEmail("brandon40890@gmail.com"); // Correo actualizado para la prueba real
+        client.setEmail("brandon40890@gmail.com"); // Correo actualizado para la prueba
         
         VirtualWallet wallet = new VirtualWallet();
         wallet.setIdWallet(UUID.randomUUID().toString());
@@ -66,39 +67,27 @@ public class BillServiceTest {
     }
     
     /**
-     * Prueba el método privado sendQrEmail verificando que el contenido del QR sea correcto
+     * Prueba la generación del código QR verificando su formato
      */
     @Test
     public void testQrContentFormat() throws Exception {
-        // Crear una factura
-        double total = 100.0;
-        Bill bill = new Bill(
-            UUID.randomUUID().toString(), 
-            total, 
-            LocalDate.now(), 
-            client, 
-            booking,
-            120.0 // subtotal antes de descuentos
-        );
-        
-        // Acceder al método privado usando reflexión
-        Method sendQrEmailMethod = BillService.class.getDeclaredMethod("sendQrEmail", Bill.class);
-        sendQrEmailMethod.setAccessible(true);
-        
-        // Verificar directamente la generación del QR
-        String expectedQrContent = String.format("Pagaste $%.2f", total);
+        // Verificar directamente la generación del QR con un monto de prueba
+        String billId = "TEST-" + UUID.randomUUID().toString().substring(0, 8);
+        double montoTest = 100.0;
+        String expectedQrContent = String.format("Factura: %s - Total: $%.2f", billId, montoTest);
         String qrCodeBase64 = QrUtil.generateBase64Qr(expectedQrContent, 300, 300);
         
-        // Asegurarse de que el QR comienza con el formato data:image/png;base64
+        // Verificar el formato del QR
         assertTrue(qrCodeBase64.startsWith("data:image/png;base64,"), 
             "El QR generado debe tener el formato correcto para ser mostrado en HTML");
+        assertTrue(qrCodeBase64.length() > 100, 
+            "El código QR debe tener un tamaño razonable");
+        assertNotNull(qrCodeBase64, "El código QR no debe ser nulo");
         
-        // No podemos verificar el contenido completo del QR ya que está codificado,
-        // pero al menos verificamos que se genera sin errores
-        assertNotNull(qrCodeBase64);
-        
-        System.out.println("Test completado: El formato del código QR es correcto");
-        System.out.println("Contenido del QR: " + expectedQrContent);
+        System.out.println("\nPrueba de generación de QR completada:");
+        System.out.println("- ID Factura de prueba: " + billId);
+        System.out.println("- Contenido del QR: " + expectedQrContent);
+        System.out.println("- Longitud del QR Base64: " + qrCodeBase64.length() + " caracteres");
     }
     
     /**
@@ -149,19 +138,20 @@ public class BillServiceTest {
     }
     
     /**
-     * Prueba de envío de correo real con QR simplificado
-     * Esta prueba enviará un correo electrónico a brandon40890@gmail.com
-     */    @Test
-    public void testSendRealEmailWithSimpleQr() {
+     * Prueba de envío de correo real con QR usando plantilla de factura
+     */    
+    @Test
+    public void testEmailWithInvoiceTemplate() {
         try {
-            System.out.println("Iniciando prueba de envío de correo real a brandon40890@gmail.com...");
+            System.out.println("Iniciando prueba de envío de correo real con plantilla de factura...");
             
-            // Creamos una factura con datos más significativos para la prueba real
+            // Configuramos los datos para la prueba
             LocalDate now = LocalDate.now();
-            
-            // Aseguramos que el correo esté configurado correctamente
             client.setEmail("brandon40890@gmail.com");
+            client.setName("Brandon Test");
+            hosting.setName("Apartamento de Pruebas");
             
+            // Creamos una reserva de prueba (3 noches)
             Booking testBooking = new Booking(
                 "TEST-" + UUID.randomUUID().toString().substring(0, 8),
                 client,
@@ -172,38 +162,41 @@ public class BillServiceTest {
                 hosting.getPricePerNight() * 3, // Precio por 3 noches
                 BookingState.CONFIRMED
             );
+
+            // Generamos la factura usando el servicio (esto crea la factura, genera el QR y envía el correo)
+            Bill generatedBill = billService.generateBill(testBooking);
             
-            Bill testBill = new Bill(
-                "BILL-" + UUID.randomUUID().toString().substring(0, 8),
-                225.0,  // Total con algún descuento aplicado
-                now,    // Factura generada hoy
-                client,
-                testBooking,
-                250.0   // Subtotal antes de descuentos
-            );
-            
-            // Ejecutar el método sendQrEmail usando reflexión para enviar el correo real
-            Method sendQrEmailMethod = BillService.class.getDeclaredMethod("sendQrEmail", Bill.class);
-            sendQrEmailMethod.setAccessible(true);
-            sendQrEmailMethod.invoke(billService, testBill);
-              System.out.println("\n✅ CORREO ENVIADO EXITOSAMENTE ✅");
-            System.out.println("Destinatario: brandon40890@gmail.com");
-            System.out.println("\nDetalles de la factura:");
-            System.out.println("- ID Factura: " + testBill.getBillId());
-            System.out.println("- ID Reserva: " + testBooking.getBookingId());
+            // Verificaciones y logs
+            System.out.println("\n✅ CORREO ENVIADO EXITOSAMENTE ✅");
+            System.out.println("\nDetalles de la factura enviada:");
+            System.out.println("- ID: " + generatedBill.getBillId());
+            System.out.println("- Fecha: " + generatedBill.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             System.out.println("- Cliente: " + client.getName());
+            System.out.println("- Email: " + client.getEmail());
+            System.out.println("\nDetalles de la reserva:");
+            System.out.println("- ID: " + testBooking.getBookingId());
             System.out.println("- Alojamiento: " + hosting.getName());
             System.out.println("- Check-in: " + testBooking.getStartDate());
             System.out.println("- Check-out: " + testBooking.getEndDate());
-            System.out.println("- Noches: 3");
-            System.out.println("- Subtotal: $250.00");
-            System.out.println("- Descuento: $25.00");
-            System.out.println("- Total pagado: $" + testBill.getTotal());
-            System.out.println("\n✨ CONTENIDO DEL CÓDIGO QR: 'Pagaste $" + testBill.getTotal() + "' ✨");
+            System.out.println("- Noches: " + testBooking.getStartDate().until(testBooking.getEndDate()).getDays());
+            System.out.println("\nDetalles del pago:");
+            System.out.println("- Precio por noche: $" + String.format("%.2f", hosting.getPricePerNight()));
+            System.out.println("- Subtotal: $" + String.format("%.2f", generatedBill.getSubtotal()));
+            System.out.println("- Descuento: $" + String.format("%.2f", generatedBill.getSubtotal() - generatedBill.getTotal()));
+            System.out.println("- Total final: $" + String.format("%.2f", generatedBill.getTotal()));
+            
+            // Verificaciones
+            assertNotNull(generatedBill, "La factura no debe ser nula");
+            assertTrue(generatedBill.getTotal() > 0, "El total debe ser mayor que cero");
+            assertEquals(client.getEmail(), "brandon40890@gmail.com", "El email debe coincidir");
+            assertTrue(generatedBill.getSubtotal() > generatedBill.getTotal(), "Debe haber un descuento aplicado");
+            assertEquals(3, testBooking.getStartDate().until(testBooking.getEndDate()).getDays(), "Deben ser 3 noches");
+            assertEquals(testBooking, generatedBill.getBooking(), "La reserva debe ser la misma");
+            assertEquals(client, generatedBill.getClient(), "El cliente debe ser el mismo");
             
         } catch (Exception e) {
             e.printStackTrace();
-            fail("Error al enviar el correo: " + e.getMessage());
+            fail("Error al generar factura y enviar correo: " + e.getMessage());
         }
     }
 }

@@ -49,6 +49,7 @@ public class ClientService {
         client.setVirtualWallet(wallet);
 
         clientRepository.save(client);
+        XmlSerializationManager.getInstance().saveAllData(); // Guardar cambios en XML
     }
 
     /**
@@ -68,12 +69,14 @@ public class ClientService {
         
         VirtualWallet wallet = virtualWalletService.createWalletForClient(client);
         client.setVirtualWallet(wallet);
+
         // Client active status is handled by CodeActivationService after this step usually.
         // Or, if activation is implicit with code validation, client.setActive(true) could be here.
         // For now, assuming activation is handled by CodeActivationService.activateUser.
         // The client object passed here should have isActive=false initially.
 
         clientRepository.save(client);
+        XmlSerializationManager.getInstance().saveAllData(); // Guardar cambios en XML
     }
 
     public Client getClient(String clientId) {

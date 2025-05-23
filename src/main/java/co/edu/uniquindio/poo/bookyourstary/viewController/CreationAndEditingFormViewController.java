@@ -67,16 +67,14 @@ public class CreationAndEditingFormViewController {
 
     // Instance of the logic controller
     private final CreationAndEditingFormController formLogicController = CreationAndEditingFormController.getInstance();
-    private String selectedImagePath; // To store the path of the selected image
-
-    @FXML
+    private String selectedImagePath; // To store the path of the selected image    @FXML
     void cargarFoto(ActionEvent event) {
         Window parentWindow = btn_CargarImagen.getScene().getWindow();
-        // selectImage now returns the path, store it
         this.selectedImagePath = formLogicController.selectImage(parentWindow, imgFoto);
-    }    @FXML
+    }@FXML
     void guardarAlojamiento(ActionEvent event) {
-        boolean success = formLogicController.saveHosting( // Use the logic controller instance
+        Stage stage = (Stage) BtnGuardar.getScene().getWindow();
+        formLogicController.saveHostingAndClose(
             formTextFields,
             txt_descripcion,
             cbCiudad,
@@ -87,23 +85,20 @@ public class CreationAndEditingFormViewController {
             chkWifi,
             chkPiscina,
             chkDesayuno,
-            this.selectedImagePath // Pass the stored image path string
+            this.selectedImagePath,
+            stage
         );
-        
-        // Si el guardado fue exitoso, cerrar la ventana para activar el evento onHidden
-        // que refrescará la vista principal
-        if (success) {
-            System.out.println("Guardado exitoso, cerrando ventana...");
-            Stage stage = (Stage) BtnGuardar.getScene().getWindow();
-            stage.close();
-        }
-        // Si no fue exitoso, los alertas son manejados dentro del controlador lógico
     }
 
     @FXML
     void salirDelMenu(ActionEvent event) {
-        formLogicController.setHostingToEdit(null); // Use the renamed variable
-        BtnSalir.getScene().getWindow().hide();
+        Stage stage = (Stage) BtnSalir.getScene().getWindow();
+        formLogicController.closeWindow(stage);
+    }
+
+    @FXML
+    void salir(ActionEvent event) {
+        co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("home", 600, 400);
     }
 
 

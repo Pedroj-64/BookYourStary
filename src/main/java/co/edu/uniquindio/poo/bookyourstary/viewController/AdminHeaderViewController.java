@@ -51,16 +51,8 @@ public class AdminHeaderViewController {
      */
     @FXML
     void OpenCreationHosting(ActionEvent event) {
-        try {
-            System.out.println("Vista: Abriendo menú de opciones de administrador");
-            MainController.loadScene("AdminOptions", 400, 300);
-        } catch (Exception e) {
-            System.err.println("Error al abrir menú de opciones: " + e.getMessage());
-            MainController.showAlert(
-                "Error",
-                "No se pudo abrir el menú de opciones. Consulte los logs para más detalles.",
-                AlertType.ERROR);
-        }
+        System.out.println("Vista: Solicitando apertura del menú de opciones de administrador");
+        adminHeaderController.navigateToAdminOptions();
     }
 
 }

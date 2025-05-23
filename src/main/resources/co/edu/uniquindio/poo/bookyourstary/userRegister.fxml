@@ -37,6 +37,11 @@
             <Insets />
         </GridPane.margin>
     </Button>
+    <Button onAction="#salir" styleClass="action-button" text="Salir" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="9">
+        <GridPane.margin>
+            <Insets />
+        </GridPane.margin>
+    </Button>
 
 
     <Label styleClass="register-title" text="Registro de Usuario" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.halignment="CENTER" />

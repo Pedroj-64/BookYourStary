@@ -51,4 +51,6 @@
         </HBox>
     </VBox>
 
+    <Button onAction="#salir" text="Salir" styleClass="secondary-button" />
+
 </VBox>
