@@ -33,4 +33,9 @@ public class AdminOptionsViewController {
     void manageRooms(ActionEvent event) {
         MainController.loadScene("ManageRooms", 800, 600);
     }
+
+    @FXML
+    void salir(ActionEvent event) {
+        MainController.loadScene("home", 600, 400);
+    }
 }

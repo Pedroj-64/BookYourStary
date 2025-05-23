@@ -39,4 +39,6 @@
             onAction="#manageRooms"
             text="Gestionar Habitaciones"
             prefWidth="200"/>
+
+    <Button styleClass="action-button" onAction="#salir" text="Salir" prefWidth="200"/>
 </VBox>

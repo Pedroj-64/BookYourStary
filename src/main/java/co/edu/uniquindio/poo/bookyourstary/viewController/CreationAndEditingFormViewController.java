@@ -96,6 +96,11 @@ public class CreationAndEditingFormViewController {
         formLogicController.closeWindow(stage);
     }
 
+    @FXML
+    void salir(ActionEvent event) {
+        co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("home", 600, 400);
+    }
+
 
     private java.util.List<TextField> formTextFields;    @FXML
     void initialize() {

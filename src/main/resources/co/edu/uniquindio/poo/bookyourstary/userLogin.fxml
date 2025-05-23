@@ -14,5 +14,5 @@
 
     <Hyperlink onAction="#handlePasswordRecovery" styleClass="login-link" text="¿Olvidó su contraseña?" />
     <Hyperlink alignment="CENTER" onAction="#showRegister" styleClass="login-link" text="Crear nueva cuenta" />
-
+    <Button onAction="#salir" styleClass="login-button" text="Salir" />
 </VBox>

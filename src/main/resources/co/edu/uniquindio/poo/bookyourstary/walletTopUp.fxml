@@ -12,6 +12,7 @@
       <Label text="Monto a recargar" styleClass="form-label" />
       <TextField fx:id="txt_monto" promptText="Ingrese el monto" styleClass="form-field" />
       <Button onAction="#recargarSaldo" text="Recargar" styleClass="general-button" />
+      <Button onAction="#salir" text="Salir" styleClass="general-button" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
