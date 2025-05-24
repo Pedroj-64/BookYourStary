@@ -245,6 +245,14 @@ public class HostingService {
         }
     }
 
+    /**
+     * Obtiene todos los alojamientos registrados en el sistema.
+     * Alias de findAllHostings() para mantener consistencia en los nombres de los métodos.
+     * @return Lista de todos los alojamientos
+     */
+    public List<Hosting> getAllHostings() {
+        return findAllHostings();
+    }
 
     public List<Hosting> findHostingsByCity(City city) {
         return findAllHostings().stream()
@@ -422,5 +430,37 @@ public class HostingService {
         apartamentRepository.clearAll();
         hotelRepository.clearAll();
         XmlSerializationManager.getInstance().saveAllData();
+    }
+
+    /**
+     * Carga una lista de alojamientos en el sistema.
+     * Este método recibe una lista de alojamientos, limpia los datos existentes y
+     * persiste la nueva lista en el sistema de serialización.
+     * 
+     * @param hostings lista de alojamientos a cargar
+     */
+    public void loadHostings(List<Hosting> hostings) {
+        // Primero, limpiamos todos los repositorios existentes
+        clearAll();
+        
+        // Luego, agregamos cada alojamiento al repositorio correspondiente
+        if (hostings != null) {
+            for (Hosting hosting : hostings) {
+                if (hosting != null) {
+                    // Guardamos en el repositorio específico según el tipo
+                    if (hosting instanceof House) {
+                        houseRepository.save((House) hosting);
+                    } else if (hosting instanceof Hotel) {
+                        hotelRepository.save((Hotel) hosting);
+                    } else if (hosting instanceof Apartament) {
+                        apartamentRepository.save((Apartament) hosting);
+                    }
+                    // También guardamos en el repositorio general de hostings
+                    hostingRepository.save(hosting);
+                }
+            }
+            // Persistimos los cambios en XML
+            XmlSerializationManager.getInstance().saveAllData();
+        }
     }
 }

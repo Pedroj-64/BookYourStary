@@ -4,6 +4,7 @@ import co.edu.uniquindio.poo.bookyourstary.model.*;
 import co.edu.uniquindio.poo.bookyourstary.repository.ClientRepository;
 import co.edu.uniquindio.poo.bookyourstary.util.PasswordUtil;
 import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
+import co.edu.uniquindio.poo.bookyourstary.util.serializacionSeria.DataManager;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -49,7 +50,9 @@ public class ClientService {
         client.setVirtualWallet(wallet);
 
         clientRepository.save(client);
-        XmlSerializationManager.getInstance().saveAllData(); // Guardar cambios en XML
+        // Guardar usando ambos sistemas de serialización
+        XmlSerializationManager.getInstance().saveAllData();
+        DataManager.getInstance().saveAllData();
     }
 
     /**
@@ -60,23 +63,16 @@ public class ClientService {
      */
     public void finalizeClientRegistration(Client client) {
         if (clientRepository.findById(client.getId()).isPresent()) {
-            // This check might be redundant if initiateSignUp already prevents duplicate emails/IDs
-            // or if IDs are guaranteed unique (e.g., UUIDs not cédulas).
-            // However, keeping it for safety.
             throw new IllegalArgumentException("Cliente con ID " + client.getId() + " ya existe.");
         }
-        // Password is assumed to be already hashed and set on the client object.
         
         VirtualWallet wallet = virtualWalletService.createWalletForClient(client);
         client.setVirtualWallet(wallet);
 
-        // Client active status is handled by CodeActivationService after this step usually.
-        // Or, if activation is implicit with code validation, client.setActive(true) could be here.
-        // For now, assuming activation is handled by CodeActivationService.activateUser.
-        // The client object passed here should have isActive=false initially.
-
         clientRepository.save(client);
-        XmlSerializationManager.getInstance().saveAllData(); // Guardar cambios en XML
+        // Guardar usando ambos sistemas de serialización
+        XmlSerializationManager.getInstance().saveAllData();
+        DataManager.getInstance().saveAllData();
     }
 
     public Client getClient(String clientId) {
@@ -160,5 +156,37 @@ public class ClientService {
     public void clearAll() {
         clientRepository.clearAll();
         XmlSerializationManager.getInstance().saveAllData();
+    }
+
+    /**
+     * Carga una lista de clientes en el sistema, reemplazando los existentes.
+     * @param clients Lista de clientes a cargar
+     */
+    public void loadClients(List<Client> clients) {
+        // Primero, limpiamos todos los clientes existentes
+        clearAll();
+        
+        if (clients != null) {
+            for (Client client : clients) {
+                if (client != null) {
+                    // Si el cliente no tiene una billetera virtual, creamos una
+                    if (client.getVirtualWallet() == null) {
+                        VirtualWallet wallet = virtualWalletService.createWalletForClient(client);
+                        client.setVirtualWallet(wallet);
+                    }
+                    
+                    // Guardamos el cliente en el repositorio
+                    clientRepository.save(client);
+                }
+            }
+        }
+    }
+
+    /**
+     * Obtiene todos los clientes registrados en el sistema.
+     * @return Lista de todos los clientes
+     */
+    public List<Client> getAllClients() {
+        return clientRepository.findAll();
     }
 }

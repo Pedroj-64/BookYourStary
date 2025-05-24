@@ -97,4 +97,21 @@ public class VirtualWalletService {
     public void save(VirtualWallet wallet) {
         virtualWalletRepository.save(wallet);
     }
+
+    public void registerWallet(VirtualWallet wallet) {
+        if (wallet == null) {
+            throw new IllegalArgumentException("La billetera no puede ser null");
+        }
+        
+        // Verificar si ya existe una billetera para este cliente
+        if (wallet.getPropertyClient() != null && wallet.getPropertyClient().getVirtualWallet() != null) {
+            String existingWalletId = wallet.getPropertyClient().getVirtualWallet().getIdWallet();
+            System.out.println("Cliente ya tiene billetera registrada con ID: " + existingWalletId);
+            return;
+        }
+
+        // Registrar la nueva billetera
+        virtualWalletRepository.save(wallet);
+        System.out.println("Nueva billetera registrada con ID: " + wallet.getIdWallet());
+    }
 }

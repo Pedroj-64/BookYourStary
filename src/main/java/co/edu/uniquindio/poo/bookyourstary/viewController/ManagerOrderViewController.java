@@ -4,6 +4,7 @@ import co.edu.uniquindio.poo.bookyourstary.controller.ManageOrderController;
 import co.edu.uniquindio.poo.bookyourstary.controller.ReviewController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
+import co.edu.uniquindio.poo.bookyourstary.service.BookingService;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -72,13 +73,27 @@ public class ManagerOrderViewController {
 
             // Inicializar las colecciones observables
             hostingsObservable = FXCollections.observableArrayList();
-            pricesObservable = FXCollections.observableArrayList();
-
-            // Configurar fecha de inicio con la fecha actual
-            Date_inicio.setValue(LocalDate.now());
+            pricesObservable = FXCollections.observableArrayList(); // Configurar fecha de inicio con la fecha actual
+            LocalDate today = LocalDate.now();
+            Date_inicio.setValue(today);
+            Date_inicio.setDayCellFactory(picker -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate date, boolean empty) {
+                    super.updateItem(date, empty);
+                    setDisable(empty || date.isBefore(today));
+                }
+            });
 
             // Configurar fecha de fin con el día siguiente por defecto
-            Date_Fin.setValue(LocalDate.now().plusDays(1));
+            LocalDate tomorrow = today.plusDays(1);
+            Date_Fin.setValue(tomorrow);
+            Date_Fin.setDayCellFactory(picker -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate date, boolean empty) {
+                    super.updateItem(date, empty);
+                    setDisable(empty || date.isBefore(tomorrow));
+                }
+            });
 
             // Establecer valor por defecto para número de huéspedes
             txt_numHuespedes.setText("1");
@@ -97,7 +112,8 @@ public class ManagerOrderViewController {
                 // No es crítico, continuamos sin él
             }
 
-            // Inicialmente, el botón de reservar está deshabilitado hasta que se seleccione un alojamiento
+            // Inicialmente, el botón de reservar está deshabilitado hasta que se seleccione
+            // un alojamiento
             btn_Reservar.setDisable(true);
 
             // Cargar datos iniciales
@@ -110,8 +126,7 @@ public class ManagerOrderViewController {
             MainController.showAlert(
                     "Error de Inicialización",
                     "Error al inicializar la vista de órdenes: " + e.getMessage(),
-                    javafx.scene.control.Alert.AlertType.ERROR
-            );
+                    javafx.scene.control.Alert.AlertType.ERROR);
         }
     }
 
@@ -146,7 +161,8 @@ public class ManagerOrderViewController {
             return new SimpleObjectProperty<>(0.0);
         });
 
-        // Limpiamos y configuramos la columna de valores unitarios para la tabla de resumen
+        // Limpiamos y configuramos la columna de valores unitarios para la tabla de
+        // resumen
         tbl_Valores.getColumns().clear();
 
         // Configuración mejorada para la tabla de valores
@@ -170,12 +186,14 @@ public class ManagerOrderViewController {
         Date_inicio.valueProperty().addListener((obs, oldVal, newVal) -> {
             // Establecer fecha mínima para la fecha de fin
             if (newVal != null) {
-                // Si la fecha de fin es anterior a la nueva fecha de inicio + 1 día, la actualizamos
+                // Si la fecha de fin es anterior a la nueva fecha de inicio + 1 día, la
+                // actualizamos
                 if (Date_Fin.getValue() == null || Date_Fin.getValue().isBefore(newVal.plusDays(1))) {
                     Date_Fin.setValue(newVal.plusDays(1));
                 }
 
-                // Establecer restricción para que no se pueda seleccionar una fecha antes de inicio+1
+                // Establecer restricción para que no se pueda seleccionar una fecha antes de
+                // inicio+1
                 Date_Fin.setDayCellFactory(picker -> new javafx.scene.control.DateCell() {
                     @Override
                     public void updateItem(LocalDate date, boolean empty) {
@@ -186,11 +204,14 @@ public class ManagerOrderViewController {
             }
             onDateOrGuestsChanged();
         });
-
         Date_Fin.valueProperty().addListener((obs, oldVal, newVal) -> {
-            // Cuando cambia la fecha de fin, actualizamos los datos pero verificamos que sea válida
-            if (newVal != null && Date_inicio.getValue() != null && !newVal.isBefore(Date_inicio.getValue().plusDays(1))) {
-                onDateOrGuestsChanged();
+            if (newVal != null && Date_inicio.getValue() != null) {
+                if (newVal.isBefore(Date_inicio.getValue()) || newVal.isEqual(Date_inicio.getValue())) {
+                    // Si la fecha de fin es anterior o igual a la de inicio, la ajustamos
+                    Date_Fin.setValue(Date_inicio.getValue().plusDays(1));
+                } else {
+                    onDateOrGuestsChanged();
+                }
             }
         });
 
@@ -214,7 +235,7 @@ public class ManagerOrderViewController {
                     // Si es 0, lo dejamos pero el botón de reservar quedará deshabilitado
                     checkEnableReserveButton();
                     return;
-                } else if (numGuests > 20) {  // Límite razonable
+                } else if (numGuests > 20) { // Límite razonable
                     txt_numHuespedes.setText("20"); // Establecer máximo
                 }
             } catch (NumberFormatException e) {
@@ -261,7 +282,8 @@ public class ManagerOrderViewController {
             }
         });
 
-        // Verificar el estado del botón cuando cambian las fechas o el número de huéspedes
+        // Verificar el estado del botón cuando cambian las fechas o el número de
+        // huéspedes
         Date_inicio.valueProperty().addListener((obs, oldVal, newVal) -> checkEnableReserveButton());
         Date_Fin.valueProperty().addListener((obs, oldVal, newVal) -> checkEnableReserveButton());
         txt_numHuespedes.textProperty().addListener((obs, oldVal, newVal) -> checkEnableReserveButton());
@@ -320,7 +342,8 @@ public class ManagerOrderViewController {
                 } catch (Exception e) {
                     System.err.println("Error al calcular precios: " + e.getMessage());
                     e.printStackTrace();
-                    MainController.showAlert("Error", "Error al calcular precios: " + e.getMessage(), javafx.scene.control.Alert.AlertType.ERROR);
+                    MainController.showAlert("Error", "Error al calcular precios: " + e.getMessage(),
+                            javafx.scene.control.Alert.AlertType.ERROR);
                     pricesObservable.clear();
                 }
             } else {
@@ -333,47 +356,101 @@ public class ManagerOrderViewController {
         } catch (Exception e) {
             System.err.println("Error general al cargar datos: " + e.getMessage());
             e.printStackTrace();
-            MainController.showAlert("Error", "Error al cargar los datos: " + e.getMessage(), javafx.scene.control.Alert.AlertType.ERROR);
+            MainController.showAlert("Error", "Error al cargar los datos: " + e.getMessage(),
+                    javafx.scene.control.Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     void reservar(ActionEvent event) {
-        if (selectedHosting == null)
-            return;
-        LocalDate startDate = Date_inicio.getValue();
-        LocalDate endDate = Date_Fin.getValue();
-        int numGuests;
         try {
-            numGuests = Integer.parseInt(txt_numHuespedes.getText());
-            if (numGuests <= 0) {
-                MainController.showAlert("Error de validación", "El número de huéspedes debe ser mayor que cero.", AlertType.ERROR);
+            // 1. Validate hosting selection
+            if (selectedHosting == null) {
+                MainController.showAlert("Error de validación", "Por favor, seleccione un alojamiento.",
+                        AlertType.ERROR);
                 return;
             }
-        } catch (NumberFormatException e) {
-            MainController.showAlert("Error de validación", "Por favor, ingrese un número válido de huéspedes.", AlertType.ERROR);
-            return;
-        }
 
-        // Attempt to confirm the booking for the selected hosting
-        boolean success = manageOrderController.confirmSingleBooking(selectedHosting, startDate, endDate, numGuests);
+            // 2. Validate dates
+            LocalDate startDate = Date_inicio.getValue();
+            LocalDate endDate = Date_Fin.getValue();
 
-        if (success) {
+            if (startDate == null || endDate == null) {
+                MainController.showAlert("Error de validación", "Por favor, seleccione fechas válidas de inicio y fin.", AlertType.ERROR);
+                return;
+            }
+
+            if (startDate.isEqual(endDate) || startDate.isAfter(endDate)) {
+                MainController.showAlert("Error de validación", "La fecha de inicio debe ser anterior a la fecha de fin.", AlertType.ERROR);
+                return;
+            }
+
+            if (startDate.isBefore(LocalDate.now())) {
+                MainController.showAlert("Error de validación", "La fecha de inicio debe ser futura.", AlertType.ERROR);
+                return;
+            }
+
+            // 3. Validate number of guests
+            int numGuests;
+            try {
+                String numGuestsText = txt_numHuespedes.getText().trim();
+                if (numGuestsText.isEmpty()) {
+                    MainController.showAlert("Error de validación", "Por favor, ingrese el número de huéspedes.", AlertType.ERROR);
+                    return;
+                }
+                numGuests = Integer.parseInt(numGuestsText);
+                if (numGuests <= 0) {
+                    MainController.showAlert("Error de validación", "El número de huéspedes debe ser mayor que cero.", AlertType.ERROR);
+                    return;
+                }
+                if (numGuests > selectedHosting.getMaxGuests()) {
+                    MainController.showAlert("Error de validación", 
+                        "El número de huéspedes excede la capacidad máxima del alojamiento (" + selectedHosting.getMaxGuests() + " personas).", 
+                        AlertType.ERROR);
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                MainController.showAlert("Error de validación", "Por favor, ingrese un número válido de huéspedes.",
+                        AlertType.ERROR);
+                return;
+            }
+
+            // 4. Validate hosting availability
+            BookingService bookingService = MainController.getInstance().getBookingService();
+            if (!bookingService.isHostingAvailable(selectedHosting.getName(), startDate, endDate)) {
+                MainController.showAlert("No disponible",
+                        "El alojamiento no está disponible para las fechas seleccionadas.",
+                        AlertType.ERROR);
+                return;
+            }
+
+            // 5. Attempt to confirm booking
+            boolean success = manageOrderController.confirmSingleBooking(selectedHosting, startDate, endDate,
+                    numGuests);
+
+            if (success) {
+                MainController.showAlert(
+                        "Reserva Exitosa",
+                        "La reserva para '" + selectedHosting.getName() + "' ha sido confirmada exitosamente.",
+                        AlertType.INFORMATION);
+                // Update the UI
+                hostingsObservable.remove(selectedHosting); // Remove from list
+                tbl_TablaCompras.getSelectionModel().clearSelection();
+                selectedHosting = null;
+                btn_Reservar.setDisable(true);
+                loadData(); // Reload data to update prices and totals
+            }
+            // Note: If booking fails, the controller already shows appropriate error
+            // messages
+
+        } catch (Exception e) {
+            System.err.println("Error inesperado durante la reserva: " + e.getMessage());
+            e.printStackTrace();
             MainController.showAlert(
-                    "Reserva Exitosa",
-                    "La reserva para '" + selectedHosting.getName() + "' ha sido confirmada exitosamente.",
-                    AlertType.INFORMATION
-            );
-            // Refresh data and UI state
-            hostingsObservable.remove(selectedHosting); // Remove from local list
-            tbl_TablaCompras.getSelectionModel().clearSelection();
-            selectedHosting = null;
-            btn_Reservar.setDisable(true); // Disable button as selection is cleared
-            // loadData(); // Reload all data, or just update totals if applicable
+                    "Error",
+                    "Ha ocurrido un error inesperado al procesar la reserva. Por favor, inténtelo de nuevo.",
+                    AlertType.ERROR);
         }
-        // If success is false, ManageOrderController already showed an error alert.
-        // We still reload data to reflect any partial changes or to clear selections.
-        loadData();
     }
 
     @FXML
@@ -399,12 +476,14 @@ public class ManagerOrderViewController {
                 // Usar el controlador de apoyo para mostrar los descuentos
                 manageOrderController.showAppliedDiscountsSummary(startDate, endDate, txt_DescuentosValorTotal);
 
-                // Alternativamente, usar el controlador de apoyo si existe (para compatibilidad)
+                // Alternativamente, usar el controlador de apoyo si existe (para
+                // compatibilidad)
                 try {
                     co.edu.uniquindio.poo.bookyourstary.controller.ManageOrderViewController
                             .showDiscountSummary(startDate, endDate, txt_DescuentosValorTotal);
                 } catch (Exception e) {
-                    // Si falla el método estático, ya hemos mostrado los descuentos con nuestro controlador
+                    // Si falla el método estático, ya hemos mostrado los descuentos con nuestro
+                    // controlador
                     System.out.println("Usando método alternativo para mostrar descuentos");
                 }
             } else {
@@ -431,12 +510,14 @@ public class ManagerOrderViewController {
         try {
             // Verificar que se haya seleccionado un alojamiento
             if (selectedHosting == null) {
-                MainController.showAlert("Error", "Por favor, selecciona un alojamiento para dejar una reseña.", Alert.AlertType.ERROR);
+                MainController.showAlert("Error", "Por favor, selecciona un alojamiento para dejar una reseña.",
+                        Alert.AlertType.ERROR);
                 return;
             }
 
             // Cargar el formulario de reseñas
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/reviewForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/reviewForm.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
 
@@ -455,5 +536,3 @@ public class ManagerOrderViewController {
         }
     }
 }
-
-

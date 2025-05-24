@@ -316,17 +316,28 @@ public class HomeViewController {
         homeController.assignHostingsToReserveButtons(reserveButtons, filtrados);
     }    @FXML
     void reservar(ActionEvent event) {
-        Object currentUser = MainController.getInstance().getSessionManager().getUsuarioActual();
-        Button sourceButton = (Button) event.getSource();
-        Hosting hosting = (Hosting) sourceButton.getUserData();
+        try {
+            Object currentUser = MainController.getInstance().getSessionManager().getUsuarioActual();
+            Button sourceButton = (Button) event.getSource();
+            Hosting hosting = (Hosting) sourceButton.getUserData();
 
-        if (homeController.handleReservation(currentUser, hosting)) {
-            boolean added = homeController.addHostingToPendingReservations(hosting);
-            if (added) {
-                MainController.loadScene("reservationForm", 900, 600);
+            if (hosting == null) {
+                MainController.showAlert("Error", "No se ha seleccionado ningún alojamiento.", AlertType.ERROR);
+                return;
+            }            if (homeController.handleReservation(currentUser, hosting)) {
+                boolean added = homeController.addHostingToPendingReservations(hosting);
+                if (added) {
+                    MainController.showAlert("Éxito", "Alojamiento agregado al carrito. Por favor, vaya al carrito de compras para confirmar su reserva.", AlertType.INFORMATION);
+                } else {
+                    MainController.showAlert("Error", "No se pudo agregar el alojamiento a la lista de reservas.", AlertType.ERROR);
+                }
             }
+        } catch (Exception e) {
+            System.err.println("Error al procesar la reserva: " + e.getMessage());
+            e.printStackTrace();
+            MainController.showAlert("Error", "Ocurrió un error al procesar la reserva.", AlertType.ERROR);
         }
-    }    @FXML
+    }@FXML
     void iniciarSesion(ActionEvent event) {
         homeController.navigateToLogin();
     }

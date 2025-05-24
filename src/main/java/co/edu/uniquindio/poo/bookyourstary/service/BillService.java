@@ -3,6 +3,7 @@ package co.edu.uniquindio.poo.bookyourstary.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.OfferController;
 import co.edu.uniquindio.poo.bookyourstary.model.Bill;
@@ -53,39 +54,68 @@ public class BillService {
             throw new IllegalStateException("El cliente no tiene una billetera virtual asociada.");
         }
 
+        // Calculate prices and apply discounts
         double pricePerNight = booking.getHosting().getPricePerNight();
         int numberOfNights = (int) bookingService.calculateNumberOfNights(booking.getStartDate(), booking.getEndDate());
         double subtotal = pricePerNight * numberOfNights;
-
         double total = offerController.applyApplicableOffers(subtotal, numberOfNights, LocalDate.now());
 
         if (wallet.getBalance() < total) {
-            throw new IllegalArgumentException("Saldo insuficiente en la billetera virtual.");
+            throw new IllegalStateException("Saldo insuficiente en la billetera virtual.");
         }
 
+        // Update wallet balance
         wallet.setBalance(wallet.getBalance() - total);
 
-        LocalDate billDate = LocalDate.now();
-        Bill bill = new Bill(null, total, billDate, client, booking, subtotal);
+        // Create bill with all required data
+        Bill bill = new Bill(
+            UUID.randomUUID().toString(), // Fix the typo in UUID.randon
+            total,
+            LocalDate.now(),
+            client,
+            booking,
+            subtotal
+        );
 
+        // Save bill before sending email
         billRepository.save(bill);
 
-        sendQrEmail(bill);
+        // Send email with complete bill information
+        try {
+            sendQrEmail(bill);
+            System.out.println("Factura generada y enviada por correo. ID: " + bill.getBillId());
+        } catch (Exception e) {
+            System.err.println("Error al enviar el correo de la factura: " + e.getMessage());
+            e.printStackTrace();
+        }
 
         return bill;
-    }    private void sendQrEmail(Bill bill) {
+    }
+
+    private void sendQrEmail(Bill bill) {
         Client client = bill.getClient();
         Booking booking = bill.getBooking();
 
-        // Generar el contenido del QR con el UUID de la factura
-        String contenidoQR = String.format("Factura: %s - Total: $%.2f", bill.getBillId(), bill.getTotal());
+        // Generate detailed QR content
+        String contenidoQR = String.format(
+            "Factura: %s\nCliente: %s\nAlojamiento: %s\nFecha: %s\nTotal: $%.2f",
+            bill.getBillId(),
+            client.getName(),
+            booking.getHosting().getName(),
+            bill.getDate(),
+            bill.getTotal()
+        );
 
         String qrCodeBase64 = QrUtil.generateBase64Qr(contenidoQR, 300, 300);
 
-        
+        // Build complete email content
         String emailContent = emailTemplateService.buildInvoiceEmail(bill, qrCodeBase64);
 
-        // Enviar correo electrónico
+        // Log email content for debugging
+        System.out.println("Enviando factura por correo a: " + client.getEmail());
+        System.out.println("Contenido del QR: " + contenidoQR);
+
+        // Send email
         emailNotifier.update(emailContent, client.getEmail());
     }
 

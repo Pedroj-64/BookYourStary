@@ -18,6 +18,7 @@ import co.edu.uniquindio.poo.bookyourstary.service.*;
 import co.edu.uniquindio.poo.bookyourstary.service.observer.EmailNotifier;
 import co.edu.uniquindio.poo.bookyourstary.util.TemplateLoader;
 import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
+import co.edu.uniquindio.poo.bookyourstary.util.serializacionSeria.DataManager;
 import co.edu.uniquindio.poo.bookyourstary.viewController.MenuAdminViewController;
 
 public class MainController {
@@ -364,6 +365,10 @@ public class MainController {
         return CartManager.getInstance();
     }
 
+    public DataManager getDataManager(){
+        return DataManager.getInstance();
+    }
+
     public CityService getCityService() {
         // Assuming CityService is not a singleton yet, if it becomes one, adjust to
         return CityService.getInstance();
@@ -467,5 +472,10 @@ public class MainController {
             // Si falla, ir directo a home
             handleApplicationStart(stage);
         }
+    }
+
+    public Object getWalletService() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getWalletService'");
     }
 }

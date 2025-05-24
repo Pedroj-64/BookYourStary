@@ -18,7 +18,7 @@ public class Bill {
     private Booking booking;
 
     public Bill(String billId, double total, LocalDate date, Client client, Booking booking, double subtotal) {
-        this.billId = UUID.randomUUID().toString();
+        this.billId = billId;
         this.total = total;
         this.subtotal = subtotal;
         this.date = date;

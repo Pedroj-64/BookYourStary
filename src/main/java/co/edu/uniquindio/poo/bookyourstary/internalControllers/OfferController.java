@@ -34,50 +34,45 @@ public class OfferController {
      * @param bookingDate    La fecha de la reserva.
      * @return El precio con el descuento aplicado.
      */
-    public double applyApplicableOffers(double originalPrice, int numberOfNights, LocalDate bookingDate) {
-        double discountedPrice = originalPrice;
-
-        // Obtener todas las ofertas disponibles
-        List<Offer> offers = offerService.getAllOffers();
-
-        // Iterar sobre las ofertas y aplicar aquellas que correspondan
-        for (Offer offer : offers) {
-            // Check if the bookingDate is within the offer's active period
-            if (!bookingDate.isBefore(offer.getStartDate()) && !bookingDate.isAfter(offer.getEndDate())) {
-                // The strategy itself will determine if it's applicable (e.g., min nights)
-                // and return originalPrice if not, or discounted price if applicable.
-                // The offerService.applyOffer might be redundant if the strategy is directly accessible and reliable.
-                // Assuming offer.getStrategy().calculateDiscount IS the reliable way.
-                discountedPrice = offer.getStrategy().calculateDiscount(discountedPrice, numberOfNights, bookingDate);
-            }
+    public double applyApplicableOffers(double basePrice, int numberOfNights, LocalDate bookingDate) {
+        if (bookingDate == null) {
+            System.err.println("Warning: Booking date is null, returning base price without discounts");
+            return basePrice;
         }
-        return discountedPrice;
-    }
 
-    /**
-     * Applies all offers based on their strategies if the bookingDate is within the offer's active period.
-     * This method seems to be a duplicate or very similar to applyApplicableOffers if strategies are self-contained.
-     * Keeping it for now but noting potential redundancy. If applyApplicableOffers is the primary method,
-     * this one might be removed or refactored.
-     * For consistency, this should also check offer active dates.
-     */
-    public double applyAllGlobalOffers(double originalPrice, int numberOfNights, LocalDate bookingDate) {
-        double discountedPrice = originalPrice;
+        double finalPrice = basePrice;
+        StringBuilder appliedOffers = new StringBuilder();
         List<Offer> offers = offerService.getAllOffers();
+
         for (Offer offer : offers) {
-            // Check if the bookingDate is within the offer's active period
-            if (!bookingDate.isBefore(offer.getStartDate()) && !bookingDate.isAfter(offer.getEndDate())) {
-                 // Aplica la estrategia de la oferta directamente
-                double newPrice = offer.getStrategy().calculateDiscount(discountedPrice, numberOfNights, bookingDate);
-                // This check is fine if calculateDiscount returns the new price.
-                if (newPrice < discountedPrice) {
-                    discountedPrice = newPrice;
+            if (offer.getStartDate() == null || offer.getEndDate() == null) {
+                System.err.println("Warning: Offer dates are null for offer: " + offer.getName());
+                continue;
+            }
+
+            // Verificar si la oferta está vigente
+            if (!bookingDate.isBefore(offer.getStartDate()) && 
+                !bookingDate.isAfter(offer.getEndDate())) {
+                
+                // Usar la estrategia de descuento de la oferta
+                double newPrice = offer.getStrategy().calculateDiscount(basePrice, numberOfNights, bookingDate);
+                
+                if (newPrice < finalPrice) {
+                    double discount = finalPrice - newPrice;
+                    finalPrice = newPrice;
+                    appliedOffers.append(String.format("Applied %s: -$%.2f%n", 
+                        offer.getName(), discount));
                 }
             }
         }
-        return discountedPrice;
+
+        if (appliedOffers.length() > 0) {
+            System.out.println("Applied discounts:\n" + appliedOffers.toString());
+        }
+
+        return Math.max(0, finalPrice);
     }
 
-    // The isOfferApplicable method is removed as its logic was flawed and
-    // the responsibility is better placed within the strategy or the loop in applyApplicableOffers.
+    // Eliminar el método applyAllGlobalOffers ya que su funcionalidad está duplicada
+    // y menos completa que applyApplicableOffers
 }

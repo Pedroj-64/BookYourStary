@@ -94,23 +94,37 @@ public class BookingService {
     public void confirmBooking(String bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada"));
-    
+
+        Client client = booking.getClient();
+        if (client == null) {
+            throw new IllegalStateException("La reserva no tiene un cliente asociado.");
+        }
+
+        // Acceder directamente a la wallet del cliente
+        if (client.getVirtualWallet() == null) {
+            throw new IllegalStateException("El cliente no tiene una billetera virtual asociada.");
+        }
+
         double totalPrice = booking.getTotalPrice();
-        String walletId = booking.getClient().getVirtualWallet().getIdWallet();
-    
-        if (!virtualWalletService.hasSufficientBalance(walletId, totalPrice)) {
+        
+        // Verificar el balance directamente en la wallet del cliente
+        if (client.getVirtualWallet().getBalance() < totalPrice) {
             throw new IllegalStateException("Fondos insuficientes para confirmar la reserva.");
         }
-    
-        virtualWalletService.deductFromWallet(walletId, totalPrice);
+        
+        // Deducir el pago directamente de la wallet del cliente
+        client.getVirtualWallet().setBalance(client.getVirtualWallet().getBalance() - totalPrice);
+        
+        // Registrar la transacción
         walletTransactionService.registerTransaction("RESERVA", totalPrice, "Pago por reserva: " + bookingId);
-    
+
+        // Actualizar estado de la reserva
         updateBookingState(bookingId, BookingState.CONFIRMED);
         
         // Generar factura
         Bill bill = BillService.getInstance().generateBill(booking);
         
-        // Guardar todos los cambios en XML
+        // Guardar todos los cambios
         XmlSerializationManager.getInstance().saveAllData();
         
         System.out.println("Reserva confirmada exitosamente. Factura generada: " + bill.getBillId());

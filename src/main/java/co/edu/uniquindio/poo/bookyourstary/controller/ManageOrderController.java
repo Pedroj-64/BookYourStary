@@ -5,6 +5,7 @@ import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.service.BookingService;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -114,30 +115,51 @@ public class ManageOrderController {
      * Also shows the subtotal at the end.
      */
     public void showAppliedDiscountsSummary(LocalDate startDate, LocalDate endDate, TextArea textArea) {
-        List<Hosting> hostings = getPendingHostings();
-        long nights = Math.max(1, ChronoUnit.DAYS.between(startDate, endDate));
-        var offerController = MainController.getInstance().getOfferController();
-        var offerService = MainController.getInstance().getOfferService();
-        StringBuilder sb = new StringBuilder();
-        for (Hosting hosting : hostings) {
-            double basePrice = hosting.getPricePerNight() * nights;
-            var offers = offerService.getAllOffers();
-            boolean anyApplied = false;
-            for (var offer : offers) {
-                double priceWithOffer = offerService.applyOffer(offer.getName(), basePrice, (int) nights, startDate);
-                if (offerController.applyApplicableOffers(basePrice, (int) nights, startDate) < basePrice &&
-                    priceWithOffer < basePrice) {
-                    sb.append("Discount '").append(offer.getName()).append("' applied to '")
-                      .append(hosting.getName()).append("'\n");
+        if (startDate == null || endDate == null) {
+            textArea.setText("Por favor, seleccione fechas válidas para ver los descuentos aplicables.");
+            return;
+        }
+
+        int nights = (int) ChronoUnit.DAYS.between(startDate, endDate);
+        if (nights <= 0) {
+            textArea.setText("El rango de fechas seleccionado debe ser de al menos una noche.");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder("Resumen de descuentos:\n\n");
+        boolean anyApplied = false;
+        double totalSavings = 0.0;
+
+        List<Hosting> pendingHostings = getPendingHostings();
+        
+        for (Hosting hosting : pendingHostings) {
+            try {
+                double basePrice = hosting.getPricePerNight() * nights;
+                double discountedPrice = MainController.getInstance()
+                    .getOfferController()
+                    .applyApplicableOffers(basePrice, nights, startDate);
+                
+                if (discountedPrice < basePrice) {
                     anyApplied = true;
+                    double savings = basePrice - discountedPrice;
+                    totalSavings += savings;
+                    sb.append(String.format("%s:%n", hosting.getName()));
+                    sb.append(String.format("  Precio original: $%.2f%n", basePrice));
+                    sb.append(String.format("  Precio con descuento: $%.2f%n", discountedPrice));
+                    sb.append(String.format("  Ahorro: $%.2f%n%n", savings));
                 }
-            }
-            if (!anyApplied) {
-                sb.append("No discount applied to '").append(hosting.getName()).append("'\n");
+            } catch (Exception e) {
+                System.err.println("Error calculando descuentos para " + hosting.getName() + ": " + e.getMessage());
+                e.printStackTrace();
             }
         }
-        double subtotal = calculateSubtotalForPendingHostings(startDate, endDate);
-        sb.append("\nSubtotal: $").append(String.format("%.2f", subtotal));
+
+        if (anyApplied) {
+            sb.append(String.format("\nAhorro total: $%.2f", totalSavings));
+        } else {
+            sb.append("No hay descuentos aplicables para las fechas seleccionadas.");
+        }
+
         textArea.setText(sb.toString());
     }
 
@@ -193,8 +215,40 @@ public class ManageOrderController {
      * @param txt_numHuespedes Campo de texto para número de huéspedes
      */
     public void initializeDefaultValues(DatePicker datePicker_inicio, DatePicker datePicker_fin, TextField txt_numHuespedes) {
-        datePicker_inicio.setValue(LocalDate.now());
-        datePicker_fin.setValue(LocalDate.now().plusDays(1));
+        // Obtener la fecha actual
+        LocalDate today = LocalDate.now();
+        
+        // Configurar el DatePicker de inicio
+        datePicker_inicio.setValue(today);
+        datePicker_inicio.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.isBefore(today));
+            }
+        });
+
+        // Configurar el DatePicker de fin
+        LocalDate tomorrow = today.plusDays(1);
+        datePicker_fin.setValue(tomorrow);
+        datePicker_fin.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.isBefore(tomorrow));
+            }
+        });
+
+        // Agregar listener para mantener la lógica de fechas
+        datePicker_inicio.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                LocalDate minEndDate = newVal.plusDays(1);
+                if (datePicker_fin.getValue() == null || datePicker_fin.getValue().isBefore(minEndDate)) {
+                    datePicker_fin.setValue(minEndDate);
+                }
+            }
+        });
+
         txt_numHuespedes.setText("1");
     }
 
@@ -202,16 +256,78 @@ public class ManageOrderController {
      * Valida si los datos del formulario son válidos para realizar una reserva
      */
     public boolean validateBookingForm(LocalDate startDate, LocalDate endDate, String numGuestsText) {
-        boolean validDates = startDate != null && endDate != null && !startDate.isAfter(endDate);
+        LocalDate today = LocalDate.now();
         
-        boolean validGuests = false;
+        // Validación de fechas nulas
+        if (startDate == null || endDate == null) {
+            MainController.showAlert(
+                "Error de validación",
+                "Las fechas de inicio y fin son obligatorias.",
+                AlertType.ERROR
+            );
+            return false;
+        }
+
+        // Validación de fecha inicial
+        if (startDate.isBefore(today)) {
+            MainController.showAlert(
+                "Error de validación",
+                "La fecha de inicio no puede ser anterior a hoy.",
+                AlertType.ERROR
+            );
+            return false;
+        }
+
+        // Validación de rango de fechas
+        if (!startDate.isBefore(endDate)) {
+            MainController.showAlert(
+                "Error de validación",
+                "La fecha de fin debe ser posterior a la fecha de inicio.",
+                AlertType.ERROR
+            );
+            return false;
+        }
+
+        // Validación de duración máxima (ejemplo: 30 días)
+        long days = ChronoUnit.DAYS.between(startDate, endDate);
+        if (days > 30) {
+            MainController.showAlert(
+                "Error de validación",
+                "La duración máxima de una reserva es de 30 días.",
+                AlertType.ERROR
+            );
+            return false;
+        }
+
+        // Validación de huéspedes
         try {
-            validGuests = !numGuestsText.isBlank() && Integer.parseInt(numGuestsText) > 0;
+            int numGuests = Integer.parseInt(numGuestsText);
+            if (numGuests <= 0) {
+                MainController.showAlert(
+                    "Error de validación",
+                    "El número de huéspedes debe ser mayor que cero.",
+                    AlertType.ERROR
+                );
+                return false;
+            }
+            if (numGuests > 10) { // ejemplo de límite máximo
+                MainController.showAlert(
+                    "Error de validación",
+                    "El número máximo de huéspedes permitido es 10.",
+                    AlertType.ERROR
+                );
+                return false;
+            }
         } catch (NumberFormatException e) {
-            validGuests = false;
+            MainController.showAlert(
+                "Error de validación",
+                "Por favor, ingrese un número válido de huéspedes.",
+                AlertType.ERROR
+            );
+            return false;
         }
         
-        return validDates && validGuests;
+        return true;
     }
 
     /**

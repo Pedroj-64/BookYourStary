@@ -21,7 +21,7 @@ public class WalletTopUpViewController {
 
     @FXML
     private AnchorPane UserHeader0;
-    
+
     @FXML
     private TextField txt_monto;
 
@@ -35,97 +35,113 @@ public class WalletTopUpViewController {
     void initialize() {
         // Cargar el encabezado de usuario
         ViewLoader.setContent(UserHeader0, "UserHeader");
-        
+
         // Obtener cliente y billetera actual
         cargarDatosDeUsuario();
     }
-    
+
     /**
      * Carga los datos del usuario actualmente conectado.
      */
     private void cargarDatosDeUsuario() {
         Object usuarioActual = MainController.getInstance().getSessionManager().getUsuarioActual();
-        
+
         if (usuarioActual instanceof Client) {
             Client cliente = (Client) usuarioActual;
             VirtualWallet currentWallet = cliente.getVirtualWallet();
-            
+
             if (currentWallet == null) {
                 MainController.showAlert(
-                    "Error", 
-                    "No se encontró una billetera asociada a su cuenta.",
-                    AlertType.ERROR
-                );
+                        "Error",
+                        "No se encontró una billetera asociada a su cuenta.",
+                        AlertType.ERROR);
             }
         } else {
             MainController.showAlert(
-                "Acceso no permitido", 
-                "Debe iniciar sesión como cliente para acceder a esta funcionalidad.",
-                AlertType.WARNING
-            );
+                    "Acceso no permitido",
+                    "Debe iniciar sesión como cliente para acceder a esta funcionalidad.",
+                    AlertType.WARNING);
         }
     }
-    
+
     /**
      * Maneja la selección de montos predefinidos.
+     * 
      * @param event Evento de acción.
      */
     @FXML
     void seleccionarMonto(ActionEvent event) {
         Button sourceButton = (Button) event.getSource();
         Double monto = (Double) sourceButton.getUserData();
-        
+
         if (monto != null) {
             txt_monto.setText(String.format("%.2f", monto));
         }
     }
-    
+
     /**
      * Realiza la recarga de saldo a la billetera.
+     * 
      * @param event Evento de acción.
-     */    @FXML
+     */
+    @FXML
     void recargarSaldo(ActionEvent event) {
         try {
             double monto = Double.parseDouble(txt_monto.getText().replace(",", "."));
             if (monto <= 0) {
-                // Notificar al usuario sobre el monto inválido
                 MainController.showAlert("Error", "Monto inválido", AlertType.ERROR);
                 return;
             }
-            
-            // Obtener el cliente actual
+
             Object usuarioActual = MainController.getInstance().getSessionManager().getUsuarioActual();
             if (!(usuarioActual instanceof Client)) {
-                MainController.showAlert("Error", "Debe iniciar sesión como cliente para realizar recargas", AlertType.ERROR);
+                MainController.showAlert("Error", "Debe iniciar sesión como cliente", AlertType.ERROR);
                 return;
             }
-            
+
             Client cliente = (Client) usuarioActual;
             VirtualWallet wallet = cliente.getVirtualWallet();
-            
+
             if (wallet == null) {
-                // Si el cliente no tiene billetera, crearla
+                // Crear nueva billetera y registrarla en el servicio
                 wallet = new VirtualWallet(cliente);
                 cliente.setVirtualWallet(wallet);
+                MainController.getInstance().getVirtualWalletService().registerWallet(wallet);
+                System.out.println("Nueva billetera creada con ID: " + wallet.getIdWallet());
+            } else {
+                System.out.println("Usando billetera existente con ID: " + wallet.getIdWallet());
             }
-            
-            // Actualizar el saldo en el modelo
-            wallet.setBalance(wallet.getBalance() + monto);
-            
-            // Actualizar la vista si el controlador de encabezado está disponible
-            if (userHeaderController != null) {
-                userHeaderController.actualizarSaldo(monto);
+
+            try {
+                // Actualizar el saldo directamente en la billetera
+                wallet.setBalance(wallet.getBalance() + monto);
+                
+                // Actualizar la vista si es necesario
+                if (userHeaderController != null) {
+                    userHeaderController.actualizarSaldo(monto);
+                }
+
+                // Guardar cambios en ambos sistemas
+                XmlSerializationManager.getInstance().saveClients();
+                MainController.getInstance().getDataManager().saveAllData();
+                
+                // Verificar que los cambios se guardaron
+                System.out.println("Saldo actualizado. Nuevo saldo: " + wallet.getBalance());
+                
+                MainController.showAlert("Éxito", 
+                    "Se ha recargado $" + String.format("%.2f", monto) + " a su billetera.",
+                    AlertType.INFORMATION);
+
+                MainController.loadScene("home", 600, 400);
+                
+            } catch (Exception e) {
+                System.err.println("Error al guardar los cambios: " + e.getMessage());
+                e.printStackTrace();
+                MainController.showAlert("Error", 
+                    "Error al procesar la recarga. Por favor, intente de nuevo.",
+                    AlertType.ERROR);
             }
-            
-            // Guardar los cambios en el sistema usando XmlSerializationManager
-            XmlSerializationManager.getInstance().saveClients();
-            
-            // Mostrar mensaje de éxito
-            MainController.showAlert("Éxito", "Se ha recargado $" + String.format("%.2f", monto) + " a su billetera.", AlertType.INFORMATION);
-            
-            // Regresar a la pantalla de home
-            MainController.loadScene("home", 600, 400);
-            
+
         } catch (NumberFormatException e) {
             MainController.showAlert("Error", "Por favor ingrese un monto válido", AlertType.ERROR);
         }
@@ -133,6 +149,7 @@ public class WalletTopUpViewController {
 
     /**
      * Permite volver a la ventana anterior (home).
+     * 
      * @param event Evento de acción.
      */
     @FXML
