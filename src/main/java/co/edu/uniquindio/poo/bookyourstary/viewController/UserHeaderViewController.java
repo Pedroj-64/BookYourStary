@@ -43,8 +43,11 @@ public class UserHeaderViewController {
 
     private void updateHeader() {
         controller.updateUserHeader(lbl_Nombre, lbl_Saldo);
-        // controller.updateHeaderImageAndButton(img_Carrito, btn_Carrito); // Removed this call
-    }    @FXML
+        // controller.updateHeaderImageAndButton(img_Carrito, btn_Carrito); // Removed
+        // this call
+    }
+
+    @FXML
     void abrirMenuAdmin(ActionEvent event) {
         try {
             System.out.println("Intentando cargar la pantalla del MenuAdmin...");
@@ -56,10 +59,9 @@ public class UserHeaderViewController {
             System.err.println("Error al cargar MenuAdmin: " + e.getMessage());
             e.printStackTrace();
             co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.showAlert(
-                "Error", 
-                "No se pudo abrir el menú de administrador: " + e.getMessage(),
-                javafx.scene.control.Alert.AlertType.ERROR
-            );
+                    "Error",
+                    "No se pudo abrir el menú de administrador: " + e.getMessage(),
+                    javafx.scene.control.Alert.AlertType.ERROR);
         }
     }
 
@@ -70,22 +72,25 @@ public class UserHeaderViewController {
         } catch (Exception e) {
             e.printStackTrace();
             co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.showAlert(
-                "Error", "No se pudo abrir la ventana de recarga de billetera.", AlertType.ERROR);
+                    "Error", "No se pudo abrir la ventana de recarga de billetera.", AlertType.ERROR);
         }
-    }    public void actualizarSaldo(double monto) {
+    }
+
+    public void actualizarSaldo(double monto) {
         double saldoActual = Double.parseDouble(lbl_Saldo.getText().replace("Saldo: $", "").replace(",", ""));
         saldoActual += monto;
         lbl_Saldo.setText("Saldo: $" + String.format("%.2f", saldoActual));
     }
-    
+
     @FXML
     void abrirEditarPerfil(ActionEvent event) {
         try {
-            co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("userProfileEdit", 900, 600);
+            co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("userProfileEdit", 900,
+                    600);
         } catch (Exception e) {
             e.printStackTrace();
             co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.showAlert(
-                "Error", "No se pudo abrir la ventana de edición de perfil.", AlertType.ERROR);
+                    "Error", "No se pudo abrir la ventana de edición de perfil.", AlertType.ERROR);
         }
     }
 }

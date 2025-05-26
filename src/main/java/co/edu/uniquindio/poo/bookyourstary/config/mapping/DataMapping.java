@@ -2,7 +2,7 @@ package co.edu.uniquindio.poo.bookyourstary.config.mapping;
 
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.*;
-import co.edu.uniquindio.poo.bookyourstary.service.CityService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.CityService;
 import co.edu.uniquindio.poo.bookyourstary.util.PasswordUtil;
 import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 
@@ -38,12 +38,14 @@ public class DataMapping {
                                                         + admin.getEmail());
                         return admin;
                 }
-        }        public static Client createTestClient() {
+        }
+
+        public static Client createTestClient() {
                 try {
                         // Try to find if the client already exists
                         Optional<Client> existingClient = MainController.getInstance().getClientRepository()
-                                .findByEmail("usuario@prueba.com");
-                        
+                                        .findByEmail("usuario@prueba.com");
+
                         if (existingClient.isPresent()) {
                                 Client client = existingClient.get();
                                 client.setActive(true); // Make sure it's active
@@ -51,23 +53,25 @@ public class DataMapping {
                                 client.setPassword(PasswordUtil.hashPassword("userpass"));
                                 // Save the updated client back to the repository
                                 MainController.getInstance().getClientRepository().save(client);
-                                System.out.println("Cliente de prueba existente actualizado: " + client.getName() + 
-                                    " (" + client.getEmail() + ")");
+                                System.out.println("Cliente de prueba existente actualizado: " + client.getName() +
+                                                " (" + client.getEmail() + ")");
                                 return client;
                         } else {
-                                // Create a new client directly, don't use CreateClient class to avoid duplicate saves
-                                Client client = new Client("10", "TestUser", "3001234567", "usuario@prueba.com", PasswordUtil.hashPassword("userpass"));
+                                // Create a new client directly, don't use CreateClient class to avoid duplicate
+                                // saves
+                                Client client = new Client("10", "TestUser", "3001234567", "usuario@prueba.com",
+                                                PasswordUtil.hashPassword("userpass"));
                                 client.setActive(true); // Make sure it's active
-                                
+
                                 // Create a wallet for the client
                                 VirtualWallet wallet = MainController.getInstance().getVirtualWalletService()
-                                    .createWalletForClient(client);
+                                                .createWalletForClient(client);
                                 client.setVirtualWallet(wallet);
-                                
+
                                 // Save the client to repository
                                 MainController.getInstance().getClientRepository().save(client);
-                                System.out.println("Cliente de prueba nuevo creado y guardado: " + client.getName() + 
-                                    " (" + client.getEmail() + ")");
+                                System.out.println("Cliente de prueba nuevo creado y guardado: " + client.getName() +
+                                                " (" + client.getEmail() + ")");
                                 return client;
                         }
                 } catch (Exception e) {
@@ -200,8 +204,5 @@ public class DataMapping {
                 cities.add(new City("Barranquilla", "Colombia", "Atlántico"));
                 return cities;
         }
-        // El método createApartmentsDirectly fue removido para evitar problemas de
-        // compilación
-        // y fue reemplazado por ApartmentCreator.createApartments() que es llamado
-        // desde App.java
+        
 }

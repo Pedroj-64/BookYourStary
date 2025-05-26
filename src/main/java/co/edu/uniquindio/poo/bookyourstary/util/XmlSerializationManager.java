@@ -18,11 +18,13 @@ import java.util.stream.Stream;
 
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.*;
-import co.edu.uniquindio.poo.bookyourstary.service.CityService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.CityService;
 
 /**
- * Clase para manejar la serialización y deserialización XML de los datos del sistema.
- * Implementa el patrón Singleton para garantizar consistencia en el guardado/carga de datos.
+ * Clase para manejar la serialización y deserialización XML de los datos del
+ * sistema.
+ * Implementa el patrón Singleton para garantizar consistencia en el
+ * guardado/carga de datos.
  */
 public class XmlSerializationManager {
     private static volatile XmlSerializationManager instance;
@@ -32,21 +34,21 @@ public class XmlSerializationManager {
     private static final int MAX_RETRIES = 3;
     private static final long RETRY_DELAY_MS = 1000;
     private static final int MAX_BACKUPS = 5; // Mantener solo los últimos 5 backups
-    
+
     // Nombres de los archivos para cada tipo de datos
     private static final String HOSTINGS_FILE = "hostings.xml";
     private static final String CLIENTS_FILE = "clients.xml";
     private static final String ADMINS_FILE = "admins.xml";
     private static final String BOOKINGS_FILE = "bookings.xml";
     private static final String CITIES_FILE = "cities.xml";
-    
+
     private XmlSerializationManager() {
         if (instance != null) {
             throw new IllegalStateException("Ya existe una instancia de XmlSerializationManager");
         }
         initializeDataDirectories();
     }
-    
+
     public static XmlSerializationManager getInstance() {
         XmlSerializationManager result = instance;
         if (result == null) {
@@ -59,7 +61,7 @@ public class XmlSerializationManager {
         }
         return result;
     }
-    
+
     /**
      * Inicializa los directorios de datos y backup si no existen
      */
@@ -68,14 +70,14 @@ public class XmlSerializationManager {
             // Asegurar que los directorios existan
             Files.createDirectories(Paths.get(DATA_DIR));
             Files.createDirectories(Paths.get(BACKUP_DIR));
-            
+
             // Copiar archivos de recursos si no existen
             copyResourceIfNotExists(HOSTINGS_FILE);
             copyResourceIfNotExists(CLIENTS_FILE);
             copyResourceIfNotExists(ADMINS_FILE);
             copyResourceIfNotExists(BOOKINGS_FILE);
             copyResourceIfNotExists(CITIES_FILE);
-            
+
             logger.info("Directorios de datos inicializados correctamente");
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error al crear los directorios de datos", e);
@@ -106,22 +108,22 @@ public class XmlSerializationManager {
     private void saveObjectToXml(Object object, String fileName) {
         String filePath = DATA_DIR + File.separator + fileName;
         Path path = Paths.get(filePath);
-        
+
         try {
             Files.createDirectories(path.getParent());
-            
+
             Object convertedObject = convertImmutableCollections(object);
-            
+
             try (XMLEncoder encoder = new XMLEncoder(
                     new BufferedOutputStream(
-                        new FileOutputStream(filePath)))) {
-                
+                            new FileOutputStream(filePath)))) {
+
                 encoder.setPersistenceDelegate(LocalDate.class, new LocalDatePersistenceDelegate());
                 encoder.setExceptionListener(e -> {
                     logger.log(Level.SEVERE, "Error durante la serialización XML: " + e.getMessage(), e);
                     throw new RuntimeException("Error de serialización", e);
                 });
-                
+
                 encoder.writeObject(convertedObject);
                 logger.info("Datos XML guardados en: " + filePath);
             }
@@ -137,7 +139,7 @@ public class XmlSerializationManager {
     private Object loadObjectFromXml(String fileName) {
         String filePath = DATA_DIR + File.separator + fileName;
         Path file = Paths.get(filePath);
-        
+
         if (!Files.exists(file)) {
             logger.info("El archivo XML " + filePath + " no existe. Se creará uno nuevo.");
             try {
@@ -150,32 +152,32 @@ public class XmlSerializationManager {
                 return null;
             }
         }
-        
+
         try (XMLDecoder decoder = new XMLDecoder(
                 new BufferedInputStream(
-                    new FileInputStream(filePath)))) {
-            
+                        new FileInputStream(filePath)))) {
+
             decoder.setExceptionListener(new ExceptionListener() {
                 @Override
                 public void exceptionThrown(Exception e) {
                     logger.log(Level.SEVERE, "Error durante la deserialización XML: " + e.getMessage(), e);
                 }
             });
-            
+
             Object obj = decoder.readObject();
             logger.info("Datos XML cargados desde: " + filePath);
             return obj;
-            
+
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error al cargar datos XML desde " + filePath, e);
-            
+
             // Intentar recuperar desde el último backup
             Object recoveredData = tryRecoverFromBackup(fileName);
             if (recoveredData != null) {
                 logger.info("Datos recuperados exitosamente desde backup para " + fileName);
                 return recoveredData;
             }
-            
+
             return null;
         }
     }
@@ -189,8 +191,8 @@ public class XmlSerializationManager {
             }
 
             Optional<Path> latestBackup = Files.list(backupDir)
-                .filter(Files::isDirectory)
-                .max(Comparator.comparing(p -> p.getFileName().toString()));
+                    .filter(Files::isDirectory)
+                    .max(Comparator.comparing(p -> p.getFileName().toString()));
 
             if (!latestBackup.isPresent()) {
                 logger.warning("No se encontraron backups en " + BACKUP_DIR);
@@ -205,13 +207,13 @@ public class XmlSerializationManager {
 
             try (XMLDecoder decoder = new XMLDecoder(
                     new BufferedInputStream(
-                        new FileInputStream(backupFile.toFile())))) {
-                
+                            new FileInputStream(backupFile.toFile())))) {
+
                 decoder.setExceptionListener(e -> {
                     logger.log(Level.SEVERE, "Error al deserializar backup: " + e.getMessage(), e);
                     throw new RuntimeException("Error al deserializar backup", e);
                 });
-                
+
                 Object obj = decoder.readObject();
                 logger.info("Datos recuperados exitosamente desde backup: " + backupFile);
                 return obj;
@@ -243,7 +245,9 @@ public class XmlSerializationManager {
     public void saveClients() {
         List<Client> clients = MainController.getInstance().getClientRepository().findAll();
         saveObjectToXml(new ArrayList<>(clients), CLIENTS_FILE);
-    }    @SuppressWarnings("unchecked")
+    }
+
+    @SuppressWarnings("unchecked")
     public void loadClients() {
         List<Client> clients = (List<Client>) loadObjectFromXml(CLIENTS_FILE);
         if (clients != null) {
@@ -304,19 +308,21 @@ public class XmlSerializationManager {
     public void saveCities() {
         List<City> cities = new ArrayList<>(MainController.getInstance().getCityService().findAllCities());
         saveObjectToXml(cities, CITIES_FILE);
-    }    @SuppressWarnings("unchecked")
+    }
+
+    @SuppressWarnings("unchecked")
     public void loadCities() {
         List<City> cities = (List<City>) loadObjectFromXml(CITIES_FILE);
         if (cities != null) {
             CityService cityService = MainController.getInstance().getCityService();
             List<City> existingCities = cityService.findAllCities();
             int loadedCount = 0;
-            
+
             for (City city : cities) {
                 try {
                     boolean exists = existingCities.stream()
-                        .anyMatch(c -> c.getName().equals(city.getName()));
-                        
+                            .anyMatch(c -> c.getName().equals(city.getName()));
+
                     if (!exists) {
                         cityService.saveCity(city.getName(), city.getCountry(), city.getDepartament());
                         loadedCount++;
@@ -327,15 +333,17 @@ public class XmlSerializationManager {
                     logger.warning("Error al cargar ciudad " + city.getName() + ": " + e.getMessage());
                 }
             }
-            
+
             logger.info("Cargadas " + loadedCount + " ciudades de " + cities.size() + " encontradas");
         }
     }
 
     /**
      * Verifica si existen archivos de datos XML guardados
+     * 
      * @return true si al menos existe un archivo de datos XML
-     */    public boolean hasStoredData() {
+     */
+    public boolean hasStoredData() {
         try {
             // Verificar que los archivos existan y tengan contenido válido
             boolean hasHostings = false;
@@ -345,18 +353,18 @@ public class XmlSerializationManager {
             List<?> hostings = (List<?>) loadObjectFromXml(HOSTINGS_FILE);
             List<?> clients = (List<?>) loadObjectFromXml(CLIENTS_FILE);
             List<?> admins = (List<?>) loadObjectFromXml(ADMINS_FILE);
-            
+
             hasHostings = hostings != null && !hostings.isEmpty();
             hasClients = clients != null && !clients.isEmpty();
             hasAdmins = admins != null && !admins.isEmpty();
-            
-            logger.info("Verificación de datos XML: Hostings=" + hasHostings + 
-                       " (" + (hostings != null ? hostings.size() : 0) + " elementos), " +
-                       "Clients=" + hasClients + 
-                       " (" + (clients != null ? clients.size() : 0) + " elementos), " +
-                       "Admins=" + hasAdmins + 
-                       " (" + (admins != null ? admins.size() : 0) + " elementos)");
-            
+
+            logger.info("Verificación de datos XML: Hostings=" + hasHostings +
+                    " (" + (hostings != null ? hostings.size() : 0) + " elementos), " +
+                    "Clients=" + hasClients +
+                    " (" + (clients != null ? clients.size() : 0) + " elementos), " +
+                    "Admins=" + hasAdmins +
+                    " (" + (admins != null ? admins.size() : 0) + " elementos)");
+
             return hasHostings || hasClients || hasAdmins;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error al verificar datos almacenados: " + e.getMessage(), e);
@@ -390,16 +398,16 @@ public class XmlSerializationManager {
 
             // Crear nombre único para el backup con milisegundos para evitar colisiones
             String timestamp = LocalDateTime.now().format(
-                DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSS"));
+                    DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSS"));
             Path backupFolder = backupPath.resolve(timestamp);
-            
+
             // Si ya existe un backup reciente (menos de 1 segundo), no crear otro
             try (Stream<Path> backups = Files.list(backupPath)) {
                 boolean recentBackupExists = backups
-                    .filter(Files::isDirectory)
-                    .map(p -> p.getFileName().toString())
-                    .anyMatch(name -> name.substring(0, 15).equals(timestamp.substring(0, 15)));
-                    
+                        .filter(Files::isDirectory)
+                        .map(p -> p.getFileName().toString())
+                        .anyMatch(name -> name.substring(0, 15).equals(timestamp.substring(0, 15)));
+
                 if (recentBackupExists) {
                     logger.info("Backup reciente encontrado, saltando creación");
                     return;
@@ -436,9 +444,9 @@ public class XmlSerializationManager {
 
             // Obtener todos los backups ordenados por fecha
             List<Path> backups = Files.list(backupPath)
-                .filter(Files::isDirectory)
-                .sorted((a, b) -> b.getFileName().toString().compareTo(a.getFileName().toString()))
-                .collect(Collectors.toList());
+                    .filter(Files::isDirectory)
+                    .sorted((a, b) -> b.getFileName().toString().compareTo(a.getFileName().toString()))
+                    .collect(Collectors.toList());
 
             // Eliminar backups antiguos si hay más que MAX_BACKUPS
             if (backups.size() > MAX_BACKUPS) {
@@ -454,29 +462,30 @@ public class XmlSerializationManager {
     private void deleteDirectory(Path directory) {
         try {
             Files.walk(directory)
-                .sorted(Comparator.reverseOrder())
-                .forEach(path -> {
-                    try {
-                        Files.delete(path);
-                    } catch (IOException e) {
-                        logger.log(Level.WARNING, "Error al eliminar archivo/directorio: " + path, e);
-                    }
-                });
+                    .sorted(Comparator.reverseOrder())
+                    .forEach(path -> {
+                        try {
+                            Files.delete(path);
+                        } catch (IOException e) {
+                            logger.log(Level.WARNING, "Error al eliminar archivo/directorio: " + path, e);
+                        }
+                    });
         } catch (IOException e) {
             logger.log(Level.WARNING, "Error al eliminar directorio de backup: " + directory, e);
         }
     }
 
     /**
-     * Clase interna para manejar la serialización/deserialización de objetos LocalDate a XML
+     * Clase interna para manejar la serialización/deserialización de objetos
+     * LocalDate a XML
      */
     static class LocalDatePersistenceDelegate extends java.beans.PersistenceDelegate {
         @Override
         protected Expression instantiate(Object oldInstance, Encoder encoder) {
             if (oldInstance instanceof LocalDate) {
                 LocalDate date = (LocalDate) oldInstance;
-                return new Expression(date, date.getClass(), "of", 
-                    new Object[] { date.getYear(), date.getMonthValue(), date.getDayOfMonth() });
+                return new Expression(date, date.getClass(), "of",
+                        new Object[] { date.getYear(), date.getMonthValue(), date.getDayOfMonth() });
             }
             return null;
         }
@@ -488,14 +497,14 @@ public class XmlSerializationManager {
     public void saveAllData() {
         try {
             createBackup();
-            
+
             // Guardar datos
             saveHostings();
             saveClients();
             saveAdmins();
             saveBookings();
             saveCities();
-            
+
             logger.info("Todos los datos guardados exitosamente en XML");
         } catch (Exception e) {
             logger.severe("Error al guardar datos: " + e.getMessage());
@@ -505,11 +514,11 @@ public class XmlSerializationManager {
 
     /**
      * Carga todos los datos de la aplicación
-     */    
+     */
     public void loadAllData() {
         boolean success = false;
         int retries = 0;
-        
+
         while (!success && retries < MAX_RETRIES) {
             try {
                 // Primero limpiamos los datos existentes para evitar duplicados
@@ -518,7 +527,7 @@ public class XmlSerializationManager {
                 MainController.getInstance().getAdminRepository().clearAll();
                 MainController.getInstance().getBookingRepository().clearAll();
                 MainController.getInstance().getCityService().clearAll();
-                
+
                 // Cargar datos en orden de dependencia
                 loadCities(); // Primero ciudades, ya que otros objetos dependen de ellas
                 loadHostings();

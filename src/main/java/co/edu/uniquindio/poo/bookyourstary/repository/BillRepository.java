@@ -22,18 +22,19 @@ public class BillRepository {
         return instance;
     }
 
-    public void save(Bill bill){
+    public void save(Bill bill) {
         bills.add(bill);
     }
 
-    public Optional<Bill> findById(String billId){
+    public Optional<Bill> findById(String billId) {
         return bills.stream().filter(bill -> bill.getBillId().equals(billId)).findFirst();
     }
-    public List<Bill> findAll(){
+
+    public List<Bill> findAll() {
         return new LinkedList<>(bills);
     }
 
-    public void delete(String billId){
+    public void delete(String billId) {
         bills.removeIf(bill -> bill.getBillId().equals(billId));
     }
 

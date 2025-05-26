@@ -14,7 +14,7 @@ import lombok.Setter;
 public class Booking implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     private String bookingId;
     private Client client;
     private Hosting hosting;

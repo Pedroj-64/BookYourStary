@@ -15,7 +15,7 @@ public class CodeActivation {
     private LocalDateTime creationDate;
     private boolean used;
 
-    public CodeActivation(UUID code,String userEmail,LocalDateTime creationDate, boolean used) {
+    public CodeActivation(UUID code, String userEmail, LocalDateTime creationDate, boolean used) {
         this.code = code;
         this.userEmail = userEmail;
         this.creationDate = creationDate;

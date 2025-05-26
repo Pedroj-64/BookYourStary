@@ -115,7 +115,7 @@ public class WalletTopUpViewController {
             try {
                 // Actualizar el saldo directamente en la billetera
                 wallet.setBalance(wallet.getBalance() + monto);
-                
+
                 // Actualizar la vista si es necesario
                 if (userHeaderController != null) {
                     userHeaderController.actualizarSaldo(monto);
@@ -124,22 +124,22 @@ public class WalletTopUpViewController {
                 // Guardar cambios en ambos sistemas
                 XmlSerializationManager.getInstance().saveClients();
                 MainController.getInstance().getDataManager().saveAllData();
-                
+
                 // Verificar que los cambios se guardaron
                 System.out.println("Saldo actualizado. Nuevo saldo: " + wallet.getBalance());
-                
-                MainController.showAlert("Éxito", 
-                    "Se ha recargado $" + String.format("%.2f", monto) + " a su billetera.",
-                    AlertType.INFORMATION);
+
+                MainController.showAlert("Éxito",
+                        "Se ha recargado $" + String.format("%.2f", monto) + " a su billetera.",
+                        AlertType.INFORMATION);
 
                 MainController.loadScene("home", 600, 400);
-                
+
             } catch (Exception e) {
                 System.err.println("Error al guardar los cambios: " + e.getMessage());
                 e.printStackTrace();
-                MainController.showAlert("Error", 
-                    "Error al procesar la recarga. Por favor, intente de nuevo.",
-                    AlertType.ERROR);
+                MainController.showAlert("Error",
+                        "Error al procesar la recarga. Por favor, intente de nuevo.",
+                        AlertType.ERROR);
             }
 
         } catch (NumberFormatException e) {

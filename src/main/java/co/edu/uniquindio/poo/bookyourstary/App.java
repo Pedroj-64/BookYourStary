@@ -15,9 +15,9 @@ public class App extends Application {
 
             // Intentar cargar datos serializados primero
             DataManager.getInstance().loadAllData();
-            
+
             // Si no hay datos, crear datos de prueba
-            
+
         } catch (Exception e) {
             System.err.println("Error during initialization: " + e.getMessage());
             e.printStackTrace();

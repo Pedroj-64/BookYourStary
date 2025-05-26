@@ -11,7 +11,7 @@ public class Review {
     private String id;
     private String userId;
     private String hostingId;
-    private int score; 
+    private int score;
     private String comment;
     private LocalDate date;
 

@@ -14,12 +14,8 @@ public class ChartUtil {
     public static void addChartEffects(Chart chart) {
         if (chart instanceof PieChart) {
             ((PieChart) chart).getData().forEach(data -> {
-                data.getNode().setOnMouseEntered(e ->
-                        data.getNode().setEffect(new DropShadow())
-                );
-                data.getNode().setOnMouseExited(e ->
-                        data.getNode().setEffect(null)
-                );
+                data.getNode().setOnMouseEntered(e -> data.getNode().setEffect(new DropShadow()));
+                data.getNode().setOnMouseExited(e -> data.getNode().setEffect(null));
             });
         }
     }

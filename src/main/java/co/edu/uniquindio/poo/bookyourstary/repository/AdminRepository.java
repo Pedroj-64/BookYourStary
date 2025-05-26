@@ -30,14 +30,14 @@ public class AdminRepository {
 
     public Optional<Admin> findByEmail(String email) {
         return admins.stream()
-            .filter(admin -> admin.getEmail().equalsIgnoreCase(email))
-            .findFirst();
+                .filter(admin -> admin.getEmail().equalsIgnoreCase(email))
+                .findFirst();
     }
 
     public List<Admin> getAdmin() {
         return new LinkedList<>(admins);
     }
-    
+
     public void clearAll() {
         admins.clear();
     }

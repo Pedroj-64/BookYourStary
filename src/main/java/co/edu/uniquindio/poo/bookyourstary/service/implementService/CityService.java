@@ -1,13 +1,14 @@
-package co.edu.uniquindio.poo.bookyourstary.service;
+package co.edu.uniquindio.poo.bookyourstary.service.implementService;
 
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.repository.CityRepository;
+import co.edu.uniquindio.poo.bookyourstary.service.ICityService;
 import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 
 import java.util.List;
 import java.util.Optional;
 
-public class CityService {
+public class CityService implements ICityService {
 
     private final CityRepository cityRepository;    private static CityService instance;
 

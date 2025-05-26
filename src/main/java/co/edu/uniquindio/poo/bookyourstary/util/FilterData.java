@@ -12,7 +12,8 @@ public class FilterData {
     public Boolean wifi, piscina, desayuno;
     public LocalDate fechaInicio, fechaFin;
 
-    public FilterData(String ciudad, String tipo, Double minPrecio, Double maxPrecio, Integer numHuespedes, Boolean wifi, Boolean piscina, Boolean desayuno, LocalDate fechaInicio, LocalDate fechaFin) {
+    public FilterData(String ciudad, String tipo, Double minPrecio, Double maxPrecio, Integer numHuespedes,
+            Boolean wifi, Boolean piscina, Boolean desayuno, LocalDate fechaInicio, LocalDate fechaFin) {
         this.ciudad = ciudad;
         this.tipo = tipo;
         this.minPrecio = minPrecio;

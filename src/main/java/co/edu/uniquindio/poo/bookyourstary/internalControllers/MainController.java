@@ -1,7 +1,10 @@
 package co.edu.uniquindio.poo.bookyourstary.internalControllers;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Parent;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,7 +18,26 @@ import co.edu.uniquindio.poo.bookyourstary.controller.CreationAndEditingFormCont
 import co.edu.uniquindio.poo.bookyourstary.controller.MenuAdminController;
 import co.edu.uniquindio.poo.bookyourstary.repository.*;
 import co.edu.uniquindio.poo.bookyourstary.service.*;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.AdminService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.ApartamentService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.BillService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.BookingService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.CityService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.ClientService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.CodeActivationService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.CodeRecoveryService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.EmailTemplateService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.HostingFilterService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.HostingService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.HotelService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.HouseService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.OfferService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.ReviewService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.ServiceIncludedService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.VirtualWalletService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.WalletTransactionService;
 import co.edu.uniquindio.poo.bookyourstary.service.observer.EmailNotifier;
+import co.edu.uniquindio.poo.bookyourstary.util.LoggerConfig;
 import co.edu.uniquindio.poo.bookyourstary.util.TemplateLoader;
 import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 import co.edu.uniquindio.poo.bookyourstary.util.serializacionSeria.DataManager;
@@ -25,6 +47,7 @@ public class MainController {
 
     private static MainController instance;
     private static Scene scene;
+    private static MenuAdminViewController activeMenuAdminController;
 
     // Constructor privado para Singleton
     private MainController() {
@@ -69,16 +92,15 @@ public class MainController {
         try {
             Parent root = loadFXML("home");
             Scene scene = new Scene(root, 600, 400);
-            stage.setTitle("BookYourStary");
+            stage.setTitle("BookYourStay");
             stage.setScene(scene);
             stage.show();
             setScene(scene);
         } catch (Exception e) {
             showAlert(
-                "Error crítico",
-                "No se pudo iniciar la aplicación: " + e.getMessage(),
-                Alert.AlertType.ERROR
-            );
+                    "Error crítico",
+                    "No se pudo iniciar la aplicación: " + e.getMessage(),
+                    Alert.AlertType.ERROR);
             if (stage != null) {
                 stage.close();
             }
@@ -91,16 +113,16 @@ public class MainController {
     private void initializeData() {
         try {
             XmlSerializationManager xmlManager = XmlSerializationManager.getInstance();
-            
+
             if (xmlManager.hasStoredData()) {
                 try {
                     xmlManager.loadAllData();
                     System.out.println("Datos cargados correctamente desde XML.");
-                    
+
                     // Verificar/actualizar datos esenciales
                     DataMapping.createTestAdmin();
                     DataMapping.createTestClient();
-                    
+
                     xmlManager.saveAllData();
                     System.out.println("Cuentas de prueba verificadas/actualizadas y guardadas en XML.");
                 } catch (Exception e) {
@@ -128,12 +150,12 @@ public class MainController {
             getAdminRepository().clearAll();
             getBookingRepository().clearAll();
             getCityService().clearAll();
-            
+
             // Crear datos de prueba
             DataMapping.createTestAdmin();
             DataMapping.createAllHostings();
             DataMapping.createTestClient();
-            
+
             // Guardar los nuevos datos
             XmlSerializationManager.getInstance().saveAllData();
             System.out.println("Datos de prueba creados y guardados en XML.");
@@ -148,7 +170,7 @@ public class MainController {
             instance = new MainController();
             // Inicializar el sistema de logging
             try {
-                co.edu.uniquindio.poo.bookyourstary.util.LoggerConfig.configureLogger();
+                LoggerConfig.configureLogger();
                 System.out.println("Sistema de logging inicializado correctamente");
             } catch (Exception e) {
                 System.err.println("Error al inicializar el sistema de logging: " + e.getMessage());
@@ -162,7 +184,7 @@ public class MainController {
         return fxmlLoader.load();
     }
 
-    public static void showAlert(String title, String message, Alert.AlertType type) {
+    public static void showAlert(String title, String message, AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -170,7 +192,7 @@ public class MainController {
         alert.showAndWait();
     }
 
-    public static void showAlertAndRedirect(String title, String message, Alert.AlertType type, String fxml,
+    public static void showAlertAndRedirect(String title, String message, AlertType type, String fxml,
             double width, double height) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -365,7 +387,7 @@ public class MainController {
         return CartManager.getInstance();
     }
 
-    public DataManager getDataManager(){
+    public DataManager getDataManager() {
         return DataManager.getInstance();
     }
 
@@ -373,8 +395,6 @@ public class MainController {
         // Assuming CityService is not a singleton yet, if it becomes one, adjust to
         return CityService.getInstance();
     } // Variable para almacenar referencia al último MenuAdminViewController activo
-
-    private static MenuAdminViewController activeMenuAdminController;
 
     /**
      * Registra una instancia activa del MenuAdminViewController para poder
@@ -406,8 +426,8 @@ public class MainController {
                 System.out.println("Refrescando MenuAdminViewController registrado");
                 try {
                     // Llamamos directamente a refresh() que es público
-                    javafx.application.Platform.runLater(() -> {
-                        activeMenuAdminController.refresh(new javafx.event.ActionEvent());
+                    Platform.runLater(() -> {
+                        activeMenuAdminController.refresh(new ActionEvent());
                         System.out.println("Refresh ejecutado en el hilo de UI");
                     });
                     System.out.println("Solicitud de refresh enviada al hilo de UI");
@@ -457,11 +477,13 @@ public class MainController {
     }
 
     /**
-     * Muestra el splash (intro) y luego navega automáticamente a la pantalla principal (home).
+     * Muestra el splash (intro) y luego navega automáticamente a la pantalla
+     * principal (home).
      */
     public void showSplashAndThenHome(Stage stage) {
         try {
-            Parent splashRoot = FXMLLoader.load(getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/intro.fxml"));
+            Parent splashRoot = FXMLLoader
+                    .load(getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/intro.fxml"));
             Scene splashScene = new Scene(splashRoot);
             stage.setScene(splashScene);
             MainController.setScene(splashScene); // Registrar la escena para posteriores cargas

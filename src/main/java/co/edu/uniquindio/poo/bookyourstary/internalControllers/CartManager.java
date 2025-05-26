@@ -35,7 +35,7 @@ public class CartManager {
         pendingReservations.clear();
     }
 
-    public void remove(Hosting hosting){
+    public void remove(Hosting hosting) {
         pendingReservations.remove(hosting);
     }
 }

@@ -19,5 +19,4 @@ public class UtilInterfaces {
         return List.of("Apto", "Casa", "Hotel");
     }
 
-    
 }

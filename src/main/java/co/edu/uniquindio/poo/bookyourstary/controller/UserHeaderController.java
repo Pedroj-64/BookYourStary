@@ -30,7 +30,4 @@ public class UserHeaderController {
         }
     }
 
-    // The updateHeaderImageAndButton method is removed.
-    // Icon and button actions should be defined in their respective FXMLs (UserHeader.fxml, AdminHeader.fxml)
-    // and handled by their view controllers.
 }

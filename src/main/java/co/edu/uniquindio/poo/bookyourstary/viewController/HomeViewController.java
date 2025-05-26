@@ -7,10 +7,7 @@ import java.util.ResourceBundle;
 
 import co.edu.uniquindio.poo.bookyourstary.controller.HomeController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
-import co.edu.uniquindio.poo.bookyourstary.model.Client;
-import co.edu.uniquindio.poo.bookyourstary.model.Admin;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
-import co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.*;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.util.FilterData;
 import javafx.event.ActionEvent;
@@ -223,9 +220,14 @@ public class HomeViewController {
     private final HomeController homeController = new HomeController();
 
     private FilterData collectFilterData() {
-        return getFilterData(combo_Ciudad, combo_tipoAlojamiento, txt_minPrecio, txt_maxPrecio, txt_numHuespedes, check_wifi, check_piscina, check_desayuno, date_inicio, date_fin);
-    }    @NotNull
-    static FilterData getFilterData(ComboBox<City> comboCiudad, ComboBox<String> comboTipoAlojamiento, TextField txtMinPrecio, TextField txtMaxPrecio, TextField txtNumHuespedes, CheckBox checkWifi, CheckBox checkPiscina, CheckBox checkDesayuno, DatePicker dateInicio, DatePicker dateFin) {
+        return getFilterData(combo_Ciudad, combo_tipoAlojamiento, txt_minPrecio, txt_maxPrecio, txt_numHuespedes,
+                check_wifi, check_piscina, check_desayuno, date_inicio, date_fin);
+    }
+
+    @NotNull
+    static FilterData getFilterData(ComboBox<City> comboCiudad, ComboBox<String> comboTipoAlojamiento,
+            TextField txtMinPrecio, TextField txtMaxPrecio, TextField txtNumHuespedes, CheckBox checkWifi,
+            CheckBox checkPiscina, CheckBox checkDesayuno, DatePicker dateInicio, DatePicker dateFin) {
         // Manejo seguro de valores nulos
         String ciudad = null;
         if (comboCiudad != null && comboCiudad.getValue() != null) {
@@ -239,12 +241,12 @@ public class HomeViewController {
                 ciudad = comboCiudad.getValue().toString();
             }
         }
-        
+
         String tipo = null;
         if (comboTipoAlojamiento != null && comboTipoAlojamiento.getValue() != null) {
             tipo = comboTipoAlojamiento.getValue().toString();
         }
-        
+
         Double minPrecio = null;
         if (txtMinPrecio != null && !txtMinPrecio.getText().isEmpty()) {
             try {
@@ -253,7 +255,7 @@ public class HomeViewController {
                 System.err.println("Error al convertir precio mínimo: " + e.getMessage());
             }
         }
-        
+
         Double maxPrecio = null;
         if (txtMaxPrecio != null && !txtMaxPrecio.getText().isEmpty()) {
             try {
@@ -262,7 +264,7 @@ public class HomeViewController {
                 System.err.println("Error al convertir precio máximo: " + e.getMessage());
             }
         }
-        
+
         Integer numHuespedes = null;
         if (txtNumHuespedes != null && !txtNumHuespedes.getText().isEmpty()) {
             try {
@@ -271,14 +273,14 @@ public class HomeViewController {
                 System.err.println("Error al convertir número de huéspedes: " + e.getMessage());
             }
         }
-        
+
         Boolean wifi = checkWifi != null && checkWifi.isSelected() ? true : null;
         Boolean piscina = checkPiscina != null && checkPiscina.isSelected() ? true : null;
         Boolean desayuno = checkDesayuno != null && checkDesayuno.isSelected() ? true : null;
-        
+
         LocalDate fechaInicio = dateInicio != null ? dateInicio.getValue() : null;
         LocalDate fechaFin = dateFin != null ? dateFin.getValue() : null;
-        
+
         return new FilterData(ciudad, tipo, minPrecio, maxPrecio, numHuespedes, wifi, piscina, desayuno, fechaInicio,
                 fechaFin);
     }
@@ -286,7 +288,9 @@ public class HomeViewController {
     private void setupComboBox() {
         combo_tipoAlojamiento.getItems().setAll(HomeController.getHostingTypes());
         combo_Ciudad.getItems().setAll(homeController.getAvailableCities());
-    }    private void checkUserAndUpdateHeader() {
+    }
+
+    private void checkUserAndUpdateHeader() {
         homeController.handleUserHeaderUpdate(UserHeader0);
     }
 
@@ -296,25 +300,30 @@ public class HomeViewController {
                 "Ayuda",
                 "Si tienes problemas, contacta con el equipo de margaDevSociety.",
                 AlertType.INFORMATION);
-    }    @FXML
+    }
+
+    @FXML
     void filtrar(ActionEvent event) {
         FilterData data = collectFilterData();
-        
+
         // Eliminar duplicación de parámetros fecha
         List<Hosting> filtrados = homeController.filterHostings(
                 data.ciudad, data.tipo, data.minPrecio, data.maxPrecio, null, null,
-                data.numHuespedes, data.wifi, data.piscina, data.desayuno, 
+                data.numHuespedes, data.wifi, data.piscina, data.desayuno,
                 data.fechaInicio, data.fechaFin);
-                
+
         System.out.println("Filtrado completado. Resultados encontrados: " + filtrados.size());
-        
+
         // Actualizar la visualización con los resultados filtrados
         homeController.updateHostingDisplay(filtrados, imageViews, titleLabels, descLabels, priceLabels, cityLabels,
                 serviceLabels);
-                
-        // Actualizar también los botones de reserva para que apunten a los alojamientos filtrados
+
+        // Actualizar también los botones de reserva para que apunten a los alojamientos
+        // filtrados
         homeController.assignHostingsToReserveButtons(reserveButtons, filtrados);
-    }    @FXML
+    }
+
+    @FXML
     void reservar(ActionEvent event) {
         try {
             Object currentUser = MainController.getInstance().getSessionManager().getUsuarioActual();
@@ -324,12 +333,16 @@ public class HomeViewController {
             if (hosting == null) {
                 MainController.showAlert("Error", "No se ha seleccionado ningún alojamiento.", AlertType.ERROR);
                 return;
-            }            if (homeController.handleReservation(currentUser, hosting)) {
+            }
+            if (homeController.handleReservation(currentUser, hosting)) {
                 boolean added = homeController.addHostingToPendingReservations(hosting);
                 if (added) {
-                    MainController.showAlert("Éxito", "Alojamiento agregado al carrito. Por favor, vaya al carrito de compras para confirmar su reserva.", AlertType.INFORMATION);
+                    MainController.showAlert("Éxito",
+                            "Alojamiento agregado al carrito. Por favor, vaya al carrito de compras para confirmar su reserva.",
+                            AlertType.INFORMATION);
                 } else {
-                    MainController.showAlert("Error", "No se pudo agregar el alojamiento a la lista de reservas.", AlertType.ERROR);
+                    MainController.showAlert("Error", "No se pudo agregar el alojamiento a la lista de reservas.",
+                            AlertType.ERROR);
                 }
             }
         } catch (Exception e) {
@@ -337,7 +350,9 @@ public class HomeViewController {
             e.printStackTrace();
             MainController.showAlert("Error", "Ocurrió un error al procesar la reserva.", AlertType.ERROR);
         }
-    }@FXML
+    }
+
+    @FXML
     void iniciarSesion(ActionEvent event) {
         homeController.navigateToLogin();
     }
@@ -395,6 +410,5 @@ public class HomeViewController {
             MainController.showAlert("Error", "No se pudo abrir la ventana de recarga de billetera.", AlertType.ERROR);
         }
     }
-
 
 }

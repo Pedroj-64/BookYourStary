@@ -39,7 +39,8 @@ public class HotelRepository {
     }
 
     /**
-     * Actualiza un hotel existente en la lista, reemplazando el que tiene el mismo nombre.
+     * Actualiza un hotel existente en la lista, reemplazando el que tiene el mismo
+     * nombre.
      */
     public void update(Hotel hotel) {
         for (int i = 0; i < hotels.size(); i++) {

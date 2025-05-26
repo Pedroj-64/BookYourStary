@@ -1,7 +1,6 @@
 package co.edu.uniquindio.poo.bookyourstary.model;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;

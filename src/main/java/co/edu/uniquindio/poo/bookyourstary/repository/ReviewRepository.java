@@ -23,15 +23,15 @@ public class ReviewRepository {
     }
 
     public void save(Review review) {
-        findById(review.getId()).ifPresent(reviews::remove); 
+        findById(review.getId()).ifPresent(reviews::remove);
         reviews.add(review);
     }
-    
+
     public Optional<Review> findById(String id) {
         return reviews.stream().filter(review -> review.getId().equals(id)).findFirst();
     }
 
-    public List<Review> findByHostingId(String hostingId){
+    public List<Review> findByHostingId(String hostingId) {
         LinkedList<Review> hostingReviews = new LinkedList<>();
         for (Review review : reviews) {
             if (review.getHostingId().equals(hostingId)) {
@@ -39,12 +39,12 @@ public class ReviewRepository {
             }
         }
         return hostingReviews;
-        
+
     }
+
     public void delete(Review review) {
         reviews.removeIf(r -> r.getId().equals(review.getId()));
     }
-    
 
     public List<Review> findAll() {
         return new LinkedList<>(reviews);

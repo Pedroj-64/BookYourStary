@@ -4,7 +4,6 @@ import co.edu.uniquindio.poo.bookyourstary.internalControllers.LoginInternalCont
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.SessionManager;
 import co.edu.uniquindio.poo.bookyourstary.model.Admin;
-import co.edu.uniquindio.poo.bookyourstary.model.User;
 
 /**
  * Clase utilitaria para verificar el inicio de sesión
@@ -18,7 +17,7 @@ public class LoginHelper {
         try {
             // Obtener instancia del controlador de login
             LoginInternalController loginController = MainController.getInstance().getLoginInternalController();
-            
+
             // Intentar login con credenciales del admin
             SessionManager session = loginController.login("pepito@gmail.com", "adminpass");
             if (session != null) {

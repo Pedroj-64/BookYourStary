@@ -4,7 +4,7 @@ import co.edu.uniquindio.poo.bookyourstary.controller.ManageOrderController;
 import co.edu.uniquindio.poo.bookyourstary.controller.ReviewController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
-import co.edu.uniquindio.poo.bookyourstary.service.BookingService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.BookingService;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -376,12 +376,14 @@ public class ManagerOrderViewController {
             LocalDate endDate = Date_Fin.getValue();
 
             if (startDate == null || endDate == null) {
-                MainController.showAlert("Error de validación", "Por favor, seleccione fechas válidas de inicio y fin.", AlertType.ERROR);
+                MainController.showAlert("Error de validación", "Por favor, seleccione fechas válidas de inicio y fin.",
+                        AlertType.ERROR);
                 return;
             }
 
             if (startDate.isEqual(endDate) || startDate.isAfter(endDate)) {
-                MainController.showAlert("Error de validación", "La fecha de inicio debe ser anterior a la fecha de fin.", AlertType.ERROR);
+                MainController.showAlert("Error de validación",
+                        "La fecha de inicio debe ser anterior a la fecha de fin.", AlertType.ERROR);
                 return;
             }
 
@@ -395,18 +397,21 @@ public class ManagerOrderViewController {
             try {
                 String numGuestsText = txt_numHuespedes.getText().trim();
                 if (numGuestsText.isEmpty()) {
-                    MainController.showAlert("Error de validación", "Por favor, ingrese el número de huéspedes.", AlertType.ERROR);
+                    MainController.showAlert("Error de validación", "Por favor, ingrese el número de huéspedes.",
+                            AlertType.ERROR);
                     return;
                 }
                 numGuests = Integer.parseInt(numGuestsText);
                 if (numGuests <= 0) {
-                    MainController.showAlert("Error de validación", "El número de huéspedes debe ser mayor que cero.", AlertType.ERROR);
+                    MainController.showAlert("Error de validación", "El número de huéspedes debe ser mayor que cero.",
+                            AlertType.ERROR);
                     return;
                 }
                 if (numGuests > selectedHosting.getMaxGuests()) {
-                    MainController.showAlert("Error de validación", 
-                        "El número de huéspedes excede la capacidad máxima del alojamiento (" + selectedHosting.getMaxGuests() + " personas).", 
-                        AlertType.ERROR);
+                    MainController.showAlert("Error de validación",
+                            "El número de huéspedes excede la capacidad máxima del alojamiento ("
+                                    + selectedHosting.getMaxGuests() + " personas).",
+                            AlertType.ERROR);
                     return;
                 }
             } catch (NumberFormatException e) {

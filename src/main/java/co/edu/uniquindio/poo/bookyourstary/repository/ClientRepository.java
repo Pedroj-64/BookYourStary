@@ -21,7 +21,9 @@ public class ClientRepository {
 
     private ClientRepository() {
         this.clients = new LinkedList<>();
-    }    public void save(Client client) {
+    }
+
+    public void save(Client client) {
         // First check if client already exists by ID
         Optional<Client> existingClient = findById(client.getId());
         if (existingClient.isPresent()) {
@@ -51,7 +53,7 @@ public class ClientRepository {
     public void delete(String clientId) {
         clients.removeIf(client -> client.getId().equals(clientId));
     }
-    
+
     public void clearAll() {
         clients.clear();
     }

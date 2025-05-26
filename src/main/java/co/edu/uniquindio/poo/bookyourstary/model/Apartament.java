@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +12,7 @@ import lombok.Setter;
 public class Apartament implements Hosting {
 
     private String name;
-    private City city;  
+    private City city;
     private String description;
     private String imageUrl;
     private double pricePerNight;
@@ -27,9 +26,9 @@ public class Apartament implements Hosting {
         this.includedServices = new LinkedList<>();
     }
 
-    public Apartament(String name, City city, String description, String imageUrl, 
-                     double pricePerNight, int maxGuests, List<ServiceIncluded> includedServices,
-                     double priceForCleaning, LocalDate availableFrom, LocalDate availableTo) {
+    public Apartament(String name, City city, String description, String imageUrl,
+            double pricePerNight, int maxGuests, List<ServiceIncluded> includedServices,
+            double priceForCleaning, LocalDate availableFrom, LocalDate availableTo) {
         this.name = name;
         this.city = city;
         this.description = description;
@@ -110,7 +109,7 @@ public class Apartament implements Hosting {
 
         public Apartament build() {
             return new Apartament(name, city, description, imageUrl, pricePerNight, maxGuests,
-                                includedServices, priceForCleaning, availableFrom, availableTo);
+                    includedServices, priceForCleaning, availableFrom, availableTo);
         }
     }
 
@@ -134,4 +133,3 @@ public class Apartament implements Hosting {
         return availableTo;
     }
 }
-

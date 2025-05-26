@@ -1,4 +1,4 @@
-package co.edu.uniquindio.poo.bookyourstary.service;
+package co.edu.uniquindio.poo.bookyourstary.service.implementService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,9 +11,10 @@ import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.model.enums.BookingState;
 import co.edu.uniquindio.poo.bookyourstary.repository.BookingRepository;
+import co.edu.uniquindio.poo.bookyourstary.service.IBookingService;
 import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 
-public class BookingService {
+public class BookingService implements IBookingService {
 
     private final BookingRepository bookingRepository;
     private final VirtualWalletService virtualWalletService;

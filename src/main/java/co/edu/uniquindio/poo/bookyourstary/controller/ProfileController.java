@@ -24,6 +24,7 @@ public class ProfileController {
 
     /**
      * Obtiene el cliente actual de la sesión
+     * 
      * @return Cliente actual o null si no hay cliente en sesión
      */
     public Client getCurrentClient() {
@@ -36,8 +37,9 @@ public class ProfileController {
 
     /**
      * Actualiza los datos del cliente
-     * @param client Cliente a actualizar
-     * @param newName Nuevo nombre
+     * 
+     * @param client   Cliente a actualizar
+     * @param newName  Nuevo nombre
      * @param newEmail Nuevo email
      * @param newPhone Nuevo teléfono
      * @throws Exception si algún campo está vacío
@@ -56,6 +58,7 @@ public class ProfileController {
 
     /**
      * Obtiene las reservas del cliente
+     * 
      * @param clientId ID del cliente
      * @return Lista de reservas
      */
@@ -65,6 +68,7 @@ public class ProfileController {
 
     /**
      * Cancela una reserva
+     * 
      * @param bookingId ID de la reserva
      * @throws Exception si ocurre un error al cancelar la reserva
      */
@@ -74,6 +78,7 @@ public class ProfileController {
 
     /**
      * Verifica si una reserva puede ser cancelada
+     * 
      * @param booking Reserva a verificar
      * @return true si la reserva puede ser cancelada
      */
@@ -83,11 +88,13 @@ public class ProfileController {
 
     /**
      * Construye el texto con los detalles de una reserva
+     * 
      * @param booking Reserva
      * @return String con los detalles formateados
      */
     public String buildBookingDetails(Booking booking) {
-        if (booking == null) return "";
+        if (booking == null)
+            return "";
 
         StringBuilder details = new StringBuilder();
         details.append("Detalles de la Reserva\n\n");

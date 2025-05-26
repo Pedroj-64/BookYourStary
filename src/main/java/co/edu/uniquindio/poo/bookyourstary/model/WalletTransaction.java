@@ -10,7 +10,7 @@ import lombok.Setter;
 public class WalletTransaction {
 
     private LocalDateTime date;
-    private String type; 
+    private String type;
     private double amount;
     private String description;
 
@@ -20,7 +20,6 @@ public class WalletTransaction {
         this.amount = amount;
         this.description = description;
     }
-
 
     @Override
     public String toString() {

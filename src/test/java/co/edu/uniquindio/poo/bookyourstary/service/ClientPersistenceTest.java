@@ -1,6 +1,7 @@
 package co.edu.uniquindio.poo.bookyourstary.service;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.ClientService;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.CreateClient;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import org.junit.jupiter.api.*;

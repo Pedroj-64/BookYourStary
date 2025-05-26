@@ -1,14 +1,14 @@
 package co.edu.uniquindio.poo.bookyourstary.controller;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
-import co.edu.uniquindio.poo.bookyourstary.service.ReviewService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.ReviewService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 
 public class ReviewController {
-
 
     @FXML
     private Spinner<Integer> ratingSpinner;
@@ -44,7 +44,7 @@ public class ReviewController {
         }
     }
 
-    private void showAlert(String title, String message, Alert.AlertType alertType) {
+    private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setContentText(message);
@@ -55,4 +55,3 @@ public class ReviewController {
         this.selectedHosting = hosting;
     }
 }
-

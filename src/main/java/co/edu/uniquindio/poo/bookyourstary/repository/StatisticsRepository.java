@@ -15,6 +15,6 @@ public class StatisticsRepository {
         return instance;
     }
 
-    // Métodos y lógica de la clase
+    
 
 }

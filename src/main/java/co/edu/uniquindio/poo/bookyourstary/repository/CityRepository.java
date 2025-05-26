@@ -31,8 +31,8 @@ public class CityRepository {
 
     public Optional<City> findById(String cityName) {
         return cities.stream()
-            .filter(city -> city.getName().equals(cityName))
-            .findFirst();
+                .filter(city -> city.getName().equals(cityName))
+                .findFirst();
     }
 
     public List<City> findAll() {
@@ -42,7 +42,7 @@ public class CityRepository {
     public void delete(String cityName) {
         cities.removeIf(city -> city.getName().equals(cityName));
     }
-    
+
     public void clearAll() {
         cities.clear();
     }

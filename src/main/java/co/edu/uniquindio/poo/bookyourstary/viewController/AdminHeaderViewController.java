@@ -1,10 +1,8 @@
 package co.edu.uniquindio.poo.bookyourstary.viewController;
 
 import co.edu.uniquindio.poo.bookyourstary.controller.AdminHeaderController;
-import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -28,7 +26,7 @@ public class AdminHeaderViewController {
 
     @FXML
     private Label lbl_Saldo;
-    
+
     // Referencia al controlador de lógica de negocio
     private final AdminHeaderController adminHeaderController = AdminHeaderController.getInstance();
 

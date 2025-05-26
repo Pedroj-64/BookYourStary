@@ -12,20 +12,20 @@ import lombok.Setter;
 public class HostingsContainer implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Hosting> hostings;
-    
+
     private static HostingsContainer instance;
-    
+
     private HostingsContainer() {
         this.hostings = new ArrayList<>();
     }
-    
+
     public static HostingsContainer getInstance() {
         if (instance == null) {
             instance = new HostingsContainer();
         }
         return instance;
     }
-    
+
     public void addHosting(Hosting hosting) {
         if (!hostings.contains(hosting)) {
             hostings.add(hosting);

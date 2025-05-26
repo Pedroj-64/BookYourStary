@@ -13,7 +13,7 @@ import lombok.Setter;
 public class VirtualWallet implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     private String idWallet;
     private double balance;
     private Client propertyClient;

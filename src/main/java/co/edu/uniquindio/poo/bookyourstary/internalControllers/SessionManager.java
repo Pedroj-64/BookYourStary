@@ -2,12 +2,14 @@ package co.edu.uniquindio.poo.bookyourstary.internalControllers;
 
 public class SessionManager {
     private static SessionManager instance;
-    private Object usuarioActual; 
+    private Object usuarioActual;
 
-    private SessionManager() {}
+    private SessionManager() {
+    }
 
     public static SessionManager getInstance() {
-        if (instance == null) instance = new SessionManager();
+        if (instance == null)
+            instance = new SessionManager();
         return instance;
     }
 

@@ -3,7 +3,7 @@ package co.edu.uniquindio.poo.bookyourstary.internalControllers;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.model.enums.HostingType;
-import co.edu.uniquindio.poo.bookyourstary.service.HostingFilterService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.HostingFilterService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,25 +20,28 @@ public class FilterController {
      * Filtro centralizado: todos los parámetros pueden ser null si no se usan.
      */
     public List<Hosting> filterHostings(City city, Double minPrice, Double maxPrice, Integer maxGuests,
-                                        HostingType type, LocalDate fechaInicio, LocalDate fechaFin,
-                                        Boolean wifi, Boolean piscina, Boolean desayuno) {
+            HostingType type, LocalDate fechaInicio, LocalDate fechaFin,
+            Boolean wifi, Boolean piscina, Boolean desayuno) {
         String ciudad = city != null ? city.toString() : null;
         String tipo = type != null ? type.toString() : null;
         return hostingFilterService.filterHostings(
-            ciudad, tipo, minPrice, maxPrice, null, null, maxGuests, wifi, piscina, desayuno, fechaInicio, fechaFin
-        );
+                ciudad, tipo, minPrice, maxPrice, null, null, maxGuests, wifi, piscina, desayuno, fechaInicio,
+                fechaFin);
     }
 
     // Métodos individuales si se quieren mantener (opcional)
     public List<Hosting> filterByCity(City city) {
         return filterHostings(city, null, null, null, null, null, null, null, null, null);
     }
+
     public List<Hosting> filterByPriceRange(double minPrice, double maxPrice) {
         return filterHostings(null, minPrice, maxPrice, null, null, null, null, null, null, null);
     }
+
     public List<Hosting> filterByMaxGuests(int maxGuests) {
         return filterHostings(null, null, null, maxGuests, null, null, null, null, null, null);
     }
+
     public List<Hosting> filterByType(HostingType type) {
         return filterHostings(null, null, null, null, type, null, null, null, null, null);
     }

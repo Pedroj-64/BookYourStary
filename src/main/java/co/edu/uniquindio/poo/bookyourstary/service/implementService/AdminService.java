@@ -1,7 +1,8 @@
-package co.edu.uniquindio.poo.bookyourstary.service;
+package co.edu.uniquindio.poo.bookyourstary.service.implementService;
 
 import co.edu.uniquindio.poo.bookyourstary.model.*;
 import co.edu.uniquindio.poo.bookyourstary.repository.AdminRepository;
+import co.edu.uniquindio.poo.bookyourstary.service.IAdminService;
 import co.edu.uniquindio.poo.bookyourstary.service.observer.Observer;
 import co.edu.uniquindio.poo.bookyourstary.service.observer.Subject;
 import co.edu.uniquindio.poo.bookyourstary.util.PasswordUtil;
@@ -13,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class AdminService implements Subject {
+public class AdminService implements IAdminService {
 
     private final AdminRepository adminRepository;
     private final HostingService hostingService;

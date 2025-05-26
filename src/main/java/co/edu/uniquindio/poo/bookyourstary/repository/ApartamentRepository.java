@@ -39,7 +39,8 @@ public class ApartamentRepository {
     }
 
     /**
-     * Actualiza un apartamento existente en la lista, reemplazando el que tiene el mismo nombre.
+     * Actualiza un apartamento existente en la lista, reemplazando el que tiene el
+     * mismo nombre.
      */
     public void update(Apartament apartament) {
         for (int i = 0; i < apartaments.size(); i++) {

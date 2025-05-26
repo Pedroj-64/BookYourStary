@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Client extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     private VirtualWallet virtualWallet;
 
     public Client(String id, String name, String phoneNumber, String email, String password) {

@@ -1,6 +1,6 @@
 package co.edu.uniquindio.poo.bookyourstary.internalControllers;
 
-import co.edu.uniquindio.poo.bookyourstary.service.CodeRecoveryService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.CodeRecoveryService;
 import jakarta.mail.MessagingException;
 
 public class PasswordRecoveryController {
@@ -13,6 +13,7 @@ public class PasswordRecoveryController {
 
     /**
      * Inicia el proceso de recuperación de contraseña.
+     * 
      * @param email correo del cliente que quiere recuperar su contraseña
      */
     public void recoverPassword(String email) {

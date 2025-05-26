@@ -3,20 +3,17 @@ package co.edu.uniquindio.poo.bookyourstary.viewController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.Room;
 import co.edu.uniquindio.poo.bookyourstary.repository.RoomRepository;
-import co.edu.uniquindio.poo.bookyourstary.service.RoomService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.RoomService;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
-import javafx.util.Callback;
-
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -88,10 +85,8 @@ public class ManageRoomsViewController implements Initializable {
         dialog.setTitle("Agregar Nueva Habitación");
         dialog.setHeaderText("Introduce los datos de la nueva habitación");
 
-
         ButtonType saveButtonType = new ButtonType("Guardar", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
-
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -125,9 +120,7 @@ public class ManageRoomsViewController implements Initializable {
 
         dialog.getDialogPane().setContent(grid);
 
-
         roomNumberField.requestFocus();
-
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
@@ -163,7 +156,6 @@ public class ManageRoomsViewController implements Initializable {
             return null;
         });
 
-
         Optional<Room> result = dialog.showAndWait();
         result.ifPresent(room -> {
             try {
@@ -172,8 +164,7 @@ public class ManageRoomsViewController implements Initializable {
                         room.getPriceForNight(),
                         room.getMaxGuests(),
                         room.getImageUrl(),
-                        room.getDescription()
-                );
+                        room.getDescription());
                 loadRooms(); // Recargar la lista de habitaciones
                 MainController.showAlert("Habitación Agregada",
                         "La habitación ha sido agregada exitosamente",
@@ -196,7 +187,6 @@ public class ManageRoomsViewController implements Initializable {
             return;
         }
 
-
         Dialog<Room> dialog = new Dialog<>();
         dialog.setTitle("Editar Habitación");
         dialog.setHeaderText("Modifica los datos de la habitación");
@@ -207,7 +197,6 @@ public class ManageRoomsViewController implements Initializable {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-
 
         TextField roomNumberField = new TextField(selectedRoom.getRoomNumber());
         roomNumberField.setDisable(true); // No permitir cambiar el número/ID de la habitación
@@ -262,21 +251,18 @@ public class ManageRoomsViewController implements Initializable {
             return null;
         });
 
-
         Optional<Room> result = dialog.showAndWait();
         result.ifPresent(updatedRoom -> {
             try {
 
                 roomService.deleteRoom(updatedRoom.getRoomNumber());
 
-
                 roomService.saveRoom(
                         updatedRoom.getRoomNumber(),
                         updatedRoom.getPriceForNight(),
                         updatedRoom.getMaxGuests(),
                         updatedRoom.getImageUrl(),
-                        updatedRoom.getDescription()
-                );
+                        updatedRoom.getDescription());
 
                 loadRooms();
                 MainController.showAlert("Habitación Actualizada",

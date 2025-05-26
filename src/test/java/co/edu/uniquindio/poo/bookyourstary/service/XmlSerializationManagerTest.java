@@ -1,6 +1,5 @@
 package co.edu.uniquindio.poo.bookyourstary.service;
 
-import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.util.XmlSerializationManager;
 import org.junit.jupiter.api.*;
 import java.io.File;
@@ -16,7 +15,8 @@ class XmlSerializationManagerTest {
 
     @Test
     void testSaveAndLoadAllData() {
-        // Prueba simple: solo verifica que los métodos existen y no lanzan excepción si no hay datos
+        // Prueba simple: solo verifica que los métodos existen y no lanzan excepción si
+        // no hay datos
         assertDoesNotThrow(() -> {
             xmlManager.saveAllData();
         });

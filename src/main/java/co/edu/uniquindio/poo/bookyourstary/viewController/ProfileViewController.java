@@ -11,18 +11,30 @@ import javafx.scene.layout.AnchorPane;
 import java.util.List;
 
 public class ProfileViewController {
-    @FXML private TextField nameField;
-    @FXML private TextField emailField;
-    @FXML private TextField phoneField;
-    @FXML private TableView<Booking> bookingsTable;
-    @FXML private TableColumn<Booking, String> idColumn;
-    @FXML private TableColumn<Booking, String> hostingColumn;
-    @FXML private TableColumn<Booking, String> dateColumn;
-    @FXML private TableColumn<Booking, String> stateColumn;
-    @FXML private TextArea bookingDetailsArea;
-    @FXML private Button cancelBookingButton;
-    @FXML private Button updateProfileButton;
-    @FXML private AnchorPane mainPane;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private TextField phoneField;
+    @FXML
+    private TableView<Booking> bookingsTable;
+    @FXML
+    private TableColumn<Booking, String> idColumn;
+    @FXML
+    private TableColumn<Booking, String> hostingColumn;
+    @FXML
+    private TableColumn<Booking, String> dateColumn;
+    @FXML
+    private TableColumn<Booking, String> stateColumn;
+    @FXML
+    private TextArea bookingDetailsArea;
+    @FXML
+    private Button cancelBookingButton;
+    @FXML
+    private Button updateProfileButton;
+    @FXML
+    private AnchorPane mainPane;
 
     private Client currentClient;
     private final ProfileController profileController;
@@ -41,14 +53,14 @@ public class ProfileViewController {
     }
 
     private void setupTableColumns() {
-        idColumn.setCellValueFactory(cellData -> 
-            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getBookingId()));
-        hostingColumn.setCellValueFactory(cellData -> 
-            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getHosting().getName()));
-        dateColumn.setCellValueFactory(cellData -> 
-            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getStartDate().toString()));
-        stateColumn.setCellValueFactory(cellData -> 
-            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getBookingState().toString()));
+        idColumn.setCellValueFactory(
+                cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getBookingId()));
+        hostingColumn.setCellValueFactory(
+                cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getHosting().getName()));
+        dateColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(
+                cellData.getValue().getStartDate().toString()));
+        stateColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(
+                cellData.getValue().getBookingState().toString()));
     }
 
     private void loadCurrentClient() {
@@ -92,11 +104,10 @@ public class ProfileViewController {
     private void handleUpdateProfile() {
         try {
             profileController.updateClientInfo(
-                currentClient,
-                nameField.getText(),
-                emailField.getText(),
-                phoneField.getText()
-            );
+                    currentClient,
+                    nameField.getText(),
+                    emailField.getText(),
+                    phoneField.getText());
             showInfo("Éxito", "Perfil actualizado correctamente");
         } catch (Exception e) {
             showError("Error", "No se pudo actualizar el perfil: " + e.getMessage());
@@ -106,10 +117,11 @@ public class ProfileViewController {
     @FXML
     private void handleCancelBooking() {
         Booking selectedBooking = bookingsTable.getSelectionModel().getSelectedItem();
-        if (selectedBooking == null) return;
+        if (selectedBooking == null)
+            return;
 
-        if (showConfirmation("Confirmar cancelación", 
-            "¿Está seguro que desea cancelar esta reserva?")) {
+        if (showConfirmation("Confirmar cancelación",
+                "¿Está seguro que desea cancelar esta reserva?")) {
             try {
                 profileController.cancelBooking(selectedBooking.getBookingId());
                 loadReservations();
@@ -132,13 +144,15 @@ public class ProfileViewController {
         alert.setTitle(title);
         alert.setContentText(message);
         alert.showAndWait();
-    }    private boolean showConfirmation(String title, String message) {
+    }
+
+    private boolean showConfirmation(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setContentText(message);
         return alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
     }
-    
+
     @FXML
     private void handleViewDetails() {
         Booking selectedBooking = bookingsTable.getSelectionModel().getSelectedItem();
@@ -148,7 +162,7 @@ public class ProfileViewController {
             showInfo("Selección", "Por favor seleccione una reserva para ver los detalles.");
         }
     }
-    
+
     @FXML
     private void salir(javafx.event.ActionEvent event) {
         co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController.loadScene("home", 600, 400);

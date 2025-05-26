@@ -15,11 +15,14 @@ public class ImageHandler {
     private static final String DEFAULT_IMAGE = "FotoHotelRelleno.png";
 
     /**
-     * Copia una imagen al directorio de imágenes del proyecto y devuelve la ruta relativa.
-     * La imagen copiada se guardará en el directorio de recursos del proyecto con un nombre único.
+     * Copia una imagen al directorio de imágenes del proyecto y devuelve la ruta
+     * relativa.
+     * La imagen copiada se guardará en el directorio de recursos del proyecto con
+     * un nombre único.
      * 
      * @param sourceImagePath Ruta absoluta a la imagen a copiar
-     * @return Ruta relativa de la imagen copiada (src/main/resources/co/edu/uniquindio/poo/bookyourstary/image/...)
+     * @return Ruta relativa de la imagen copiada
+     *         (src/main/resources/co/edu/uniquindio/poo/bookyourstary/image/...)
      */
     public static String copyImageToProject(String sourceImagePath) {
         try {
@@ -58,7 +61,8 @@ public class ImageHandler {
      * Si la imagen no existe o hay error, carga la imagen por defecto.
      * La ruta puede ser:
      * - Absoluta: file:/C:/ruta/a/imagen.jpg
-     * - Relativa al proyecto: src/main/resources/co/edu/uniquindio/poo/bookyourstary/image/imagen.jpg
+     * - Relativa al proyecto:
+     * src/main/resources/co/edu/uniquindio/poo/bookyourstary/image/imagen.jpg
      * - URL: http://... o https://...
      */
     public static Image loadImage(String imagePath) {
@@ -71,7 +75,7 @@ public class ImageHandler {
             if (imagePath.startsWith("http:") || imagePath.startsWith("https:")) {
                 return new Image(imagePath);
             }
-            
+
             // Si es una ruta absoluta con file:, usarla directamente
             if (imagePath.startsWith("file:")) {
                 return new Image(imagePath);
@@ -82,13 +86,14 @@ public class ImageHandler {
             if (resourceUrl != null) {
                 return new Image(resourceUrl.toExternalForm());
             }
-            
-            // Si no se encuentra en el directorio de imágenes, intenta la ruta proporcionada
+
+            // Si no se encuentra en el directorio de imágenes, intenta la ruta
+            // proporcionada
             resourceUrl = App.class.getResource("/" + imagePath);
             if (resourceUrl != null) {
                 return new Image(resourceUrl.toExternalForm());
             }
-            
+
             System.err.println("No se pudo encontrar la imagen: " + imagePath);
             return loadDefaultImage();
         } catch (Exception e) {
@@ -117,7 +122,8 @@ public class ImageHandler {
 
     private static String getFileExtension(String path) {
         int lastDot = path.lastIndexOf('.');
-        if (lastDot == -1) return "";
+        if (lastDot == -1)
+            return "";
         return path.substring(lastDot);
     }
 

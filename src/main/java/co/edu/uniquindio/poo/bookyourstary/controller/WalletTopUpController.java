@@ -30,7 +30,8 @@ public class WalletTopUpController {
 
     public void recargarSaldo() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/walletTopUp.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/co/edu/uniquindio/poo/bookyourstary/walletTopUp.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Recargar Billetera");

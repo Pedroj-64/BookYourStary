@@ -1,18 +1,25 @@
 package co.edu.uniquindio.poo.bookyourstary.controller;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.HostingFilterService;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
-import co.edu.uniquindio.poo.bookyourstary.service.HostingFilterService;
+
 import co.edu.uniquindio.poo.bookyourstary.util.UtilInterfaces;
+import co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.ViewLoader;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.internalControllers.ShowHostingList;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import co.edu.uniquindio.poo.bookyourstary.model.Admin;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
+import co.edu.uniquindio.poo.bookyourstary.model.Client;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
 public class HomeController {
@@ -20,7 +27,8 @@ public class HomeController {
     private final HostingFilterService hostingFilterService = new HostingFilterService();
 
     /**
-     * Devuelve una lista aleatoria de 5 alojamientos disponibles para la fecha actual.
+     * Devuelve una lista aleatoria de 5 alojamientos disponibles para la fecha
+     * actual.
      */
     public List<Hosting> getRandomHostings() {
         LocalDate today = LocalDate.now();
@@ -29,23 +37,22 @@ public class HomeController {
         return availableHostings.stream().limit(5).collect(Collectors.toList());
     }
 
-   
     public List<Hosting> filterHostings(String ciudad, String tipoDeAlojamiento, Double minPrice, Double maxPrice,
-                                        LocalDate minDate, LocalDate maxDate, Integer numHuespedes,
-                                        Boolean wifi, Boolean piscina, Boolean desayuno, LocalDate fechaInicio, LocalDate fechaFin) {
-        return hostingFilterService.filterHostings(ciudad, tipoDeAlojamiento, minPrice, maxPrice, minDate, maxDate, numHuespedes, wifi, piscina, desayuno, fechaInicio, fechaFin);
+            LocalDate minDate, LocalDate maxDate, Integer numHuespedes,
+            Boolean wifi, Boolean piscina, Boolean desayuno, LocalDate fechaInicio, LocalDate fechaFin) {
+        return hostingFilterService.filterHostings(ciudad, tipoDeAlojamiento, minPrice, maxPrice, minDate, maxDate,
+                numHuespedes, wifi, piscina, desayuno, fechaInicio, fechaFin);
     }
 
-   
-
     public void updateHostingDisplay(List<Hosting> hostings,
-                                     List<ImageView> imageViews,
-                                     List<Label> titleLabels,
-                                     List<Label> descLabels,
-                                     List<Label> priceLabels,
-                                     List<Label> cityLabels,
-                                     List<Label> serviceLabels) {
-        ShowHostingList.showHostings(hostings, imageViews, titleLabels, descLabels, priceLabels, cityLabels, serviceLabels);
+            List<ImageView> imageViews,
+            List<Label> titleLabels,
+            List<Label> descLabels,
+            List<Label> priceLabels,
+            List<Label> cityLabels,
+            List<Label> serviceLabels) {
+        ShowHostingList.showHostings(hostings, imageViews, titleLabels, descLabels, priceLabels, cityLabels,
+                serviceLabels);
     }
 
     public static List<String> getHostingTypes() {
@@ -59,7 +66,6 @@ public class HomeController {
     public void updateButton(Button button) {
         button.setText("Cerrar Sesion");
         button.getStyleClass().clear();
-        button.getStyleClass().add("button.css");
         button.setOnAction(e -> {
             MainController.getInstance().getSessionManager().cerrarSesion();
             MainController.loadScene("home", 900, 600);
@@ -73,10 +79,9 @@ public class HomeController {
         }
     }
 
-
-
     /**
-     * Asocia cada botón de reservar con su hosting correspondiente usando setUserData.
+     * Asocia cada botón de reservar con su hosting correspondiente usando
+     * setUserData.
      * El botón 1 recibe el hosting 0, el botón 2 el hosting 1, etc.
      */
     public void assignHostingsToReserveButtons(List<Button> reserveButtons, List<Hosting> hostings) {
@@ -87,7 +92,9 @@ public class HomeController {
     }
 
     /**
-     * Agrega un hosting a la lista de reservas pendientes (carrito de compras) usando CartManager.
+     * Agrega un hosting a la lista de reservas pendientes (carrito de compras)
+     * usando CartManager.
+     * 
      * @return true si el hosting fue añadido, false si ya estaba o era null.
      */
     public boolean addHostingToPendingReservations(Hosting hosting) {
@@ -95,14 +102,16 @@ public class HomeController {
     }
 
     /**
-     * Devuelve la lista de reservas pendientes (carrito de compras) usando CartManager.
+     * Devuelve la lista de reservas pendientes (carrito de compras) usando
+     * CartManager.
      */
     public static List<Hosting> getPendingReservations() {
         return MainController.getInstance().getCartManager().getPendingReservations();
     }
 
     /**
-     * Limpia la lista de reservas pendientes (por ejemplo, al confirmar la compra) usando CartManager.
+     * Limpia la lista de reservas pendientes (por ejemplo, al confirmar la compra)
+     * usando CartManager.
      */
     public static void clearPendingReservations() {
         MainController.getInstance().getCartManager().clear();
@@ -110,30 +119,31 @@ public class HomeController {
 
     /**
      * Valida y procesa la reserva de un alojamiento
+     * 
      * @return true si la reserva puede proceder, false si hay algún problema
      */
     public boolean handleReservation(Object currentUser, Hosting hosting) {
         if (currentUser == null) {
             MainController.showAlert(
-                "Acción Requerida",
-                "Por favor, inicie sesión o regístrese para poder reservar.",
-                javafx.scene.control.Alert.AlertType.INFORMATION);
+                    "Acción Requerida",
+                    "Por favor, inicie sesión o regístrese para poder reservar.",
+                    AlertType.INFORMATION);
             return false;
         }
 
-        if (!(currentUser instanceof co.edu.uniquindio.poo.bookyourstary.model.Client)) {
+        if (!(currentUser instanceof Client)) {
             MainController.showAlert(
-                "Acción no permitida",
-                "Solo los clientes pueden realizar reservas.",
-                javafx.scene.control.Alert.AlertType.WARNING);
+                    "Acción no permitida",
+                    "Solo los clientes pueden realizar reservas.",
+                    AlertType.WARNING);
             return false;
         }
 
         if (hosting == null) {
             MainController.showAlert(
-                "Error",
-                "No se encontró el alojamiento seleccionado.",
-                javafx.scene.control.Alert.AlertType.ERROR);
+                    "Error",
+                    "No se encontró el alojamiento seleccionado.",
+                    AlertType.ERROR);
             return false;
         }
 
@@ -143,12 +153,12 @@ public class HomeController {
     /**
      * Verifica el estado del usuario y actualiza el header correspondiente
      */
-    public void handleUserHeaderUpdate(javafx.scene.layout.AnchorPane header) {
+    public void handleUserHeaderUpdate(AnchorPane header) {
         Object user = MainController.getInstance().getSessionManager().getUsuarioActual();
-        if (user instanceof co.edu.uniquindio.poo.bookyourstary.model.Client) {
-            co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.ViewLoader.setContent(header, "UserHeader");
-        } else if (user instanceof co.edu.uniquindio.poo.bookyourstary.model.Admin) {
-            co.edu.uniquindio.poo.bookyourstary.util.viewDinamic.ViewLoader.setContent(header, "AdminHeader");
+        if (user instanceof Client) {
+            ViewLoader.setContent(header, "UserHeader");
+        } else if (user instanceof Admin) {
+            ViewLoader.setContent(header, "AdminHeader");
         }
     }
 

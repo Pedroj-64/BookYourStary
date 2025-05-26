@@ -11,7 +11,7 @@ import lombok.Setter;
 public abstract class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     protected String id;
     protected String name;
     protected String phoneNumber;
@@ -27,7 +27,5 @@ public abstract class User implements Serializable {
         this.password = password;
         this.isActive = false;
     }
-    
+
 }
-
-

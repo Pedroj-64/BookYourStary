@@ -1,11 +1,11 @@
 package co.edu.uniquindio.poo.bookyourstary.viewController;
 
 import co.edu.uniquindio.poo.bookyourstary.controller.RegisterController;
-import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController; // Added for showAlert
+import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController; 
 import co.edu.uniquindio.poo.bookyourstary.model.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert; // Added for AlertType
+import javafx.scene.control.Alert; 
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -44,22 +44,25 @@ public class RegisterViewController {
 
             // Basic input validation
             if (id.isEmpty() || name.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                MainController.showAlert("Error de validación", "Todos los campos son obligatorios.", Alert.AlertType.ERROR);
+                MainController.showAlert("Error de validación", "Todos los campos son obligatorios.",
+                        Alert.AlertType.ERROR);
                 return;
             }
             if (!email.matches("^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,6}$")) {
-                MainController.showAlert("Error de validación", "Formato de correo electrónico inválido.", Alert.AlertType.ERROR);
+                MainController.showAlert("Error de validación", "Formato de correo electrónico inválido.",
+                        Alert.AlertType.ERROR);
                 return;
             }
             // Add more password complexity rules if needed
 
             boolean registrationAttempted = registerController.registerUser(
-                new Client(id, name, phone, email, password), // Client constructor takes plain password
-                password // registerUser will handle hashing
+                    new Client(id, name, phone, email, password), // Client constructor takes plain password
+                    password // registerUser will handle hashing
             );
             if (registrationAttempted) {
                 // UI can be updated here to clearly show that now activation code is expected
-                // For example, disable registration fields and enable/highlight activation code field.
+                // For example, disable registration fields and enable/highlight activation code
+                // field.
                 // The alert from RegisterController already informs the user.
                 isRegistered = true; // Set flag to indicate next action is activation
                 txt_ActivationCode.setPromptText("Ingrese el código de activación aquí");
@@ -70,12 +73,14 @@ public class RegisterViewController {
                 // txt_email.setDisable(true);
                 // txt_password.setDisable(true);
             }
-            // If registrationAttempted is false, RegisterController already showed an error alert.
+            // If registrationAttempted is false, RegisterController already showed an error
+            // alert.
         } else {
             // Attempt account activation
             String code = txt_ActivationCode.getText().trim();
             if (code.isEmpty()) {
-                MainController.showAlert("Error de validación", "El código de activación no puede estar vacío.", Alert.AlertType.ERROR);
+                MainController.showAlert("Error de validación", "El código de activación no puede estar vacío.",
+                        Alert.AlertType.ERROR);
                 return;
             }
             // activateUser in RegisterController handles alerts and navigation

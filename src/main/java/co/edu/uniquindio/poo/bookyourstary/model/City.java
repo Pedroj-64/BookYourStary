@@ -21,16 +21,16 @@ public class City implements Serializable {
         this.country = country;
         this.departament = departament;
     }
-    
+
     // Setters necesarios para la serialización XML
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public void setCountry(String country) {
         this.country = country;
     }
-    
+
     public void setDepartament(String departament) {
         this.departament = departament;
     }

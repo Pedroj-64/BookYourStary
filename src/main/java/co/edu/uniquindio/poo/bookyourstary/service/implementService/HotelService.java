@@ -1,4 +1,4 @@
-package co.edu.uniquindio.poo.bookyourstary.service;
+package co.edu.uniquindio.poo.bookyourstary.service.implementService;
 
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;

@@ -39,7 +39,8 @@ public class HouseRepository {
     }
 
     /**
-     * Actualiza una casa existente en la lista, reemplazando la que tiene el mismo nombre.
+     * Actualiza una casa existente en la lista, reemplazando la que tiene el mismo
+     * nombre.
      */
     public void update(House house) {
         for (int i = 0; i < houses.size(); i++) {

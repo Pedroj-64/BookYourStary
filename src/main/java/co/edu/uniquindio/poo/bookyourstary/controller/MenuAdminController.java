@@ -4,9 +4,9 @@ import co.edu.uniquindio.poo.bookyourstary.internalControllers.MainController;
 import co.edu.uniquindio.poo.bookyourstary.model.City;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
 import co.edu.uniquindio.poo.bookyourstary.util.UtilInterfaces;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -24,19 +24,21 @@ public class MenuAdminController {
     }
 
     public List<Hosting> filterHostings(String ciudad, String tipoDeAlojamiento, Double minPrice, Double maxPrice,
-                                        LocalDate minDate, LocalDate maxDate, Integer numHuespedes,
-                                        Boolean wifi, Boolean piscina, Boolean desayuno, LocalDate fechaInicio, LocalDate fechaFin) {
-        return homeController.filterHostings(ciudad, tipoDeAlojamiento, minPrice, maxPrice, minDate, maxDate, numHuespedes, wifi, piscina, desayuno, fechaInicio, fechaFin);
+            LocalDate minDate, LocalDate maxDate, Integer numHuespedes,
+            Boolean wifi, Boolean piscina, Boolean desayuno, LocalDate fechaInicio, LocalDate fechaFin) {
+        return homeController.filterHostings(ciudad, tipoDeAlojamiento, minPrice, maxPrice, minDate, maxDate,
+                numHuespedes, wifi, piscina, desayuno, fechaInicio, fechaFin);
     }
 
     public void updateHostingDisplay(List<Hosting> hostings,
-                                     List<ImageView> imageViews,
-                                     List<Label> titleLabels,
-                                     List<Label> descLabels,
-                                     List<Label> priceLabels,
-                                     List<Label> cityLabels,
-                                     List<Label> serviceLabels) {
-        homeController.updateHostingDisplay(hostings, imageViews, titleLabels, descLabels, priceLabels, cityLabels, serviceLabels);
+            List<ImageView> imageViews,
+            List<Label> titleLabels,
+            List<Label> descLabels,
+            List<Label> priceLabels,
+            List<Label> cityLabels,
+            List<Label> serviceLabels) {
+        homeController.updateHostingDisplay(hostings, imageViews, titleLabels, descLabels, priceLabels, cityLabels,
+                serviceLabels);
     }
 
     public static List<String> getHostingTypes() {
@@ -53,7 +55,8 @@ public class MenuAdminController {
     }
 
     /**
-     * Asigna cada objeto Hosting de la lista a los botones de edición usando setUserData.
+     * Asigna cada objeto Hosting de la lista a los botones de edición usando
+     * setUserData.
      * El botón 1 recibe el hosting 0, el botón 2 el hosting 1, etc.
      */
     public void assignHostingsToEditButtons(List<Button> editButtons, List<Hosting> hostings) {
@@ -61,34 +64,38 @@ public class MenuAdminController {
         for (int i = 0; i < count; i++) {
             editButtons.get(i).setUserData(hostings.get(i));
         }
-    }    /**
-     * Abre la ventana de edición de alojamiento en un nuevo Stage modal y le pasa el objeto Hosting a editar.
-     */    
+    }
+
+    /**
+     * Abre la ventana de edición de alojamiento en un nuevo Stage modal y le pasa
+     * el objeto Hosting a editar.
+     */
     public void openEditHostingWindow(Hosting hosting) {
         try {
             if (hosting == null) {
                 MainController.showAlert(
-                    "Error", "No se puede editar un alojamiento nulo", javafx.scene.control.Alert.AlertType.ERROR);
+                        "Error", "No se puede editar un alojamiento nulo", AlertType.ERROR);
                 return;
             }
-            
+
             System.out.println("Abriendo ventana de edición para alojamiento: " + hosting.getName());
-            
+
             // Usar MainController.loadFXML para cargar la vista
             Parent root = MainController.loadFXML("CreationAndEditingForm");
             if (root == null) {
                 throw new Exception("No se pudo cargar la vista CreationAndEditingForm");
             }
-            
+
             // Obtener el controlador y establecer el hosting a editar
-            CreationAndEditingFormController controller = MainController.getInstance().getCreationAndEditingFormController();
+            CreationAndEditingFormController controller = MainController.getInstance()
+                    .getCreationAndEditingFormController();
             if (controller == null) {
                 throw new Exception("No se pudo obtener el controlador del formulario");
             }
-            
+
             // Establecer el alojamiento a editar
             controller.setHostingToEdit(hosting);
-            
+
             // Configurar y mostrar la ventana
             Stage stage = new Stage();
             stage.setTitle("Editar alojamiento: " + hosting.getName());
@@ -109,25 +116,28 @@ public class MenuAdminController {
             stage.showAndWait();
         } catch (Exception e) {
             MainController.showAlert(
-                "Error", "No se pudo abrir la ventana de edición: " + e.getMessage(), javafx.scene.control.Alert.AlertType.ERROR);
+                    "Error", "No se pudo abrir la ventana de edición: " + e.getMessage(),
+                    AlertType.ERROR);
             e.printStackTrace();
         }
-    }/**
+    }
+
+    /**
      * Abre la ventana de creación de alojamiento en un nuevo Stage modal.
      */
     public void openCreationWindow() {
         try {
             System.out.println("Abriendo ventana de creación de alojamiento");
-            
+
             // Usar MainController.loadFXML para cargar la vista
             Parent root = MainController.loadFXML("CreationAndEditingForm");
             if (root == null) {
                 throw new Exception("No se pudo cargar la vista CreationAndEditingForm");
             }
-            
+
             // No necesitamos establecer un alojamiento para editar aquí,
             // porque estamos creando un nuevo alojamiento
-            
+
             // Configurar y mostrar la ventana
             Stage stage = new Stage();
             stage.setTitle("Crear nuevo alojamiento");
@@ -148,10 +158,13 @@ public class MenuAdminController {
             stage.showAndWait();
         } catch (Exception e) {
             MainController.showAlert(
-                "Error", "No se pudo abrir la ventana de creación: " + e.getMessage(), javafx.scene.control.Alert.AlertType.ERROR);
+                    "Error", "No se pudo abrir la ventana de creación: " + e.getMessage(),
+                    javafx.scene.control.Alert.AlertType.ERROR);
             e.printStackTrace();
         }
-    }    /**
+    }
+
+    /**
      * Obtiene la lista completa de alojamientos desde el servicio.
      */
     public List<Hosting> getAllHostings() {

@@ -479,7 +479,9 @@ public class MenuAdminViewController {
                     "Error al filtrar alojamientos: " + e.getMessage(),
                     AlertType.ERROR);
         }
-    }    @FXML
+    }
+
+    @FXML
     public void refresh(ActionEvent event) {
         System.out.println("Actualizando lista de alojamientos...");
 
@@ -488,7 +490,7 @@ public class MenuAdminViewController {
             try {
                 // Asegurarse de que las listas están inicializadas
                 if (imageViews == null || titleLabels == null || descLabels == null ||
-                    priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
+                        priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
                     System.out.println("Reinicializando listas de componentes...");
                     creationList();
                 }
@@ -501,11 +503,12 @@ public class MenuAdminViewController {
 
                 // Obtener alojamientos actualizados
                 currentHostings = menuAdminController.getAllHostings();
-                System.out.println("Se obtuvieron " + (currentHostings != null ? currentHostings.size() : 0) + " alojamientos");
+                System.out.println(
+                        "Se obtuvieron " + (currentHostings != null ? currentHostings.size() : 0) + " alojamientos");
 
                 // Actualizar la visualización de los alojamientos
                 menuAdminController.updateHostingDisplay(currentHostings, imageViews, titleLabels,
-                    descLabels, priceLabels, cityLabels, serviceLabels);
+                        descLabels, priceLabels, cityLabels, serviceLabels);
 
                 // Asignar los alojamientos a los botones de edición
                 menuAdminController.assignHostingsToEditButtons(editButtons, currentHostings);
@@ -515,14 +518,14 @@ public class MenuAdminViewController {
                     contenedorPrincipal.requestLayout();
                     System.out.println("Layout actualizado");
                 }
-                
+
                 System.out.println("Lista de alojamientos actualizada exitosamente");
             } catch (Exception e) {
                 System.err.println("Error durante el refresh: " + e.getMessage());
                 e.printStackTrace();
                 MainController.showAlert("Error",
-                    "No se pudo actualizar la lista de alojamientos: " + e.getMessage(),
-                    AlertType.ERROR);
+                        "No se pudo actualizar la lista de alojamientos: " + e.getMessage(),
+                        AlertType.ERROR);
             }
         });
     }
@@ -582,15 +585,16 @@ public class MenuAdminViewController {
 
             // Verificar que los componentes necesarios estén inicializados
             if (imageViews == null || titleLabels == null || descLabels == null ||
-                priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
+                    priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
                 System.out.println("Inicializando componentes faltantes...");
                 creationList();
             }
 
             // Verificar que todos los componentes se inicializaron correctamente
             if (imageViews == null || titleLabels == null || descLabels == null ||
-                priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
-                throw new IllegalStateException("Los componentes de la interfaz no están inicializados correctamente después de creationList()");
+                    priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
+                throw new IllegalStateException(
+                        "Los componentes de la interfaz no están inicializados correctamente después de creationList()");
             }
 
             // Realizar una carga inicial de datos y forzar actualización visual
@@ -630,13 +634,13 @@ public class MenuAdminViewController {
             serviceLabels = List.of(lbl_serviciosAdicionales, lbl_serviciosAdicionales1, lbl_serviciosAdicionales2,
                     lbl_serviciosAdicionales3, lbl_serviciosAdicionales4);
             editButtons = List.of(btn_editing, btn_editing1, btn_editing2, btn_editing3, btn_editigin4);
-            
+
             // Verificar que ninguna lista sea nula
-            if (imageViews == null || titleLabels == null || descLabels == null || 
-                priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
+            if (imageViews == null || titleLabels == null || descLabels == null ||
+                    priceLabels == null || cityLabels == null || serviceLabels == null || editButtons == null) {
                 throw new IllegalStateException("Una o más listas son nulas después de la inicialización");
             }
-            
+
             System.out.println("Listas de componentes inicializadas correctamente");
         } catch (Exception e) {
             System.err.println("Error al inicializar listas de componentes: " + e.getMessage());

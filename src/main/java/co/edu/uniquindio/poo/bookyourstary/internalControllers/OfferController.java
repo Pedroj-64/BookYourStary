@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import co.edu.uniquindio.poo.bookyourstary.model.Offer;
-import co.edu.uniquindio.poo.bookyourstary.service.OfferService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.OfferService;
 
 public class OfferController {
 
@@ -51,17 +51,17 @@ public class OfferController {
             }
 
             // Verificar si la oferta está vigente
-            if (!bookingDate.isBefore(offer.getStartDate()) && 
-                !bookingDate.isAfter(offer.getEndDate())) {
-                
+            if (!bookingDate.isBefore(offer.getStartDate()) &&
+                    !bookingDate.isAfter(offer.getEndDate())) {
+
                 // Usar la estrategia de descuento de la oferta
                 double newPrice = offer.getStrategy().calculateDiscount(basePrice, numberOfNights, bookingDate);
-                
+
                 if (newPrice < finalPrice) {
                     double discount = finalPrice - newPrice;
                     finalPrice = newPrice;
-                    appliedOffers.append(String.format("Applied %s: -$%.2f%n", 
-                        offer.getName(), discount));
+                    appliedOffers.append(String.format("Applied %s: -$%.2f%n",
+                            offer.getName(), discount));
                 }
             }
         }
@@ -73,6 +73,5 @@ public class OfferController {
         return Math.max(0, finalPrice);
     }
 
-    // Eliminar el método applyAllGlobalOffers ya que su funcionalidad está duplicada
-    // y menos completa que applyApplicableOffers
+    
 }

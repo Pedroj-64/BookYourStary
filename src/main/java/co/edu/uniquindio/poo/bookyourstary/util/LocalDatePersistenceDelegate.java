@@ -13,7 +13,7 @@ public class LocalDatePersistenceDelegate extends DefaultPersistenceDelegate {
     protected Expression instantiate(Object oldInstance, Encoder out) {
         LocalDate date = (LocalDate) oldInstance;
         return new Expression(oldInstance, LocalDate.class, "of",
-                new Object[]{date.getYear(), date.getMonthValue(), date.getDayOfMonth()});
+                new Object[] { date.getYear(), date.getMonthValue(), date.getDayOfMonth() });
     }
 
     @Override
