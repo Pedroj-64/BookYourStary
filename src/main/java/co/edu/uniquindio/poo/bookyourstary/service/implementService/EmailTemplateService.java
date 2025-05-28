@@ -86,8 +86,7 @@ public class EmailTemplateService {
         values.put("subtotal", String.format("%.2f", subtotal));
         values.put("descuento", String.format("%.2f", descuento));
         values.put("total", String.format("%.2f", bill.getTotal()));
-        
-        // QR
+          // QR
         values.put("qrCodeUrl", qrCodeUrl);
         
         return TemplateLoader.loadTemplate("co/edu/uniquindio/poo/bookyourstary/emailTemplates/InvoiceConfirmation.html", values);

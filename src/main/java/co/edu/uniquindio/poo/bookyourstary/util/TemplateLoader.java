@@ -34,7 +34,7 @@ public class TemplateLoader {
                             Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8)) {
                         if (scanner.hasNext()) {
                             template = scanner.useDelimiter("\\A").next();
-                            System.out.println("Plantilla encontrada en: " + path);
+                            System.out.println("✅ Plantilla encontrada en: " + path);
                             break;
                         }
                     }
@@ -47,37 +47,48 @@ public class TemplateLoader {
                             Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8)) {
                         if (scanner.hasNext()) {
                             template = scanner.useDelimiter("\\A").next();
-                            System.out.println("Plantilla encontrada en (ClassLoader): " + path);
+                            System.out.println("✅ Plantilla encontrada en (ClassLoader): " + path);
                             break;
                         }
                     }
                 }
             } catch (Exception e) {
-                // Ignorar excepciones y seguir con la siguiente ruta
+                System.out.println("❌ Error al cargar plantilla desde " + path + ": " + e.getMessage());
             }
         }
 
         // Si no se pudo cargar la plantilla, usar la de emergencia
         if (template == null) {
-            System.out.println("No se pudo encontrar la plantilla: " + fileName + ". Usando plantilla de emergencia.");
+            System.out.println("❌ No se pudo encontrar la plantilla: " + fileName + ". Usando plantilla de emergencia.");
             template = generateEmergencyTemplate(fileName);
             usedEmergencyTemplate = true;
         }
 
-        // Reemplazar variables usando solo formato {{variable}}
-        if (template != null) {
+        // Reemplazar variables usando {{variable}}
+        if (template != null && values != null) {
             for (Map.Entry<String, String> entry : values.entrySet()) {
-                String key = "{{" + entry.getKey() + "}}";
+                String key = entry.getKey();
                 String value = entry.getValue();
+                
                 if (value == null) {
                     value = "";  // Prevenir NullPointerException
                 }
-                template = template.replace(key, value);
+                
+                // Buscar y reemplazar la variable en el template
+                String placeholder = "{{" + key + "}}";
+                if (template.contains(placeholder)) {
+                    template = template.replace(placeholder, value);
+                    System.out.println("✅ Reemplazado " + key + " con valor: " + value);
+                } else {
+                    System.out.println("⚠️ No se encontró la variable " + key + " en el template");
+                }
             }
+        } else {
+            System.out.println("❌ Template o valores nulos");
         }
 
         if (usedEmergencyTemplate) {
-            System.out.println("ADVERTENCIA: Se utilizó una plantilla de emergencia para: " + fileName);
+            System.out.println("⚠️ ADVERTENCIA: Se utilizó una plantilla de emergencia para: " + fileName);
         }
 
         return template;
@@ -107,11 +118,11 @@ public class TemplateLoader {
                     "</head>\n" +
                     "<body>\n" +
                     "    <h1>Bienvenido a BookYourStary</h1>\n" +
-                    "    <p>Hola ${userName},</p>\n" +
+                "    <p>Hola {{userName}},</p>\n" +
                     "    <p>Gracias por registrarte en BookYourStary. Para activar tu cuenta, por favor haz clic en el siguiente enlace:</p>\n"
                     +
-                    "    <p><a href=\"${activationLink}\">Activar mi cuenta</a></p>\n" +
-                    "    <p>Si el enlace no funciona, copia y pega esta URL en tu navegador: ${activationLink}</p>\n" +
+                    "    <p><a href=\"{{activationLink}}\">Activar mi cuenta</a></p>\n" +
+                    "    <p>Si el enlace no funciona, copia y pega esta URL en tu navegador: {{activationLink}}</p>\n"+
                     "    <p>Atentamente,<br>El equipo de BookYourStary</p>\n" +
                     "</body>\n" +
                     "</html>";
@@ -123,12 +134,12 @@ public class TemplateLoader {
                     "</head>\n" +
                     "<body>\n" +
                     "    <h1>Reserva Confirmada</h1>\n" +
-                    "    <p>Hola ${userName},</p>\n" +
+                "    <p>Hola {{userName}},</p>\n" +
                     "    <p>Tu reserva ha sido confirmada. Detalles:</p>\n" +
-                    "    <p>Alojamiento: ${hostingName}<br>\n" +
-                    "    Fecha de llegada: ${checkInDate}<br>\n" +
-                    "    Fecha de salida: ${checkOutDate}<br>\n" +
-                    "    Número de huéspedes: ${guestCount}</p>\n" +
+                    "    <p>Alojamiento: {{hostingName}}<br>\n" +
+                    "    Fecha de llegada: {{checkInDate}}<br>\n" +
+                    "    Fecha de salida: {{checkOutDate}}<br>\n" +
+                    "    Número de huéspedes: {{guestCount}}</p>\n"+
                     "    <p>Atentamente,<br>El equipo de BookYourStary</p>\n" +
                     "</body>\n" +
                     "</html>";
@@ -140,10 +151,10 @@ public class TemplateLoader {
                     "</head>\n" +
                     "<body>\n" +
                     "    <h1>Recuperación de contraseña</h1>\n" +
-                    "    <p>Hola ${userName},</p>\n" +
+                "    <p>Hola {{userName}},</p>\n" +
                     "    <p>Has solicitado recuperar tu contraseña. Haz clic en el siguiente enlace:</p>\n" +
-                    "    <p><a href=\"${resetLink}\">Restablecer mi contraseña</a></p>\n" +
-                    "    <p>Si el enlace no funciona, copia y pega esta URL en tu navegador: ${resetLink}</p>\n" +
+                    "    <p><a href=\"{{resetLink}}\">Restablecer mi contraseña</a></p>\n" +
+                    "    <p>Si el enlace no funciona, copia y pega esta URL en tu navegador: {{resetLink}}</p>\n"+
                     "    <p>Atentamente,<br>El equipo de BookYourStary</p>\n" +
                     "</body>\n" +
                     "</html>";
