@@ -67,6 +67,8 @@ public class TemplateLoader {
         // Reemplazar variables
         for (Map.Entry<String, String> entry : values.entrySet()) {
             template = template.replace("${" + entry.getKey() + "}", entry.getValue());
+            template = template.replace("{{" + entry.getKey() + "}}", entry.getValue());
+
         }
 
         if (usedEmergencyTemplate) {
