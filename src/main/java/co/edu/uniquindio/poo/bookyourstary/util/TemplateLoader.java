@@ -62,11 +62,15 @@ public class TemplateLoader {
             System.out.println("No se pudo encontrar la plantilla: " + fileName + ". Usando plantilla de emergencia.");
             template = generateEmergencyTemplate(fileName);
             usedEmergencyTemplate = true;
-        }
-
-        // Reemplazar variables
+        }        // Reemplazar variables usando el formato {{variable}}
         for (Map.Entry<String, String> entry : values.entrySet()) {
-            template = template.replace("${" + entry.getKey() + "}", entry.getValue());
+            String key = entry.getKey();
+            String value = entry.getValue();
+            String placeholder = "{{" + key + "}}";
+            if (template.contains(placeholder)) {
+                template = template.replace(placeholder, value);
+                System.out.println("✅ Reemplazado " + key + " con valor: " + value);
+            }
         }
 
         if (usedEmergencyTemplate) {
@@ -89,9 +93,7 @@ public class TemplateLoader {
         } catch (Exception e) {
             System.err.println("Error al listar recursos: " + e.getMessage());
         }
-    }
-
-    private static String generateEmergencyTemplate(String templateName) {
+    }    private static String generateEmergencyTemplate(String templateName) {
         if ("activateAccount.html".equals(templateName)) {
             return "<!DOCTYPE html>\n" +
                     "<html>\n" +
@@ -100,11 +102,11 @@ public class TemplateLoader {
                     "</head>\n" +
                     "<body>\n" +
                     "    <h1>Bienvenido a BookYourStary</h1>\n" +
-                    "    <p>Hola ${userName},</p>\n" +
+                    "    <p>Hola {{userName}},</p>\n" +
                     "    <p>Gracias por registrarte en BookYourStary. Para activar tu cuenta, por favor haz clic en el siguiente enlace:</p>\n"
                     +
-                    "    <p><a href=\"${activationLink}\">Activar mi cuenta</a></p>\n" +
-                    "    <p>Si el enlace no funciona, copia y pega esta URL en tu navegador: ${activationLink}</p>\n" +
+                    "    <p><a href=\"{{activationLink}}\">Activar mi cuenta</a></p>\n" +
+                    "    <p>Si el enlace no funciona, copia y pega esta URL en tu navegador: {{activationLink}}</p>\n" +
                     "    <p>Atentamente,<br>El equipo de BookYourStary</p>\n" +
                     "</body>\n" +
                     "</html>";
@@ -116,12 +118,12 @@ public class TemplateLoader {
                     "</head>\n" +
                     "<body>\n" +
                     "    <h1>Reserva Confirmada</h1>\n" +
-                    "    <p>Hola ${userName},</p>\n" +
+                    "    <p>Hola {{userName}},</p>\n" +
                     "    <p>Tu reserva ha sido confirmada. Detalles:</p>\n" +
-                    "    <p>Alojamiento: ${hostingName}<br>\n" +
-                    "    Fecha de llegada: ${checkInDate}<br>\n" +
-                    "    Fecha de salida: ${checkOutDate}<br>\n" +
-                    "    Número de huéspedes: ${guestCount}</p>\n" +
+                    "    <p>Alojamiento: {{hostingName}}<br>\n" +
+                    "    Fecha de llegada: {{checkInDate}}<br>\n" +
+                    "    Fecha de salida: {{checkOutDate}}<br>\n" +
+                    "    Número de huéspedes: {{guestCount}}</p>\n" +
                     "    <p>Atentamente,<br>El equipo de BookYourStary</p>\n" +
                     "</body>\n" +
                     "</html>";
@@ -133,10 +135,10 @@ public class TemplateLoader {
                     "</head>\n" +
                     "<body>\n" +
                     "    <h1>Recuperación de contraseña</h1>\n" +
-                    "    <p>Hola ${userName},</p>\n" +
+                    "    <p>Hola {{userName}},</p>\n" +
                     "    <p>Has solicitado recuperar tu contraseña. Haz clic en el siguiente enlace:</p>\n" +
-                    "    <p><a href=\"${resetLink}\">Restablecer mi contraseña</a></p>\n" +
-                    "    <p>Si el enlace no funciona, copia y pega esta URL en tu navegador: ${resetLink}</p>\n" +
+                    "    <p><a href=\"{{resetLink}}\">Restablecer mi contraseña</a></p>\n" +
+                    "    <p>Si el enlace no funciona, copia y pega esta URL en tu navegador: {{resetLink}}</p>\n" +
                     "    <p>Atentamente,<br>El equipo de BookYourStary</p>\n" +
                     "</body>\n" +
                     "</html>";
