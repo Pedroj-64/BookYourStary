@@ -12,7 +12,7 @@ public class App extends Application {
         try {
             // Inicializar MainController
             MainController.getInstance();
-
+           
             // Intentar cargar datos serializados primero
             DataManager.getInstance().loadAllData();
 
