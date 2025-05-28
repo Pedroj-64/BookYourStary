@@ -60,7 +60,7 @@ public class EmailTemplateService {
         return TemplateLoader.loadTemplate("co/edu/uniquindio/poo/bookyourstary/emailTemplates/ConfirmBooking.html", values);
     }
     
-    public String buildInvoiceEmail(Bill bill, String qrCodeUrl) {
+    public String buildInvoiceEmail(Bill bill, String bookingInfo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Map<String, String> values = new HashMap<>();
         
@@ -87,8 +87,9 @@ public class EmailTemplateService {
         values.put("descuento", String.format("%.2f", descuento));
         values.put("total", String.format("%.2f", bill.getTotal()));
         
-        // QR
-        values.put("qrCodeUrl", qrCodeUrl);
+        // Generar QR con la información de la reserva
+        String qrCodeBase64 = QrUtil.generateBase64Qr(bookingInfo, 200, 200);
+        values.put("qrCodeUrl", qrCodeBase64);
         
         return TemplateLoader.loadTemplate("co/edu/uniquindio/poo/bookyourstary/emailTemplates/InvoiceConfirmation.html", values);
     }
