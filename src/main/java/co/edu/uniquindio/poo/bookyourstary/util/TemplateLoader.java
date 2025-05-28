@@ -64,16 +64,12 @@ public class TemplateLoader {
             usedEmergencyTemplate = true;
         }
 
-        // Reemplazar variables usando solo formato {{variable}}
-        if (template != null) {
-            for (Map.Entry<String, String> entry : values.entrySet()) {
-                String key = "{{" + entry.getKey() + "}}";
-                String value = entry.getValue();
-                if (value == null) {
-                    value = "";  // Prevenir NullPointerException
-                }
-                template = template.replace(key, value);
-            }
+        // Reemplazar variables (ahora soporta {{variable}})
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            // Reemplaza formato ${variable}
+            template = template.replace("${" + entry.getKey() + "}", entry.getValue());
+            // Reemplaza formato {{variable}}
+            template = template.replace("{{" + entry.getKey() + "}}", entry.getValue());
         }
 
         if (usedEmergencyTemplate) {
