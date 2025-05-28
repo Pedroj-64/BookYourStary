@@ -1,8 +1,11 @@
 package co.edu.uniquindio.poo.bookyourstary.controller;
 
+import co.edu.uniquindio.poo.bookyourstary.model.Booking;
 import co.edu.uniquindio.poo.bookyourstary.model.Hosting;
+import co.edu.uniquindio.poo.bookyourstary.model.enums.BookingState;
 import co.edu.uniquindio.poo.bookyourstary.service.*;
 import co.edu.uniquindio.poo.bookyourstary.service.implementService.ApartamentService;
+import co.edu.uniquindio.poo.bookyourstary.service.implementService.BookingService;
 import co.edu.uniquindio.poo.bookyourstary.service.implementService.HostingService;
 import co.edu.uniquindio.poo.bookyourstary.service.implementService.HotelService;
 import co.edu.uniquindio.poo.bookyourstary.service.implementService.HouseService;
@@ -12,12 +15,14 @@ import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class StadisticsMenuController {
 
     private final HostingService hostingService = HostingService.getInstance();
+    private final BookingService bookingService = BookingService.getInstance();
     private final HouseService houseService = HouseService.getInstance();
     private final HotelService hotelService = HotelService.getInstance();
     private final ApartamentService apartamentService = ApartamentService.getInstance();
@@ -70,12 +75,19 @@ public class StadisticsMenuController {
     }
 
     private boolean isOccupied(Hosting hosting) {
-        // Implementar lógica real de ocupación (ej. comparar con reservas)
-        return Math.random() > 0.5; // Ejemplo aleatorio
+        List<Booking> bookings = bookingService.getBookingsByHosting(hosting.getName());
+        LocalDate today = LocalDate.now();
+        return bookings.stream().anyMatch(booking ->
+                (booking.getBookingState() == BookingState.CONFIRMED || booking.getBookingState() == BookingState.ACTIVE) &&
+                !today.isBefore(booking.getStartDate()) && // today is on or after startDate
+                today.isBefore(booking.getEndDate())); // today is before endDate
     }
 
     private double calcularGanancias(Hosting hosting) {
-        // Implementar lógica real de ganancias (ej. historial de reservas * precio)
-        return hosting.getPricePerNight() * 30; // Ejemplo: 30 noches
+        List<Booking> bookings = bookingService.getBookingsByHosting(hosting.getName());
+        return bookings.stream()
+                .filter(booking -> booking.getBookingState() == BookingState.COMPLETED || booking.getBookingState() == BookingState.CONFIRMED)
+                .mapToDouble(Booking::getTotalPrice)
+                .sum();
     }
 }
