@@ -6,6 +6,7 @@ import co.edu.uniquindio.poo.bookyourstary.util.ChartUtil;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -117,7 +118,7 @@ public class StadisticsMenuViewController {
     private void setupEventHandlers() {
         cbType.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> refreshCharts());
-        btnExit.setOnAction(event -> handleExitAction()); // Changed to handleExitAction
+        btnExit.setOnAction(event -> closeWindow());
     }
 
     private void refreshCharts() {
@@ -194,72 +195,32 @@ public class StadisticsMenuViewController {
                 Alert.AlertType.ERROR);
     }
 
-    // Modified to correctly handle window closing after navigation
-    private void handleExitAction() {
-        Stage currentStage = null;
-        try {
-            currentStage = (Stage) btnExit.getScene().getWindow();
-        } catch (Exception e) {
-            System.err.println("Critical error: Could not get current stage from btnExit: " + e.getMessage());
-            e.printStackTrace();
-            MainController.showAlert(
-                    "Error de Interfaz",
-                    "No se pudo obtener la referencia de la ventana actual. La navegación aún se intentará.",
-                    Alert.AlertType.WARNING);
-        }
-
-        final Stage stageToClose = currentStage; // Final variable for use in lambda
-
-        try {
-            MainController.loadScene("MenuAdmin", 800, 600); // Navigate to Admin Menu
-            
-            // Close the original statistics window *after* the new scene is loaded
-            if (stageToClose != null) {
-                javafx.application.Platform.runLater(() -> {
-                    try {
-                        stageToClose.close();
-                    } catch (Exception e) {
-                        System.err.println("Error closing statistics window via Platform.runLater: " + e.getMessage());
-                    }
-                });
-            } else {
-                 System.err.println("Statistics window could not be scheduled for closing as its reference was not obtained.");
-            }
-        } catch (Exception e) {
-            System.err.println("Error during navigation to MenuAdmin: " + e.getMessage());
-            e.printStackTrace();
-            MainController.showAlert(
-                    "Error de Operación",
-                    "Ocurrió un error al intentar volver al menú de administrador: " + e.getMessage(),
-                    Alert.AlertType.ERROR);
-            
-            // Fallback: if navigation failed but we have the stage, and it's still showing, try to close it.
-            if (stageToClose != null && stageToClose.isShowing()) {
-                try {
-                    stageToClose.close();
-                } catch (Exception closeEx) {
-                    System.err.println("Error attempting to close stageToClose in fallback catch block: " + closeEx.getMessage());
-                }
-            }
-        }
+    private void closeWindow() {
+        ((Stage) btnExit.getScene().getWindow()).close();
     }
 
     private void setupPopularityChart() {
-        ChartUtil.applyModernChartStyle(popularityBarChart);
-        popularityBarChart.setTitle("Popularidad por Ciudad");
-        popularityBarChart.setAnimated(true);
-        popularityBarChart.getXAxis().setLabel("Ciudad");
-        popularityBarChart.getYAxis().setLabel("Cantidad de Reservas");
-
-        // Cargar datos de popularidad
         try {
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Popularidad por Ciudad");
+
             var popularitySeries = controller.getPopularityByCitySeries();
             if (popularitySeries != null && !popularitySeries.getData().isEmpty()) {
+                popularityBarChart.getData().clear();
                 popularityBarChart.getData().add(popularitySeries);
                 ChartUtil.addChartEffects(popularityBarChart);
             }
+
+            // Configurar animación
+            popularityBarChart.setAnimated(true);
+
         } catch (Exception e) {
-            handleChartError(e);
+            System.err.println("Error al configurar gráfico de popularidad: " + e.getMessage());
+            e.printStackTrace();
+            MainController.showAlert(
+                    "Error al cargar datos de popularidad",
+                    "No se pudieron cargar los datos del gráfico de popularidad: " + e.getMessage(),
+                    Alert.AlertType.ERROR);
         }
     }
 
