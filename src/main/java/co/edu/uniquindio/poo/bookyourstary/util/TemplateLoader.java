@@ -64,12 +64,9 @@ public class TemplateLoader {
             usedEmergencyTemplate = true;
         }
 
-        // Reemplazar variables (ahora soporta {{variable}})
+        // Reemplazar variables
         for (Map.Entry<String, String> entry : values.entrySet()) {
-            // Reemplaza formato ${variable}
             template = template.replace("${" + entry.getKey() + "}", entry.getValue());
-            // Reemplaza formato {{variable}}
-            template = template.replace("{{" + entry.getKey() + "}}", entry.getValue());
         }
 
         if (usedEmergencyTemplate) {
